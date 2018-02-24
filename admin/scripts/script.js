@@ -202,6 +202,8 @@ var Qna = {
 									Admin.permissionField(Qna.getText("admin/list/form/permission_question_delete"),"permission_question_delete","{$member.type} == 'ADMINISTRATOR'",false),
 									Admin.permissionField(Qna.getText("admin/list/form/permission_question_secret"),"permission_question_secret","{$member.type} == 'ADMINISTRATOR'",false),
 									Admin.permissionField(Qna.getText("admin/list/form/permission_answer_delete"),"permission_answer_delete","{$member.type} == 'ADMINISTRATOR'",false),
+									Admin.permissionField(Qna.getText("admin/list/form/permission_answer_secret"),"permission_answer_secret","{$member.type} == 'ADMINISTRATOR'",false),
+									Admin.permissionField(Qna.getText("admin/list/form/permission_answer_adopt"),"permission_answer_adopt","{$member.type} == 'ADMINISTRATOR'",false),
 									Admin.permissionField(Qna.getText("admin/list/form/permission_ment_delete"),"permission_ment_delete","{$member.type} == 'ADMINISTRATOR'",false),
 									Admin.permissionField(Qna.getText("admin/list/form/permission_notice"),"permission_notice","{$member.type} == 'ADMINISTRATOR'",false),
 									new Ext.Panel({
