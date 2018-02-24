@@ -1,0 +1,125 @@
+{
+	"text":{
+		"title":"제목",
+		"label":"질문분류",
+		"label_all":"전체분류",
+		"question_option":"질문옵션",
+		"answer_option":"답변옵션",
+		"ment_option":"댓글옵션",
+		"protection_help":"질문에 답변이 등록될 경우, 정보공유 목적에 따라 질문내용을 수정하거나 삭제할 수 없습니다. 지속적으로 노출되면 문제가 될 수 있는 내용이나 개인정보 등이 질문내용에 포함되지 않았는지 다시 한번 확인하여 주시기 바랍니다.",
+		"force_adopt_help":"무분별한 질문등록을 방지하고, 답변이 채택되지 않는 것을 방지하기 위하여, 본인이 등록한 질문 중 채택되지 않은 질문이 3개 이상일 경우 신규등록이 제한됩니다.",
+		"protection_answer_help":"답변이 질문자에 의해 채택될 경우, 정보공유 목적에 따라 답변내용을 수정하거나 삭제할 수 없습니다. 지속적으로 노출되면 문제가 될 수 있는 내용이나 개인정보 등이 답변내용에 포함되지 않았는지 다시 한번 확인하여 주시기 바랍니다.",
+		"question_ment_help":"질문을 해결하기 위한 추가적인 내용요청이나, 답변이 아닌 추가적인 내용이 있다면 댓글을 등록하여 주십시오."
+	},
+	"ment":{
+		"empty":"등록된 댓글이 없습니다.",
+		"secret":"비밀댓글입니다.<br>이곳을 클릭하여 내용을 확인할 수 있습니다.",
+		"delete":"작성자 또는 관리자에 의해 삭제된 댓글입니다."
+	},
+	"question_option":{
+		"secret":"본인 및 관리자에게만 공개합니다.",
+		"anonymity":"익명으로 등록합니다.",
+		"notice":"상단에 고정되는 공지사항으로 등록합니다."
+	},
+	"answer_option":{
+		"secret":"질문 작성자 및 관리자에게만 공개합니다.",
+		"anonymity":"익명으로 등록합니다."
+	},
+	"ment_option":{
+		"secret":"게시물 작성자 또는 부모댓글 작성자 및 본인에게만 공개합니다.",
+		"anonymity":"익명으로 등록합니다."
+	},
+	"button":{
+		"ment_write":"댓글 등록하기",
+		"question_write":"질문 등록하기",
+		"question_modify":"질문 수정하기",
+		"answer_write":"답변 등록하기",
+		"answer_modify":"답변 수정하기"
+	},
+	"error":{
+		"PROTECTED_QUESTION":"답변이 등록된 질문은 수정하거나, 삭제할 수 없습니다."
+	},
+	"admin":{
+		"list":{
+			"title":"문의게시판관리",
+			"addBoard":"문의게시판추가",
+			"columns":{
+				"bid":"게시판 ID",
+				"title":"게시판명",
+				"templet":"템플릿",
+				"contextnum":"사용된메뉴",
+				"category":"카테고리",
+				"post":"게시물수",
+				"latest_post":"최근게시물",
+				"ment":"댓글수",
+				"latest_ment":"최근댓글",
+				"file":"첨부파일수",
+				"file_size":"첨부파일용량"
+			},
+			"form":{
+				"default_setting":"기본설정",
+				"bid":"문의게시판 ID",
+				"title":"문의게시판명",
+				"designSetting":"디자인설정",
+				"templet":"템플릿",
+				"post_limit":"페이지당 게시물",
+				"ment_limit":"페이지당 댓글",
+				"page_limit":"페이지링크 수",
+				"page_type":"페이지링크 형식",
+				"attachment_setting":"첨부파일 업로드 사용",
+				"attachment_templet":"첨부파일 템플릿",
+				"attachment_templet_default":"첨부파일모듈 기본설정사용",
+				"option":"게시판 옵션",
+				"allow_secret":"비밀글 기능을 활성화합니다.",
+				"allow_anonymity":"게시물 또는 댓글을 익명으로 등록할 수 있도록 합니다.",
+				"notice_setting":"공지사항 설정",
+				"permission_setting":"권한설정",
+				"permission_list":"목록보기",
+				"permission_view":"게시물보기",
+				"permission_question_write":"질문작성",
+				"permission_answer_write":"답변작성",
+				"permission_ment_write":"댓글작성",
+				"permission_question_modify":"질문수정",
+				"permission_answer_modify":"답변수정",
+				"permission_ment_modify":"댓글수정",
+				"permission_question_secret":"비밀글보기",
+				"permission_question_delete":"게시물삭제",
+				"permission_answer_delete":"게시물삭제",
+				"permission_ment_delete":"댓글삭제",
+				"permission_notice":"공지사항작성",
+				"permission_ip":"작성자IP보기",
+				"permission_help":"위의 권한 설정과는 별개로 게시물/댓글 작성자는 자신의 게시물 및 댓글을 수정/삭제할 수 있으며, 자신의 비공개 게시물 및 댓글을 확인할 수 있으며, 자신의 게시물에 입력된 비공개 댓글을 확인할 수 있습니다.",
+				"point_setting":"포인트/경험치 설정",
+				"point":"포인트",
+				"exp":"경험치",
+				"post_write":"게시물작성",
+				"ment_write":"댓글작성",
+				"vote":"추천하기"
+			},
+			"page_type":{
+				"FIXED":"항상 고정된 범위",
+				"CENTER":"현재 페이지가 항상 범위 중간에 위치",
+				"help":"선택하신 페이지링크 형식인 경우 페이지링크 수가 홀수로 설정하는 것을 권장합니다."
+			},
+			"notice_type":{
+				"FIRST":"첫 페이지에만 공지사항 출력",
+				"ALL":"전체 페이지에서 공지사항 출력",
+				"INCLUDE":"공지사항을 페이지당 게시물 갯수에 포함",
+				"EXCLUDE":"공지사항을 페이지당 게시물 갯수에 포함하지 않음",
+				"help":"현재 공지사항 출력 설정사용시 공지사항 게시물의 갯수가 페이지당 게시물 갯수를 초과할 경우 전체 게시물을 확인할 수 없습니다."
+			},
+			"window":{
+				"add":"게시판추가",
+				"modify":"게시판수정"
+			}
+		},
+		"configs":{
+			"form":{
+				"default_setting":"게시판 기본설정"
+			}
+		},
+		"error":{
+			"duplicatedBoardId":"게시판 ID가 중복됩니다."
+		}
+	}
+}
