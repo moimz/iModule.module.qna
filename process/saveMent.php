@@ -49,7 +49,19 @@ if (count($errors) == 0) {
 	$insert['content'] = $content;
 	
 	if ($idx) {
+		$ment = $this->getMent($idx);
 		
+		/**
+		 * 댓글작성자와 수정한 사람이 다를 경우 알림메세지를 전송한다.
+		 */
+		if ($ment->midx != $this->IM->getModule('member')->getLogged()) {
+			$this->IM->getModule('push')->sendPush($ment->midx,$this->getModule()->getName(),'MENT',$idx,'MODIFY_MENT',array('from'=>$this->IM->getModule('member')->getLogged()));
+		}
+		
+		/**
+		 * 활동내역을 기록한다.
+		 */
+		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),0,$this->getModule()->getName(),'MENT_MODIFY',array('idx'=>$idx));
 	} else {
 		$insert['midx'] = $this->IM->getModule('member')->getLogged();
 		$insert['reg_date'] = time();

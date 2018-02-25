@@ -6,7 +6,7 @@
  *
  * @file /modules/qna/process/saveQuestion.php
  * @author Arzz (arzz@arzz.com)
- * @license GPLv3
+ * @license MIT License
  * @version 3.0.0
  * @modified 2018. 2. 17.
  */
@@ -89,6 +89,11 @@ if (count($errors) == 0) {
 		if ($post->midx != $this->IM->getModule('member')->getLogged()) {
 			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'QUESTION',$idx,'MODIFY',array('from'=>$this->IM->getModule('member')->getLogged()));
 		}
+		
+		/**
+		 * 활동내역을 기록한다.
+		 */
+		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),0,$this->getModule()->getName(),'QUESTION_MODIFY',array('idx'=>$idx));
 	} else {
 		$insert['midx'] = $this->IM->getModule('member')->getLogged();
 		$insert['ip'] = $_SERVER['REMOTE_ADDR'];

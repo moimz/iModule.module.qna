@@ -617,6 +617,9 @@ class ModuleQna {
 		$link->list = $this->getUrl('list',($label == null ? '' : $label.'/').$p);
 		$link->write = $this->getUrl('write',false);
 		
+		$permission = new stdClass();
+		$permission->write = $this->checkPermission($qna->qid,'question_write');
+		
 		$header = PHP_EOL.'<form id="ModuleQnaListForm">'.PHP_EOL;
 		$footer = PHP_EOL.'</form>'.PHP_EOL.'<script>Qna.list.init("ModuleQnaListForm");</script>'.PHP_EOL;
 		

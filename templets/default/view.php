@@ -2,7 +2,7 @@
 /**
  * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodule.kr)
  *
- * 문의게시판 기본 템플릿
+ * 문의게시판 기본 템플릿 - 질문보기
  * 
  * @file /modules/qna/templets/default/view.php
  * @author Arzz (arzz@arzz.com)
@@ -24,7 +24,7 @@ if (defined('__IM__') == false) exit;
 		<article>
 			<?php echo $post->content; ?>
 			
-			<?php if (count($attachments) > 0) { $IM->addHeadResource('style',$IM->getModule('attachment')->getModule()->getDir().'/styles/style.css'); ?>
+			<?php if (count($attachments) > 0) { ?>
 			<div data-module="attachment">
 				<h5><i class="xi xi-clip"></i>첨부파일</h5>
 				
