@@ -2,9 +2,9 @@
 /**
  * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodule.kr)
  * 
- * 댓글목록을 가져온다.
+ * 댓글을 가져온다.
  *
- * @file /modules/qna/process/getMents.php
+ * @file /modules/qna/process/getMent.php
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
@@ -12,8 +12,15 @@
  */
 if (defined('__IM__') == false) exit;
 
-$parent = Request('parent');
-$post = $this->getPost($parent);
+$idx = Request('idx');
+$ment = $this->getMent($idx);
+if ($ment == null) {
+	$results->success = false;
+	$results->message = $this->getErrorText('NOT_FOUND');
+	return;
+}
+
+$post = $this->getPost($ment->parent);
 if ($post == null) {
 	$results->success = false;
 	$results->message = $this->getErrorText('NOT_FOUND');
@@ -38,26 +45,11 @@ if ($post->is_secret == true && $this->checkPermission($post->qid,'question_secr
 	return;
 }
 
-$qna = $this->getQna($post->qid);
-$position = Request('position');
-$direction = Request('direction') == 'next' ? '>' : '<';
-$lists = $this->db()->select($this->table->ment)->where('parent',$parent)->where('idx',$position,$direction);
-if ($direction == '<') $lists->orderBy('idx','desc')->limit($qna->ment_limit + 1);
-$lists = $lists->get();
-
-$previous = false;
-if ($direction == '<') {
-	$previous = count($lists) > $qna->ment_limit;
-	if ($previous == true) array_pop($lists);
-}
-
 $configs = json_decode(Request('configs'));
-for ($i=0, $loop=count($lists);$i<$loop;$i++) {
-	$lists[$i] = $this->getMentItemComponent($lists[$i],$configs);
-}
 
 $results->success = true;
-$results->lists = $lists;
-$results->total = $post->ment;
-$results->previous = $previous;
+$results->idx = $ment->idx;
+$results->parent = $ment->parent;
+$results->ment = $ment;
+$results->mentHtml = $this->getMentItemComponent($ment,$configs);
 ?>

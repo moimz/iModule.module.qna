@@ -63,13 +63,38 @@ var Qna = {
 			var $container = $("#"+id);
 			
 			$("button[data-action][data-type=post]",$container).on("click",function() {
-				alert("아직 지원되지 않습니다.");
+				var action = $(this).attr("data-action");
+				var idx = $(this).attr("data-idx");
+				
+				if (action == "modify") {
+					Qna.post.modify(idx);
+				}
+				
+				if (action == "delete") {
+					Qna.post.delete(idx);
+				}
+				
+				if (action == "adopt") {
+					alert("아직 지원되지 않습니다.");
+				}
 			});
 		},
 		secret:function(idx,query) {
 			$.send(ENV.getProcessUrl("qna","checkPermission"),{type:"question_secret",idx:idx},function(result) {
 				if (result.success == true) {
 					location.href = Qna.getUrl("view",idx)+(query ? "?"+query : "");
+				}
+			});
+		}
+	},
+	/**
+	 * 게시물
+	 */
+	post:{
+		modify:function(idx) {
+			$.send(ENV.getProcessUrl("qna","checkPermission"),{"type":"post_modify",idx:idx},function(result) {
+				if (result.success == true) {
+					location.href = Qna.getUrl("write",idx);
 				}
 			});
 		}
@@ -91,7 +116,20 @@ var Qna = {
 				var $container = id;
 				
 				$("button[data-action][data-type=ment]",$container).on("click",function() {
-					alert("아직 지원되지 않습니다.");
+					var action = $(this).attr("data-action");
+					var idx = $(this).attr("data-idx");
+					
+					if (action == "modify") {
+						Qna.ment.modify(idx);
+					}
+					
+					if (action == "delete") {
+						Qna.ment.delete(idx);
+					}
+					
+					if (action == "adopt") {
+						alert("아직 지원되지 않습니다.");
+					}
 				});
 			}
 		},
@@ -121,6 +159,60 @@ var Qna = {
 						if (typeof callback == "function") callback(result);
 					}
 				}
+			});
+		},
+		/**
+		 * 댓글이 수정되었을 때, 댓글내용을 업데이트한다.
+		 *
+		 * @param int idx 댓글고유번호
+		 * @param functio callback
+		 */
+		reload:function(idx,callback) {
+			var configs = JSON.parse($("div[data-module=qna]").attr("data-configs"));
+			
+			$.send(ENV.getProcessUrl("qna","getMent"),{idx:idx,configs:JSON.stringify(configs)},function(result) {
+				if (result.success == true) {
+					var $lists = $("div[data-module=qna] div[data-role=ment][data-parent="+result.parent+"] div[data-role=list]");
+					var $html = $(result.mentHtml);
+					$("div[data-role=item][data-idx="+result.idx+"]",$lists).replaceWith($html);
+					Qna.ment.init($html);
+					
+					if (typeof callback == "function") callback(result);
+				}
+			});
+		},
+		modify:function(idx) {
+			iModule.modal.get(ENV.getProcessUrl("qna","getModal"),{modal:"modify",type:"ment",idx:idx},function($modal,$form) {
+				$form.on("submit",function() {
+					$form.send(ENV.getProcessUrl("qna","saveMent"),function(result) {
+						if (result.success == true) {
+							Qna.ment.reload(result.idx,function(result) {
+								var $lists = $("div[data-role=ment][data-parent="+result.parent+"] div[data-role=list]",$("div[data-module=qna]"));
+								$("div[data-role=item][data-idx="+result.idx+"]",$lists).scroll();
+							});
+							iModule.modal.close();
+						}
+					});
+					return false;
+				});
+				return false;
+			});
+		},
+		delete:function(idx) {
+			iModule.modal.get(ENV.getProcessUrl("qna","getModal"),{modal:"delete",type:"ment",idx:idx},function($modal,$form) {
+				$form.on("submit",function() {
+					$form.send(ENV.getProcessUrl("qna","deleteMent"),function(result) {
+						if (result.success == true) {
+							var $lists = $("div[data-role=ment][data-parent="+result.parent+"] div[data-role=list]",$("div[data-module=qna]"));
+							$("div[data-role=item][data-idx="+result.idx+"]",$lists).remove();
+							if ($("div[data-role=item]",$lists).length == 0) $lists.empty();
+							
+							iModule.modal.close();
+						}
+					});
+					return false;
+				});
+				return false;
 			});
 		},
 		reset:function(parent) {

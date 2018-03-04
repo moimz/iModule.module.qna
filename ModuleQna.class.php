@@ -646,7 +646,7 @@ class ModuleQna {
 		$post = $this->getPost($idx);
 		if ($post == null) return $this->getError('NOT_FOUND_PAGE');
 		
-		if ($this->checkPermission($qid,'view') == false) return $this->getError('FORBIDDEN');
+		if ($this->checkPermission($qid,'view') == false && $post->midx != $this->IM->getModule('member')->getLogged()) return $this->getError('FORBIDDEN');
 		
 		if ($post->is_secret == true && $this->checkPermission($qid,'question_secret') == false && $post->midx != $this->IM->getModule('member')->getLogged()) {
 			return $this->getError('FORBIDDEN');
@@ -815,11 +815,10 @@ class ModuleQna {
 			if ($post != null) {
 				$uploader->setLoader($this->IM->getProcessUrl('qna','getFiles',array('idx'=>Encoder(json_encode(array('type'=>'POST','idx'=>$post->idx))))));
 			}
-			$uploader = $uploader->get();
+			$uploader = $uploader;
 		} else {
-			$uploader = '';
+			$uploader = $uploader->disable();
 		}
-		$wysiwyg = $wysiwyg->get();
 		
 		/**
 		 * 템플릿파일을 호출한다.
@@ -836,6 +835,8 @@ class ModuleQna {
 	 */
 	function getMentComponent($parent,$configs) {
 		$post = $this->getPost($parent);
+		if ($post->type == 'N') return '';
+		
 		$qna = $this->getQna($post->qid);
 		
 		if ($this->checkPermission($qna->qid,'ment_write') == true) {
@@ -945,6 +946,8 @@ class ModuleQna {
 	 */
 	function getAnswerComponent($parent,$configs) {
 		$post = $this->getPost($parent);
+		if ($post->type == 'N') return '';
+		
 		$qna = $this->getQna($post->qid);
 		
 		if ($this->checkPermission($qna->qid,'answer_write') == true && $post->midx != $this->IM->getModule('member')->getLogged()) {
@@ -1088,31 +1091,27 @@ class ModuleQna {
 	}
 	
 	/**
-	 * 패스워드 확인 모들을 가져온다.
+	 * 댓글수정 모달을 가져온다.
 	 *
+	 * @param int $idx 댓글고유번호
 	 * @return string $html 모달 HTML
 	 */
-	function getPasswordModal($type,$idx) {
-		$title = '패스워드 확인';
-		$content = '<input type="hidden" name="type" value="'.$type.'">';
-		$content.= '<input type="hidden" name="idx" value="'.$idx.'">';
-		$content.= '<div data-role="message">';
+	function getMentModifyModal($idx) {
+		$ment = $this->db()->select($this->table->ment)->where('idx',$idx)->getOne();
+		$qna = $this->getQna($ment->qid);
 		
-		if ($type == 'post_modify') $content.= '게시물을 수정하려면 패스워드를 입력하여 주십시오.';
-		if ($type == 'post_secret') $content.= '비밀글을 열람하시려면 패스워드를 입력하여 주십시오.';
+		$title = '댓글수정';
+		$content = '<input type="hidden" name="idx" value="'.$idx.'">';
+		$content.= '<input type="hidden" name="parent" value="'.$ment->parent.'">';
+		$content.= '<div data-role="input"><textarea name="content">'.$ment->content.'</textarea></div>';
 		
-		if ($type == 'ment_modify') $content.= '댓글을 수정하려면 패스워드를 입력하여 주십시오.';
-		if ($type == 'ment_secret') {
-			$ment = $this->getMent($idx);
-			if ($ment->source == 0) {
-				$content.= '비밀댓글을 열람하시려면 댓글 또는 게시물의 패스워드를 입력하여 주십시오.';
-			} else {
-				$content.= '비밀댓글을 열람하시려면 댓글 또는 부모댓글의 패스워드를 입력하여 주십시오.';
-			}
+		if ($qna->allow_secret == true || $qna->allow_anonymity == true) {
+			$content.= '<div data-role="inputset" class="inline">';
+			
+			if ($qna->allow_secret == true) $content.= '<div data-role="input"><label><input type="checkbox" name="is_secret"'.($ment->is_secret == 'TRUE' ? ' checked="checked"' : '').'>비밀댓글</label></div>';
+			if ($qna->allow_anonymity == true) $content.= '<div data-role="input"><label><input type="checkbox" name="is_anonymity"'.($ment->is_anonymity == 'TRUE' ? ' checked="checked"' : '').'>익명댓글</label></div>';
+			$content.= '</div>';
 		}
-		
-		$content.= '</div>';
-		$content.= '<div data-role="input"><input type="password" name="password"></div>';
 		
 		
 		$buttons = array();
@@ -1126,6 +1125,39 @@ class ModuleQna {
 		$button->type = 'submit';
 		$button->text = '확인';
 		$buttons[] = $button;
+		
+		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
+	}
+	
+	/**
+	 * 댓글삭제 모달을 가져온다.
+	 *
+	 * @param int $idx 댓글고유번호
+	 * @return string $html 모달 HTML
+	 */
+	function getMentDeleteModal($idx) {
+		$ment = $this->db()->select($this->table->ment)->where('idx',$idx)->getOne();
+		$qna = $this->getQna($ment->qid);
+		
+		$title = '댓글 삭제';
+		
+		$content = '<input type="hidden" name="idx" value="'.$idx.'">'.PHP_EOL;
+		$content.= '<div data-role="message">댓글을 삭제하시겠습니까?</div>';
+		
+		$buttons = array();
+		
+		$button = new stdClass();
+		$button->type = 'submit';
+		$button->text = '삭제하기';
+		$button->class = 'danger';
+		$buttons[] = $button;
+		
+		$button = new stdClass();
+		$button->type = 'close';
+		$button->text = '취소';
+		$buttons[] = $button;
+		
+		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
 		
 		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
 	}
@@ -1223,7 +1255,7 @@ class ModuleQna {
 	 * @return object $post
 	 */
 	function getPost($idx,$is_link=false) {
-		if (is_null($idx) == true) return null;
+		if (empty($idx) == true) return null;
 		
 		if (is_numeric($idx) == true) {
 			if (isset($this->posts[$idx]) == true) return $this->posts[$idx];
@@ -1264,6 +1296,8 @@ class ModuleQna {
 			}
 			
 			$post->vote = '<span data-role="vote" data-idx="'.$post->idx.'">'.($post->good - $post->bad).'</span>';
+			$post->is_adopted = $post->is_adopted == 'TRUE';
+			$post->is_closed = $post->is_adopted == 'CLOSED';
 			
 			$post->is_rendered = true;
 			
@@ -1280,7 +1314,7 @@ class ModuleQna {
 	 * @return object $ment
 	 */
 	function getMent($idx,$is_link=false) {
-		if (is_null($idx) == true) return null;
+		if (empty($idx) == true) return null;
 		
 		if (is_numeric($idx) == true) {
 			if (isset($this->ments[$idx]) == true) return $this->ments[$idx];

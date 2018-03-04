@@ -45,6 +45,8 @@ div[data-module=qna] ul[data-role=table] > li.tbody > span.count > a > b {displa
 div[data-module=qna] ul[data-role=table] > li.tbody > span.count > a > small {display:block; padding-top:3px; font-size:11px; text-align:center; color:#999;}
 div[data-module=qna] div[data-role=button] {margin-top:20px;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a {line-height:24px; padding:5px 0px 4px 0px; display:block; text-decoration:none; color:#222; font-weight:bold; font-size:16px;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.hasAnswer > a {border-color:#4CAF50; color:#4CAF50;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.hasAnswer > a > small {color:#4CAF50;}
 div[data-module=qna] ul[data-role=table] > li.tbody.notice > span.title > a {font-size:14px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a:hover {color:#1E88E5;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a > i.mi-lock {width:20px; height:24px; line-height:24px; float:left; color:#f44336; font-weight:normal;}
@@ -102,7 +104,8 @@ div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=i
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.topbar {height:30px; font-size:0;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.topbar > i[data-role=photo] {width:28px; height:28px; border:1px solid #ccc; margin-right:8px; background-repeat:no-repeat; background-size:cover; background-position:50% 50%; display:inline-block; vertical-align:middle;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.topbar > span[data-role=name] {font-size:14px; height:30px; line-height:30px; display:inline-block; vertical-align:middle;}
-div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div[data-role=wysiwyg-content] {padding:10px 0px 10px 38px;}
+div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.content {padding:10px 0px 10px 38px; position:relative;}
+div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.content > i.mi-lock {position:absolute; top:10px; left:20px; color:#F44336; height:22px; line-height:22px;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.footbar {padding-left:38px; font-size:0;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.footbar > time {display:inline-block; height:20px; line-height:20px; font-size:12px; color:#666; display:inline-block; vertical-align:middle;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.footbar > i {display:inline-block; width:1px; height:10px; margin:5px 8px; background:#999; vertical-align:middle;}

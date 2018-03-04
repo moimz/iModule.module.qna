@@ -14,7 +14,7 @@ if (defined('__IM__') == false) exit;
 
 $type = Request('type');
 
-if (strpos($type,'question_') === 0 || strpos($type,'answer_') === 0) {
+if ($type == 'question_secret') {
 	$idx = Request('idx');
 	$post = $this->getPost($idx);
 	
@@ -26,6 +26,43 @@ if (strpos($type,'question_') === 0 || strpos($type,'answer_') === 0) {
 	
 	if ($this->checkPermission($post->qid,$type) == true || $post->midx == $this->IM->getModule('member')->getLogged()) {
 		$results->success = true;
+	} else {
+		$results->success = false;
+		$results->message = $this->getErrorText('FORBIDDEN');
+	}
+}
+
+if (strpos($type,'post_') === 0) {
+	$idx = Request('idx');
+	$post = $this->getPost($idx);
+	
+	if ($post == null) {
+		$results->success = false;
+		$results->message = $this->getErrorText('NOT_FOUND');
+		return;
+	}
+	
+	$qna = $this->getQna($post->qid);
+	$type = $post->type == 'A' ? str_replace('post_','answer_',$type) : str_replace('post_','question_',$type);
+	
+	if ($this->checkPermission($post->qid,$type) == true || $post->midx == $this->IM->getModule('member')->getLogged()) {
+		if ($qna->use_protection == true) {
+			if ($post->type == 'Q' && $this->checkPermission($post->qid,$type) == false && $post->answer > 0) {
+				$results->success = false;
+				$results->error = $this->getErrorText('PROTECTED_QUESTION');
+				return;
+			}
+			
+			if ($post->type == 'A' && $this->checkPermission($post->qid,$type) == false && $post->is_adopted == true) {
+				$results->success = false;
+				$results->error = $this->getErrorText('PROTECTED_ANSWER');
+				return;
+			}
+			
+			$results->success = true;
+		} else {
+			$results->success = true;
+		}
 	} else {
 		$results->success = false;
 		$results->message = $this->getErrorText('FORBIDDEN');

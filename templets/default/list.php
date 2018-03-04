@@ -56,7 +56,7 @@ $IM->loadWebFont('Roboto');
 		<span class="count vote">
 			<a href="<?php echo $item->link; ?>"><b><?php echo $item->good - $item->bad; ?></b><small>votes</small></a>
 		</span>
-		<span class="count answer">
+		<span class="count answer<?php echo $item->answer > 0 ? ' hasAnswer' : ''; ?><?php echo $item->is_adopted == true > 0 ? ' adopted' : ''; ?><?php echo $item->is_closed == true > 0 ? ' closed' : ''; ?>">
 			<a href="<?php echo $item->link; ?>"><b><?php echo $item->answer; ?></b><small>answers</small></a>
 		</span>
 		<span class="count hit">

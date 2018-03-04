@@ -412,7 +412,7 @@
 				},
 				"is_adopted":{
 					"type":"enum",
-					"length":"'TRUE','FALSE'",
+					"length":"'TRUE','FALSE','CLOSED'",
 					"default":"FALSE",
 					"comment":"답변채택여부"
 				}

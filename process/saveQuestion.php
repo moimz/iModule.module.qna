@@ -58,10 +58,18 @@ if ($idx) {
 		return;
 	}
 	
-	if ($qna->use_protection == true && $this->checkPermission($qid,'question_modify') == false && $this->db()->select($this->table->post)->where('parent',$idx)->count() > 0) {
-		$results->success = false;
-		$reslts->error = $this->getErrorText('PROTECTED_QUESTION');
-		return;
+	if ($post->type == 'Q') {
+		if ($qna->use_protection == true && $this->checkPermission($qid,'question_modify') == false && $post->answer > 0) {
+			$results->success = false;
+			$reslts->error = $this->getErrorText('PROTECTED_QUESTION');
+			return;
+		}
+	} elseif ($post->type == 'A') {
+		if ($qna->use_protection == true && $this->checkPermission($qid,'answer_modify') == false && $post->is_adopted == true) {
+			$results->success = false;
+			$reslts->error = $this->getErrorText('PROTECTED_ANSWER');
+			return;
+		}
 	}
 	
 	$answers = $this->db()->select($this->table->post)->where('parent',$idx)->get('content');

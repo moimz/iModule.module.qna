@@ -13,14 +13,16 @@
 if (defined('__IM__') == false) exit;
 ?>
 <div data-role="post">
-	<h4><i>Q</i><?php echo $post->title; ?></h4>
+	<h4><i><?php echo $post->type; ?></i><?php echo $post->title; ?></h4>
 	
 	<section>
+		<?php if ($post->type != 'N') { ?>
 		<aside>
 			<button type="button" data-action="good" data-type="post" data-idx="<?php echo $post->idx; ?>"><i class="fa fa-caret-up"></i></button>
 			<?php echo $post->vote; ?>
 			<button type="button" data-action="bad" data-type="post" data-idx="<?php echo $post->idx; ?>"><i class="fa fa-caret-down"></i></button>
 		</aside>
+		<?php } ?>
 		<article>
 			<?php echo $post->content; ?>
 			
@@ -39,7 +41,7 @@ if (defined('__IM__') == false) exit;
 			</div>
 			<?php } ?>
 
-			<?php if (count($post->labels) > 0) { ?>
+			<?php if ($post->type != 'N' && count($post->labels) > 0) { ?>
 			<div class="labels">
 				<?php foreach ($post->labels as $label) { ?>
 				<a href="<?php echo $me->getUrl('list',$label->idx.'/1'); ?>" class="label"><?php echo $label->title; ?></a>
@@ -55,11 +57,11 @@ if (defined('__IM__') == false) exit;
 				</div>
 				
 				<?php if ($permission->modify == true) { ?>
-				<button type="button" data-action="modify" data-type="post" data-idx="<?php $post->idx; ?>">수정하기</button>
+				<button type="button" data-action="modify" data-type="post" data-idx="<?php echo $post->idx; ?>">수정하기</button>
 				<?php } ?>
 				
 				<?php if ($permission->modify == true) { ?>
-				<button type="button" data-action="delete" data-type="post" data-idx="<?php $post->idx; ?>" class="danger">삭제하기</button>
+				<button type="button" data-action="delete" data-type="post" data-idx="<?php echo $post->idx; ?>" class="danger">삭제하기</button>
 				<?php } ?>
 			</div>
 		</article>

@@ -23,7 +23,7 @@ $idx = Request('idx');
 $parent = Request('parent');
 
 $question = $this->getPost($parent);
-if ($question == null) {
+if ($question == null || $question->type != 'Q') {
 	$results->success = false;
 	$results->error = $this->getErrorText('NOT_FOUND');
 	return;

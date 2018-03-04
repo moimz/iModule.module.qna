@@ -23,8 +23,8 @@ if (defined('__IM__') == false) exit;
 	</li>
 	<li>
 		<div data-role="input">
-			<?php echo $wysiwyg; ?>
-			<?php echo $uploader; ?>
+			<?php echo $wysiwyg->doLayout(); ?>
+			<?php echo $uploader->doLayout(); ?>
 		</div>
 	</li>
 	<?php if (count($labels) > 0) { ?>

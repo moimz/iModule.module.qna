@@ -17,7 +17,10 @@ if (defined('__IM__') == false) exit;
 	<?php echo $ment->name; ?>
 </div>
 
-<?php echo $ment->content; ?>
+<div class="content">
+	<?php echo $ment->is_secret == true ? '<i class="mi mi-lock"></i>' : ''; ?>
+	<?php echo $ment->content; ?>
+</div>
 
 <div class="footbar">
 	<?php echo GetTime('Y-m-d H:i:s',$ment->reg_date); ?>
