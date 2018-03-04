@@ -75,6 +75,11 @@ if ($idx) {
 	$answers = $this->db()->select($this->table->post)->where('parent',$idx)->get('content');
 	$search = GetString($content."\n".implode("\n",$answers),'index');
 } else {
+	if ($qna->use_force_adopt === true && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('is_adopted','FALSE')->count() > 3) {
+		$results->success = false;
+		$results->error = $this->getErrorText('NOT_ADOPTED_PREVIOUS_QUESTION');
+		return;
+	}
 	$search = GetString($content,'index');
 }
 

@@ -745,6 +745,11 @@ class ModuleQna {
 		$this->IM->addHeadResource('meta',array('name'=>'robots','content'=>'noidex,nofollow'));
 		
 		$qna = $this->getQna($qid);
+		
+		if ($qna->use_force_adopt === true && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('is_adopted','FALSE')->count() > 3) {
+			return $this->getError('NOT_ADOPTED_PREVIOUS_QUESTION');
+		}
+		
 		$idx = $this->getIdx();
 		
 		if ($qna->use_label == 'NONE') {
