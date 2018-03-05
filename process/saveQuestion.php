@@ -58,13 +58,19 @@ if ($idx) {
 		return;
 	}
 	
-	if ($post->type == 'Q') {
+	if ($post->type == 'QUESTION') {
 		if ($qna->use_protection == true && $this->checkPermission($qid,'question_modify') == false && $post->answer > 0) {
 			$results->success = false;
 			$reslts->error = $this->getErrorText('PROTECTED_QUESTION');
 			return;
 		}
-	} elseif ($post->type == 'A') {
+		
+		if ($post->is_closed == true && $this->checkPermission($qid,'question_modify') == false) {
+			$results->success = false;
+			$results->error = $this->getErrorText('CLOSED_QUESTION');
+			return;
+		}
+	} elseif ($post->type == 'ANSWER') {
 		if ($qna->use_protection == true && $this->checkPermission($qid,'answer_modify') == false && $post->is_adopted == true) {
 			$results->success = false;
 			$reslts->error = $this->getErrorText('PROTECTED_ANSWER');
@@ -75,7 +81,7 @@ if ($idx) {
 	$answers = $this->db()->select($this->table->post)->where('parent',$idx)->get('content');
 	$search = GetString($content."\n".implode("\n",$answers),'index');
 } else {
-	if ($is_notice == false && $qna->use_force_adopt === true && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('type','Q')->where('is_adopted','FALSE')->count() > 3) {
+	if ($is_notice == false && $qna->use_force_adopt === true && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('type','QUESTION')->where('is_adopted','FALSE')->count() > 3) {
 		$results->success = false;
 		$results->error = $this->getErrorText('NOT_ADOPTED_PREVIOUS_QUESTION');
 		return;
@@ -86,12 +92,12 @@ if ($idx) {
 if (count($errors) == 0) {
 	$insert = array();
 	$insert['qid'] = $qid;
-	$insert['type'] = $is_notice == true ? 'N' : 'Q';
+	$insert['type'] = $is_notice == true ? 'NOTICE' : 'QUESTION';
 	$insert['title'] = $title;
 	$insert['content'] = $content;
 	$insert['search'] = $search;
-	$insert['is_secret'] = $is_secret == true ? 'FALSE' : $is_secret;
-	$insert['is_anonymity'] = $is_anonymity == true ? 'FALSE' : $is_anonymity;
+	$insert['is_secret'] = $is_secret;
+	$insert['is_anonymity'] = $is_anonymity;
 	
 	if ($idx) {
 		$this->db()->update($this->table->post,$insert)->where('idx',$idx)->execute();

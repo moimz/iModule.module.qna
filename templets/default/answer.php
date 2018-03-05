@@ -12,13 +12,13 @@
  */
 if (defined('__IM__') == false) exit;
 ?>
-<?php if ($post->answer > 0) { ?>
+<?php if ($question->answer > 0 && $answer) { ?>
 <h4><i>A</i> 답변</h4>
 <?php echo $answer; ?>
 <?php } ?>
 
 <?php if ($form) { ?>
-<h4><i class="xi xi-pen-point"></i> 답변 작성하기</h4>
+<h4><i class="xi xi-pen-point"></i> 답변 <?php echo $post == null ? '작성하기' : '수정하기'; ?></h4>
 
 <div class="answerHelp">
 	<p><i></i> 질문에 대한 해결방법을 알고 있는 누구나 답변을 작성하실 수 있습니다.</p>

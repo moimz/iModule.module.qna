@@ -15,7 +15,7 @@ if (defined('__IM__') == false) exit;
 $idx = Request('idx');
 $post = $this->getPost($idx);
 
-if ($post == null || $post->type == 'N') {
+if ($post == null || $post->type == 'NOTICE') {
 	$results->success = false;
 	$results->error = $this->getErrorText('NOT_FOUND');
 	return;
@@ -23,7 +23,7 @@ if ($post == null || $post->type == 'N') {
 
 $qna = $this->getQna($post->qid);
 
-if ($post->type == 'Q') {
+if ($post->type == 'QUESTION') {
 	$question = $post;
 } else {
 	$question = $this->getPost($post->parent);

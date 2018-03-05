@@ -94,8 +94,25 @@ var Qna = {
 		modify:function(idx) {
 			$.send(ENV.getProcessUrl("qna","checkPermission"),{"type":"post_modify",idx:idx},function(result) {
 				if (result.success == true) {
-					location.replace(Qna.getUrl("write",idx));
+					if (result.type == "QUESTION") {
+						location.replace(Qna.getUrl("write",result.idx));
+					} else {
+						location.replace(Qna.getUrl("view",result.parent+"/answer/"+result.idx));
+					}
 				}
+			});
+		},
+		delete:function(idx) {
+			iModule.modal.get(ENV.getProcessUrl("qna","getModal"),{modal:"delete",type:"post",idx:idx},function($modal,$form) {
+				$form.on("submit",function() {
+					$form.send(ENV.getProcessUrl("qna","deletePost"),function(result) {
+						if (result.success == true) {
+//							location.replace(location.href);
+						}
+					});
+					return false;
+				});
+				return false;
 			});
 		},
 		adopt:function(idx) {
@@ -253,6 +270,15 @@ var Qna = {
 		init:function(id) {
 			var $form = $("#"+id);
 			
+			$("input[name=is_notice]",$form).on("change",function() {
+				if ($(this).checked() == true) {
+					$("input[name='labels[]']",$form).disable();
+				} else {
+					$("input[name='labels[]']",$form).enable();
+				}
+			});
+			
+			$("input[name=is_notice]",$form).triggerHandler("change");
 			$form.inits(Qna.question.submit);
 		},
 		submit:function($form) {

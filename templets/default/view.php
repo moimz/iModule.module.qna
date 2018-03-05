@@ -13,10 +13,10 @@
 if (defined('__IM__') == false) exit;
 ?>
 <div data-role="post">
-	<h4><i><?php echo $post->type; ?></i><?php echo $post->title; ?></h4>
+	<h4><i><?php echo substr($post->type,0,1); ?></i><?php echo $post->title; ?></h4>
 	
 	<section>
-		<?php if ($post->type != 'N') { ?>
+		<?php if ($post->type != 'NOTICE') { ?>
 		<aside>
 			<button type="button" data-action="good" data-type="post" data-idx="<?php echo $post->idx; ?>"><i class="fa fa-caret-up"></i></button>
 			<?php echo $post->vote; ?>
@@ -41,7 +41,7 @@ if (defined('__IM__') == false) exit;
 			</div>
 			<?php } ?>
 
-			<?php if ($post->type != 'N' && count($post->labels) > 0) { ?>
+			<?php if ($post->type != 'NOTICE' && count($post->labels) > 0) { ?>
 			<div class="labels">
 				<?php foreach ($post->labels as $label) { ?>
 				<a href="<?php echo $me->getUrl('list',$label->idx.'/1'); ?>" class="label"><?php echo $label->title; ?></a>

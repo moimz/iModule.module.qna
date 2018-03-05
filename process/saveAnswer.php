@@ -23,7 +23,7 @@ $idx = Request('idx');
 $parent = Request('parent');
 
 $question = $this->getPost($parent);
-if ($question == null || $question->type != 'Q') {
+if ($question == null || $question->type != 'QUESTION') {
 	$results->success = false;
 	$results->error = $this->getErrorText('NOT_FOUND');
 	return;
@@ -72,13 +72,13 @@ if ($idx) {
 if (count($errors) == 0) {
 	$insert = array();
 	$insert['qid'] = $qid;
-	$insert['type'] = 'A';
+	$insert['type'] = 'ANSWER';
 	$insert['parent'] = $parent;
 	$insert['title'] = $question->title;
 	$insert['content'] = $content;
 	$insert['search'] = '';
-	$insert['is_secret'] = $is_secret == true ? 'FALSE' : $is_secret;
-	$insert['is_anonymity'] = $is_anonymity == true ? 'FALSE' : $is_anonymity;
+	$insert['is_secret'] = $is_secret;
+	$insert['is_anonymity'] = $is_anonymity;
 	
 	if ($idx) {
 		$this->db()->update($this->table->post,$insert)->where('idx',$idx)->execute();

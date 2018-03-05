@@ -43,25 +43,43 @@ if (strpos($type,'post_') === 0) {
 	}
 	
 	$qna = $this->getQna($post->qid);
-	$type = $post->type == 'A' ? str_replace('post_','answer_',$type) : str_replace('post_','question_',$type);
+	$type = $post->type == 'ANSWER' ? str_replace('post_','answer_',$type) : str_replace('post_','question_',$type);
 	
 	if ($this->checkPermission($post->qid,$type) == true || $post->midx == $this->IM->getModule('member')->getLogged()) {
 		if ($qna->use_protection == true) {
-			if ($post->type == 'Q' && $this->checkPermission($post->qid,$type) == false && $post->answer > 0) {
+			if ($post->type == 'QUESTION' && $this->checkPermission($post->qid,$type) == false && $post->answer > 0) {
 				$results->success = false;
 				$results->error = $this->getErrorText('PROTECTED_QUESTION');
 				return;
 			}
 			
-			if ($post->type == 'A' && $this->checkPermission($post->qid,$type) == false && $post->is_adopted == true) {
+			if ($post->type == 'QUESTION' && $post->is_closed == true && $this->checkPermission($qid,$type) == false) {
+				$results->success = false;
+				$results->error = $this->getErrorText('CLOSED_QUESTION');
+				return;
+			}
+			
+			if ($post->type == 'ANSWER' && $this->checkPermission($post->qid,$type) == false && $post->is_adopted == true) {
 				$results->success = false;
 				$results->error = $this->getErrorText('PROTECTED_ANSWER');
 				return;
 			}
 			
+			if ($post->type == 'NOTICE' && $this->checkPermission($post->qid,'notice') == false) {
+				$results->success = false;
+				$results->error = $this->getErrorText('FORBIDDEN');
+				return;
+			}
+			
 			$results->success = true;
+			$results->type = $post->type;
+			$results->idx = $post->idx;
+			$results->parent = $post->parent;
 		} else {
 			$results->success = true;
+			$results->type = $post->type;
+			$results->idx = $post->idx;
+			$results->parent = $post->parent;
 		}
 	} else {
 		$results->success = false;

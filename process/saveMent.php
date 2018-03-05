@@ -22,7 +22,7 @@ $idx = Request('idx');
 $parent = Request('parent');
 $post = $this->getPost($parent);
 
-if ($post == null || $post->type == 'N') {
+if ($post == null || $post->type == 'NOTICE') {
 	$results->success = false;
 	$results->message = $this->getErrorText('NOT_FOUND');
 	return;
@@ -76,7 +76,7 @@ if (count($errors) == 0) {
 		/**
 		 * 게시물 작성자에게 알림메세지를 전송한다.
 		 */
-		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type == 'A' ? 'ANSWER' : 'QUESTION',$parent,'NEW_MENT',array('idx'=>$idx));
+		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$parent,'NEW_MENT',array('idx'=>$idx));
 		
 		/**
 		 * 포인트 및 활동내역을 기록한다.

@@ -547,12 +547,12 @@ class ModuleQna {
 			$labels = $this->db()->select($this->table->label)->where('qid',$qid)->orderBy('question','desc')->get();
 		}
 		
-		$notice = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','N')->count();
+		$notice = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','NOTICE')->count();
 		
 		if ($qna->view_notice_count == 'INCLUDE') {
 			if ($qna->view_notice_page == 'FIRST') {
 				if (ceil($notice / $limit) >= $p) {
-					$notices = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','N')->orderBy('reg_date','desc')->limit($start,$limit)->get();
+					$notices = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','NOTICE')->orderBy('reg_date','desc')->limit($start,$limit)->get();
 					$start = 0;
 					$limit = $limit - count($notices);
 				} else {
@@ -560,22 +560,22 @@ class ModuleQna {
 					$start = $start - $notice;
 				}
 				
-				$lists = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$qid)->where('p.type','Q');
+				$lists = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$qid)->where('p.type','QUESTION');
 			} elseif ($qna->view_notice_page == 'ALL') {
-				$notices = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','N')->orderBy('reg_date','desc')->limit(0,$limit)->get();
+				$notices = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','NOTICE')->orderBy('reg_date','desc')->limit(0,$limit)->get();
 				
 				$start = ($p - 1) * ($limit - count($notices));
 				$limit = $limit - count($notices);
 				
-				$lists = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$qid)->where('p.type','Q');
+				$lists = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$qid)->where('p.type','QUESTION');
 			}
 		} else {
 			if ($p == 1 || $qna->view_notice_page == 'ALL') {
-				$notices = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','N')->orderBy('reg_date','desc')->limit($start,$limit)->get();
+				$notices = $this->db()->select($this->table->post)->where('qid',$qid)->where('type','NOTICE')->orderBy('reg_date','desc')->limit($start,$limit)->get();
 			} else {
 				$notices = array();
 			}
-			$lists = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$qid)->where('p.type','Q');
+			$lists = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$qid)->where('p.type','QUESTION');
 		}
 		
 		if ($label != null && $label != 0) {
@@ -641,15 +641,24 @@ class ModuleQna {
 		$this->IM->addHeadResource('meta',array('name'=>'robots','content'=>'idx,nofollow'));
 		
 		$qna = $this->getQna($qid);
-		$idx = $this->getIdx();
-		
+		$idxes = $this->getIdx() ? explode('/',$this->getIdx()) : array();
+		$idx = $idxes[0];
 		$post = $this->getPost($idx);
+		
 		if ($post == null) return $this->getError('NOT_FOUND_PAGE');
-		
 		if ($this->checkPermission($qid,'view') == false && $post->midx != $this->IM->getModule('member')->getLogged()) return $this->getError('FORBIDDEN');
-		
 		if ($post->is_secret == true && $this->checkPermission($qid,'question_secret') == false && $post->midx != $this->IM->getModule('member')->getLogged()) {
 			return $this->getError('FORBIDDEN');
+		}
+		
+		if (count($idxes) == 3 && $idxes[1] == 'answer') {
+			$answer = $this->db()->select($this->table->post)->where('idx',$idxes[2])->getOne();
+			if ($answer == null || $answer->parent != $idx) return $this->getError('NOT_FOUND');
+			
+			if ($qna->use_protection == true && $answer->is_adopted == 'TRUE' && $this->checkPermission($answer->qid,'answer_modify') == false) return $this->getError('PROTECTED_ANSWER');
+			if ($answer->midx != $this->IM->getModule('member')->getLogged() && $this->checkPermission($answer->qid,'answer_modify') == false) return $this->getError('FORBIDDEN');
+		} else {
+			$answer = null;
 		}
 		
 		/**
@@ -675,12 +684,12 @@ class ModuleQna {
 		/**
 		 * 댓글 컴포넌트를 불러온다.
 		 */
-		$ment = $this->getMentComponent($idx,$configs);
+		$ment = $answer == null ? $this->getMentComponent($idx,$configs) : '';
 		
 		/**
 		 * 답변 컴포넌트를 불러온다.
 		 */
-		$answer = $this->getAnswerComponent($idx,$configs);
+		$answer = $answer == null ? $this->getAnswerComponent($idx,$configs) : $this->getAnswerComponent($answer,$configs);
 		
 		/**
 		 * 현재 게시물이 속한 페이지를 구한다.
@@ -690,11 +699,11 @@ class ModuleQna {
 		} else {
 			$sort = Request('sort') ? Request('sort') : 'idx';
 			$dir = Request('dir') ? Request('dir') : 'asc';
-			$previous = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$post->qid)->where('p.type','Q')->where('p.'.$sort,$post->{$sort},$dir == 'desc' ? '<=' : '>=');
+			$previous = $this->db()->select($this->table->post.' p','p.*')->where('p.qid',$post->qid)->where('p.type','QUESTION')->where('p.'.$sort,$post->{$sort},$dir == 'desc' ? '<=' : '>=');
 			if (Request('keyword')) $this->IM->getModule('keyword')->getWhere($previous,array('title','search'),Request('keyword'));
 			$previous = $previous->count();
 			
-			$notice = $this->db()->select($this->table->post)->where('qid',$post->qid)->where('type','N')->count();
+			$notice = $this->db()->select($this->table->post)->where('qid',$post->qid)->where('type','NOTICE')->count();
 			
 			if ($qna->view_notice_count == 'INCLUDE') {
 				if ($qna->view_notice_page == 'FIRST') {
@@ -769,14 +778,19 @@ class ModuleQna {
 		 * 게시물 수정
 		 */
 		if ($idx !== null) {
-			if ($qna->use_protection == true && $this->checkPermission($qid,'question_modify') == false && $this->db()->select($this->table->post)->where('parent',$idx)->count() > 0) {
+			$post = $this->db()->select($this->table->post)->where('idx',$idx)->getOne();
+			
+			if ($post == null || $post->type == 'ANSWER') {
+				return $this->getError('NOT_FOUND_PAGE');
+			}
+			
+			if ($qna->use_protection == true && $this->checkPermission($post->qid,'question_modify') == false && $this->db()->select($this->table->post)->where('parent',$post->idx)->count() > 0) {
 				return $this->getError('PROTECTED_QUESTION');
 			}
 			
-			$post = $this->db()->select($this->table->post)->where('idx',$idx)->getOne();
-			
-			if ($post == null) {
-				return $this->getError('NOT_FOUND_PAGE');
+			if ($post->type == 'QUESTION' && $post->is_adopted != 'FALSE' && $this->checkPermission($post->qid,'question_modify') == false) {
+				$results->success = false;
+				return $this->getError('CLOSED_QUESTION');
 			}
 			
 			if ($this->checkPermission($qid,'question_modify') == false && $post->midx != $this->IM->getModule('member')->getLogged()) {
@@ -786,11 +800,11 @@ class ModuleQna {
 			$post->content = $this->IM->getModule('wysiwyg')->decodeContent($post->content,false);
 			$post->labels = $this->db()->select($this->table->post_label)->where('idx',$idx)->get('label');
 			
-			$post->is_notice = $post->type == 'N';
+			$post->is_notice = $post->type == 'NOTICE';
 			$post->is_secret = $post->is_secret == 'TRUE';
 			$post->is_anonymity = $post->is_anonymity == 'TRUE';
 		} else {
-			if ($qna->use_force_adopt === true && $this->checkPermission($qid,'notice') == false && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('type','Q')->where('is_adopted','FALSE')->count() > 3) {
+			if ($qna->use_force_adopt === true && $this->checkPermission($qid,'notice') == false && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('type','QUESTION')->where('is_adopted','FALSE')->count() > 3) {
 				return $this->getError('NOT_ADOPTED_PREVIOUS_QUESTION');
 			}
 			
@@ -851,7 +865,7 @@ class ModuleQna {
 	 */
 	function getMentComponent($parent,$configs) {
 		$post = $this->getPost($parent);
-		if ($post->type == 'N') return '';
+		if ($post->type == 'NOTICE') return '';
 		
 		$qna = $this->getQna($post->qid);
 		
@@ -961,24 +975,36 @@ class ModuleQna {
 	 * @return string $html
 	 */
 	function getAnswerComponent($parent,$configs) {
-		$post = $this->getPost($parent);
-		if ($post->type == 'N') return '';
-		
-		$qna = $this->getQna($post->qid);
-		
-		if ($this->checkPermission($qna->qid,'answer_write') == true && $post->midx != $this->IM->getModule('member')->getLogged()) {
-			$form = $this->getAnswerWriteComponent($parent,$configs);
+		if (is_object($parent) == true) {
+			$question = $this->getPost($parent->parent);
+			$post = $parent;
 		} else {
-			$form = '';
+			$question = $this->getPost($parent);
+			$post = null;
 		}
 		
-		$answer = $this->getAnswerListComponent($parent,$configs);
+		if ($question->type == 'NOTICE') return '';
 		
-		$total = '<span data-role="count">'.$post->ment.'</span>';
+		$qna = $this->getQna($question->qid);
 		
-		$header = PHP_EOL.'<div data-role="answer" data-parent="'.$parent.'">'.PHP_EOL;
+		if (is_object($parent) == true) {
+			$form = $this->getAnswerWriteComponent($post,$configs);
+			$answer = '';
+		} else {
+			if ($this->checkPermission($qna->qid,'answer_write') == true && $post->midx != $this->IM->getModule('member')->getLogged()) {
+				$form = $this->getAnswerWriteComponent($parent,$configs);
+			} else {
+				$form = '';
+			}
+		
+			$answer = $this->getAnswerListComponent($parent,$configs);
+		}
+		
+		$total = '<span data-role="count">'.$question->ment.'</span>';
+		
+		$header = PHP_EOL.'<div data-role="answer" data-parent="'.$question->idx.'">'.PHP_EOL;
 		$footer = PHP_EOL.'</div>'.PHP_EOL;
-		$footer.= PHP_EOL.'<script>Qna.answer.init('.$parent.');</script>'.PHP_EOL;
+		$footer.= PHP_EOL.'<script>Qna.answer.init('.$question->idx.');</script>'.PHP_EOL;
 		
 		return $this->getTemplet($configs)->getContext('answer',get_defined_vars(),$header,$footer);
 	}
@@ -1070,16 +1096,21 @@ class ModuleQna {
 	 * @return string $html
 	 */
 	function getAnswerWriteComponent($parent,$configs) {
-		$question = $this->getPost($parent);
-		$qna = $this->getQna($question->qid);
-		
-		if ($question->is_closed == true) return '';
-		
-		$idx = isset($configs->idx) == true ? $configs->idx : null;
-		if ($idx) {
-			$post = $this->getPost($idx);
+		if (is_object($parent) == true) {
+			$post = $parent;
+			$parent = $post->parent;
+			
+			$post->is_secret = $post->is_secret == 'TRUE';
+			$post->is_anonymity = $post->is_anonymity == 'TRUE';
 		} else {
 			$post = null;
+		}
+		
+		$question = $this->getPost($parent);
+		
+		$qna = $this->getQna($question->qid);
+		if ($post == null) {
+			if ($question->is_closed == true) return '';
 		}
 		
 		$wysiwyg = $this->IM->getModule('wysiwyg')->setModule('qna')->setName('content')->setRequired(true)->setContent($post == null ? '' : $post->content);
@@ -1114,7 +1145,7 @@ class ModuleQna {
 		
 		$header = PHP_EOL.'<form id="ModuleQnaAnswerForm">'.PHP_EOL;
 		$header.= '<input type="hidden" name="parent" value="'.$parent.'">'.PHP_EOL;
-		if ($idx) $header.= '<input type="hidden" name="idx" value="'.$idx.'">'.PHP_EOL;
+		if ($post) $header.= '<input type="hidden" name="idx" value="'.$post->idx.'">'.PHP_EOL;
 		$footer = PHP_EOL.'</form>'.PHP_EOL;
 		$footer.= '<script>Qna.answer.init("ModuleQnaAnswerForm");</script>';
 		
@@ -1132,11 +1163,11 @@ class ModuleQna {
 	 */
 	function getPostAdoptModal($idx) {
 		$post = $this->getPost($idx);
-		if ($post == null || $post->type == 'N') return;
+		if ($post == null || $post->type == 'NOTICE') return;
 		
 		$content = '<input type="hidden" name="idx" value="'.$idx.'"><div data-role="message">';
 		
-		if ($post->type == 'Q') {
+		if ($post->type == 'QUESTION') {
 			$title = '질문마감';
 			$content.= '답변을 채택하지 않고 질문을 마감하시겠습니까?<br>질문마감시 해당 질문에 대하여 더이상 답변을 받을 수 없습니다.';
 		} else {
@@ -1195,6 +1226,51 @@ class ModuleQna {
 		$button->type = 'submit';
 		$button->text = '확인';
 		$buttons[] = $button;
+		
+		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
+	}
+	
+	/**
+	 * 게시물삭제 모달을 가져온다.
+	 *
+	 * @param int $idx 게시물고유번호
+	 * @return string $html 모달 HTML
+	 */
+	function getPostDeleteModal($idx) {
+		$post = $this->db()->select($this->table->post)->where('idx',$idx)->getOne();
+		$qna = $this->getQna($post->qid);
+		
+		$content = '<input type="hidden" name="idx" value="'.$idx.'"><div data-role="message">';
+		if ($post->type == 'NOTICE') {
+			$title = '공지사항 삭제';
+			$content.= '공지사항을 삭제하시겠습니까?';
+		}
+		
+		if ($post->type == 'QUESTION') {
+			$title = '질문 삭제';
+			$content.= '질문을 삭제하시겠습니까?<br>질문에 등록된 답변도 모두 함께 삭제됩니다.';
+		}
+		
+		if ($post->type == 'ANSWER') {
+			$title = '답변 삭제';
+			$content.= '답변을 삭제하시겠습니까?';
+		}
+		$content.= '</div>';
+		
+		$buttons = array();
+		
+		$button = new stdClass();
+		$button->type = 'submit';
+		$button->text = '삭제하기';
+		$button->class = 'danger';
+		$buttons[] = $button;
+		
+		$button = new stdClass();
+		$button->type = 'close';
+		$button->text = '취소';
+		$buttons[] = $button;
+		
+		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
 		
 		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
 	}
@@ -1325,7 +1401,7 @@ class ModuleQna {
 	 * @return object $post
 	 */
 	function getPost($idx,$is_link=false) {
-		if (empty($idx) == true) return null;
+		if (empty($idx) == true || (is_numeric($idx) == false && is_object($idx) == false)) return null;
 		
 		if (is_numeric($idx) == true) {
 			if (isset($this->posts[$idx]) == true) return $this->posts[$idx];
@@ -1347,7 +1423,7 @@ class ModuleQna {
 			
 			$post->is_secret = $post->is_secret == 'TRUE';
 			$post->is_anonymity = $post->is_anonymity == 'TRUE';
-			$post->is_notice = $post->type == 'N';
+			$post->is_notice = $post->type == 'NOTICE';
 			
 			if ($post->is_anonymity == true) {
 				$post->name = '<span data-module="member" data-role="name">익명-'.strtoupper(substr(base_convert(ip2long($post->ip),10,32),0,6)).'</span>';
@@ -1358,7 +1434,7 @@ class ModuleQna {
 			if ($qna->use_label == 'NONE') {
 				$post->labels = array();
 			} else {
-				if ($post->type == 'A') {
+				if ($post->type == 'ANSWER') {
 					$post->labels = $this->db()->select($this->table->post_label.' p','l.idx, l.title')->join($this->table->label.' l','l.idx=p.label','LEFT')->where('p.idx',$post->parent)->get();
 				} else {
 					$post->labels = $this->db()->select($this->table->post_label.' p','l.idx, l.title')->join($this->table->label.' l','l.idx=p.label','LEFT')->where('p.idx',$post->idx)->get();
@@ -1384,7 +1460,7 @@ class ModuleQna {
 	 * @return object $ment
 	 */
 	function getMent($idx,$is_link=false) {
-		if (empty($idx) == true) return null;
+		if (empty($idx) == true || (is_numeric($idx) == false && is_object($idx) == false)) return null;
 		
 		if (is_numeric($idx) == true) {
 			if (isset($this->ments[$idx]) == true) return $this->ments[$idx];
@@ -1446,8 +1522,8 @@ class ModuleQna {
 	 */
 	function updateQna($qid) {
 		$status = $this->db()->select($this->table->post,'SUM(ment) as ment, MAX(latest_ment) as latest_ment')->where('qid',$qid)->getOne();
-		$question = $this->db()->select($this->table->post,'COUNT(*) as total, MAX(reg_date) as latest')->where('qid',$qid)->where('type','Q')->getOne();
-		$answer = $this->db()->select($this->table->post,'COUNT(*) as total, MAX(reg_date) as latest')->where('qid',$qid)->where('type','A')->getOne();
+		$question = $this->db()->select($this->table->post,'COUNT(*) as total, MAX(reg_date) as latest')->where('qid',$qid)->where('type','QUESTION')->getOne();
+		$answer = $this->db()->select($this->table->post,'COUNT(*) as total, MAX(reg_date) as latest')->where('qid',$qid)->where('type','ANSWER')->getOne();
 		
 		$this->db()->update($this->table->qna,array('question'=>$question->total,'latest_question'=>($question->latest ? $question->latest : 0),'answer'=>$answer->total,'latest_answer'=>($answer->latest ? $answer->latest : 0),'ment'=>$status->ment,'latest_ment'=>($status->latest_ment ? $status->latest_ment : 0)))->where('qid',$qid)->execute();
 	}
@@ -1462,7 +1538,7 @@ class ModuleQna {
 		$status = $this->db()->select($this->table->ment,'COUNT(*) as total, MAX(reg_date) as latest')->where('parent',$idx)->getOne();
 		$this->db()->update($this->table->post,array('ment'=>$status->total,'latest_ment'=>($status->latest ? $status->latest : 0)))->where('idx',$idx)->execute();
 		
-		if ($post->type == 'Q') {
+		if ($post->type == 'QUESTION') {
 			$status = $this->db()->select($this->table->post,'COUNT(*) as total, MAX(reg_date) as latest')->where('parent',$idx)->getOne();
 			$this->db()->update($this->table->post,array('answer'=>$status->total,'latest_answer'=>($status->latest ? $status->latest : 0)))->where('idx',$idx)->execute();
 			
@@ -1494,9 +1570,46 @@ class ModuleQna {
 	 *
 	 * @param int $idx 게시물고유번호
 	 */
-	function deletePost($idx) {
+	function deletePost($idx,$is_self=true) {
 		$post = $this->getPost($idx);
 		if ($post == null) return false;
+		
+		$qna = $this->getQna($post->qid);
+		
+		/**
+		 * 질문글의 경우 게시물 라벨과 질문의 답변을 삭제한다.
+		 */
+		if ($post->type == 'QUESTION') {
+			/**
+			 * 라벨을 삭제한다.
+			 */
+			$labels = $this->db()->select($this->table->post_label)->where('idx',$post->idx)->get();
+			foreach ($labels as $label) {
+				$this->db()->delete($this->table->post_label)->where('idx',$post->idx)->where('label',$label->label)->execute();
+				$this->updateLabel($label->label);
+			}
+			
+			/**
+			 * 답변을 삭제한다.
+			 */
+			$answers = $this->db()->select($this->table->post)->where('parent',$post->idx)->get();
+			foreach ($answers as $answer) {
+				$this->db()->deletePost($answer->idx,false);
+			}
+		}
+		
+		/**
+		 * 게시물의 댓글을 삭제한다.
+		 */
+		$ments = $this->db()->select($this->table->ment)->where('parent',$post->idx)->get();
+		foreach ($ments as $ment) {
+			$this->deleteMent($ment->idx,false);
+		}
+		
+		/**
+		 * 알림메세지를 삭제한다.
+		 */
+		$this->IM->getModule('push')->deletePush($this->getModule()->getName(),$post->type,$post->idx);
 		
 		/**
 		 * 게시물에 첨부된 첨부파일을 삭제한다.
@@ -1507,19 +1620,32 @@ class ModuleQna {
 		}
 		
 		/**
-		 * 게시물에 작성된 댓글을 삭제한다.
-		 */
-		$ments = $this->db()->select($this->table->ment)->where('parent',$idx)->orderBy('reg_date','desc')->get();
-		for ($i=0, $loop=count($ments);$i<$loop;$i++) {
-			$this->deleteMent($ments[$i]->idx);
-		}
-		
-		/**
 		 * 게시물을 삭제한다.
 		 */
 		$this->db()->delete($this->table->post)->where('idx',$idx)->execute();
-		if ($post->category != 0) $this->updateCategory($post->category);
-		$this->updateBoard($post->qid);
+		
+		if ($is_self == true) {
+			/**
+			 * 게시물작성자와 삭제자가 다른 경우 댓글작성자에게 알림메세지를 전송한다.
+			 */
+			if ($post->midx != $this->IM->getModule('member')->getLogged()) {
+				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$idx,'DELETE',array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$post->title));
+			}
+			
+			/**
+			 * 포인트 및 활동내역을 기록한다.
+			 */
+			if ($post->type == 'ANSWER') {
+				$this->IM->getModule('member')->sendPoint($post->midx,$qna->answer_point * -1,$this->getModule()->getName(),'DELETE_ANSWER',array('title'=>$post->title));
+				$this->IM->getModule('member')->addActivity($post->midx,$qna->answer_exp * -1,$this->getModule()->getName(),'DELETE_ANSWER',array('title'=>$post->title));
+			} else {
+				$this->IM->getModule('member')->sendPoint($post->midx,$qna->question_point * -1,$this->getModule()->getName(),'DELETE_'.$post->type,array('title'=>$post->title));
+				$this->IM->getModule('member')->addActivity($post->midx,$qna->question_exp * -1,$this->getModule()->getName(),'DELETE_'.$post->type,array('title'=>$post->title));
+			}
+			
+			if ($post->type == 'ANSWER') $this->updatePost($post->parent);
+			$this->updateQna($post->qid);
+		}
 		
 		return true;
 	}
@@ -1530,61 +1656,41 @@ class ModuleQna {
 	 * @param int $idx 댓글고유번호
 	 * @return boolean $success
 	 */
-	function deleteMent($idx) {
+	function deleteMent($idx,$is_self=true) {
 		$ment = $this->getMent($idx);
 		if ($ment == null) return false;
 		
+		$post = $this->getPost($ment->parent);
+		if ($post == null) return false;
+		
+		$qna = $this->getQna($ment->qid);
+		
+		$this->db()->delete($this->table->ment)->where('idx',$ment->idx)->execute();
+		
 		/**
-		 * 게시물에 첨부된 첨부파일을 삭제한다.
+		 * 새 댓글 작성 알림메세지를 취소한다.
 		 */
-		$attachments = $this->db()->select($this->table->attachment)->where('type','MENT')->where('parent',$idx)->get();
-		for ($i=0, $loop=count($attachments);$i<$loop;$i++) {
-			$this->IM->getModule('attachment')->fileDelete($attachments[$i]->idx);
-		}
+		$this->IM->getModule('push')->cancelPush($post->midx,$this->getModule()->getName(),$post->type,$post->idx,'NEW_MENT',array('idx'=>$idx));
 		
-		if ($this->hasChildrenMent($idx) == true) {
-			$this->db()->update($this->table->ment,array('is_delete'=>'TRUE'))->where('idx',$idx)->execute();
-		} else {
-			$this->db()->delete($this->table->ment)->where('idx',$idx)->execute();
-			$this->db()->delete($this->table->ment_depth)->where('idx',$idx)->execute();
-			
-			while ($ment->source > 0) {
-				$ment = $this->getMent($ment->source);
-				if ($ment->is_delete == true && $this->hasChildrenMent($ment->idx) == false) {
-					$this->db()->delete($this->table->ment)->where('idx',$ment->idx)->execute();
-					$this->db()->delete($this->table->ment_depth)->where('idx',$ment->idx)->execute();
-				}
+		if ($is_self == true) {
+			/**
+			 * 댓글작성자와 삭제자가 다른 경우 댓글작성자에게 알림메세지를 전송한다.
+			 */
+			if ($ment->midx != $this->IM->getModule('member')->getLogged()) {
+				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'MENT',$idx,'DELETE_MENT',array('from'=>$this->IM->getModule('member')->getLogged(),'parent'=>$ment->parent));
 			}
-		}
+			
+			/**
+			 * 포인트 및 활동내역을 기록한다.
+			 */
+			$this->IM->getModule('member')->sendPoint($ment->midx,$qna->ment_point * -1,$this->getModule()->getName(),'DELETE_MENT',array('parent'=>$ment->parent));
+			$this->IM->getModule('member')->addActivity($ment->midx,$qna->ment_exp * -1,$this->getModule()->getName(),'DELETE_MENT',array('parent'=>$ment->parent));
 		
-		$this->updatePost($ment->parent);
+			$this->updatePost($ment->parent);
+			$this->updateQna($ment->qid);
+		}
 		
 		return true;
-	}
-	
-	/**
-	 * 삭제되지 않은 자식 댓글이 있는지 확인한다.
-	 *
-	 * @param int $parent 부모댓글고유번호
-	 * @return boolean $hasChildren
-	 */
-	function hasChildrenMent($parent) {
-		$children = $this->db()->select($this->table->ment_depth.' d','m.idx, m.is_delete')->join($this->table->ment.' m','d.idx=m.idx','LEFT')->where('d.source',$parent)->get();
-		
-		foreach ($children as $ment) {
-			if ($ment->is_delete == 'FALSE') return true;
-			elseif ($this->hasChildrenMent($ment->idx) == true) return true;
-		}
-		
-		$parent = $this->getMent($parent);
-		if ($parent->is_delete == true) {
-			foreach ($children as $ment) {
-				$this->db()->delete($this->table->ment)->where('idx',$ment->idx)->execute();
-				$this->db()->delete($this->table->ment_depth)->where('idx',$ment->idx)->execute();
-			}
-		}
-		
-		return false;
 	}
 	
 	/**

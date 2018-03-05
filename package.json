@@ -316,8 +316,8 @@
 				},
 				"type":{
 					"type":"enum",
-					"length":"'Q','A','N'",
-					"default":"Q",
+					"length":"'QUESTION','ANSWER','NOTICE'",
+					"default":"QUESTION",
 					"comment":"종류"
 				},
 				"parent":{

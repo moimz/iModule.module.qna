@@ -34,28 +34,7 @@ if ($this->checkPermission($ment->qid,'ment_delete') == false && $ment->midx != 
 	return;
 }
 
-$this->db()->delete($this->table->ment)->where('idx',$ment->idx)->execute();
-
-/**
- * 댓글작성자와 삭제자가 다른 경우 댓글작성자에게 알림메세지를 전송한다.
- */
-if ($ment->midx != $this->IM->getModule('member')->getLogged()) {
-	$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'MENT',$idx,'DELETE_MENT',array('from'=>$this->IM->getModule('member')->getLogged(),'parent'=>$ment->parent));
-}
-
-/**
- * 새 댓글 작성 알림메세지를 삭제한다.
- */
-$this->IM->getModule('push')->cancelPush($post->midx,$this->getModule()->getName(),$post->type == 'A' ? 'ANSWER' : 'QUESTION',$post->idx,'NEW_MENT',array('idx'=>$idx));
-
-/**
- * 포인트 및 활동내역을 기록한다.
- */
-$this->IM->getModule('member')->sendPoint($this->IM->getModule('member')->getLogged(),$qna->ment_point * -1,$this->getModule()->getName(),'DELETE_MENT',array('parent'=>$ment->parent));
-$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),$qna->ment_exp * -1,$this->getModule()->getName(),'DELETE_MENT',array('parent'=>$ment->parent));
-
-$this->updatePost($ment->parent);
-$this->updateQna($ment->qid);
+$this->deleteMent($ment->idx);
 
 $results->success = true;
 $results->idx = $ment->idx;
