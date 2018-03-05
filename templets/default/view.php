@@ -56,13 +56,19 @@ if (defined('__IM__') == false) exit;
 					<?php echo GetTime('Y-m-d H:i:s',$post->reg_date); ?>
 				</div>
 				
-				<?php if ($permission->modify == true) { ?>
-				<button type="button" data-action="modify" data-type="post" data-idx="<?php echo $post->idx; ?>">수정하기</button>
-				<?php } ?>
-				
-				<?php if ($permission->modify == true) { ?>
-				<button type="button" data-action="delete" data-type="post" data-idx="<?php echo $post->idx; ?>" class="danger">삭제하기</button>
-				<?php } ?>
+				<ul data-role="post_menu">
+					<?php if ($permission->modify == true) { ?>
+					<li><button type="button" data-action="modify" data-type="post" data-idx="<?php echo $post->idx; ?>">수정하기</button></li>
+					<?php } ?>
+					
+					<?php if ($permission->delete == true) { ?>
+					<li><button type="button" data-action="delete" data-type="post" data-idx="<?php echo $post->idx; ?>">삭제하기</button></li>
+					<?php } ?>
+					
+					<?php if ($permission->adopt == true) { ?>
+					<li><button type="button" data-action="adopt" data-type="post" data-idx="<?php echo $post->idx; ?>">질문마감하기</button></li>
+					<?php } ?>
+				</ul>
 			</div>
 		</article>
 	</section>

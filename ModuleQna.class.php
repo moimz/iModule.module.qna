@@ -715,6 +715,18 @@ class ModuleQna {
 		$permission = new stdClass();
 		$permission->modify = $post->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'question_modify') == true;
 		$permission->delete = $post->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'question_delete') == true;
+		$permission->adopt = $post->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'answer_adopt') == true;
+		
+		if ($post->is_closed == true) {
+			$permission->modify = $this->checkPermission($post->qid,'question_modify');
+			$permission->delete = $this->checkPermission($post->qid,'question_delete');
+			$permission->adopt = false;
+		}
+		
+		if ($qna->use_protection == true && $post->answer > 0) {
+			$permission->modify = $this->checkPermission($post->qid,'question_modify');
+			$permission->delete = $this->checkPermission($post->qid,'question_delete');
+		}
 		
 		$keyword = Request('keyword');
 		if ($keyword) {
@@ -745,11 +757,6 @@ class ModuleQna {
 		$this->IM->addHeadResource('meta',array('name'=>'robots','content'=>'noidex,nofollow'));
 		
 		$qna = $this->getQna($qid);
-		
-		if ($qna->use_force_adopt === true && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('is_adopted','FALSE')->count() > 3) {
-			return $this->getError('NOT_ADOPTED_PREVIOUS_QUESTION');
-		}
-		
 		$idx = $this->getIdx();
 		
 		if ($qna->use_label == 'NONE') {
@@ -783,6 +790,10 @@ class ModuleQna {
 			$post->is_secret = $post->is_secret == 'TRUE';
 			$post->is_anonymity = $post->is_anonymity == 'TRUE';
 		} else {
+			if ($qna->use_force_adopt === true && $this->checkPermission($qid,'notice') == false && $this->db()->select($this->table->post)->where('midx',$this->IM->getModule('member')->getLogged())->where('type','Q')->where('is_adopted','FALSE')->count() > 3) {
+				return $this->getError('NOT_ADOPTED_PREVIOUS_QUESTION');
+			}
+			
 			$post = null;
 		}
 		
@@ -1014,6 +1025,11 @@ class ModuleQna {
 		}
 		
 		/**
+		 * 댓글 컴포넌트를 불러온다.
+		 */
+		$ment = $this->getMentComponent($answer->idx,$configs);
+		
+		/**
 		 * 첨부파일
 		 */
 		$attachments = $this->db()->select($this->table->attachment)->where('type','POST')->where('parent',$post->idx)->get();
@@ -1022,9 +1038,20 @@ class ModuleQna {
 		}
 		
 		$permission = new stdClass();
-		$permission->adopt = $question->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'answer_adopt') == true;
 		$permission->modify = $post->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'answer_modify') == true;
 		$permission->delete = $post->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'answer_delete') == true;
+		$permission->adopt = $question->midx == $this->IM->getModule('member')->getLogged() || $this->checkPermission($post->qid,'answer_adopt') == true;
+		
+		if ($question->is_closed == true) {
+			$permission->modify = $this->checkPermission($post->qid,'answer_modify');
+			$permission->delete = $this->checkPermission($post->qid,'answer_delete');
+			$permission->adopt = false;
+		}
+		
+		if ($qna->use_protection == true && $post->is_adopted == true) {
+			$permission->modify = $this->checkPermission($post->qid,'answer_modify');
+			$permission->delete = $this->checkPermission($post->qid,'answer_delete');
+		}
 		
 		$header = PHP_EOL.'<div data-role="item" data-idx="'.$post->idx.'">'.PHP_EOL;
 		$footer = PHP_EOL.'</div>'.PHP_EOL;
@@ -1045,6 +1072,8 @@ class ModuleQna {
 	function getAnswerWriteComponent($parent,$configs) {
 		$question = $this->getPost($parent);
 		$qna = $this->getQna($question->qid);
+		
+		if ($question->is_closed == true) return '';
 		
 		$idx = isset($configs->idx) == true ? $configs->idx : null;
 		if ($idx) {
@@ -1096,6 +1125,43 @@ class ModuleQna {
 	}
 	
 	/**
+	 * 답변채택 모달을 가져온다.
+	 *
+	 * @param int $idx 게시물고유번호
+	 * @return string $html 모달 HTML
+	 */
+	function getPostAdoptModal($idx) {
+		$post = $this->getPost($idx);
+		if ($post == null || $post->type == 'N') return;
+		
+		$content = '<input type="hidden" name="idx" value="'.$idx.'"><div data-role="message">';
+		
+		if ($post->type == 'Q') {
+			$title = '질문마감';
+			$content.= '답변을 채택하지 않고 질문을 마감하시겠습니까?<br>질문마감시 해당 질문에 대하여 더이상 답변을 받을 수 없습니다.';
+		} else {
+			$title = '답변채택';
+			$content.= '선택하신 답변을 채택하시겠습니까?<br>답변 채택시 해당 질문에 대하여 더이상 답변을 받을 수 없습니다.';
+		}
+		
+		$content.= '</div>';
+		
+		$buttons = array();
+		
+		$button = new stdClass();
+		$button->type = 'close';
+		$button->text = '취소';
+		$buttons[] = $button;
+		
+		$button = new stdClass();
+		$button->type = 'submit';
+		$button->text = '확인';
+		$buttons[] = $button;
+		
+		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
+	}
+	
+	/**
 	 * 댓글수정 모달을 가져온다.
 	 *
 	 * @param int $idx 댓글고유번호
@@ -1117,7 +1183,6 @@ class ModuleQna {
 			if ($qna->allow_anonymity == true) $content.= '<div data-role="input"><label><input type="checkbox" name="is_anonymity"'.($ment->is_anonymity == 'TRUE' ? ' checked="checked"' : '').'>익명댓글</label></div>';
 			$content.= '</div>';
 		}
-		
 		
 		$buttons = array();
 		
@@ -1301,8 +1366,8 @@ class ModuleQna {
 			}
 			
 			$post->vote = '<span data-role="vote" data-idx="'.$post->idx.'">'.($post->good - $post->bad).'</span>';
+			$post->is_closed = $post->is_adopted != 'FALSE';
 			$post->is_adopted = $post->is_adopted == 'TRUE';
-			$post->is_closed = $post->is_adopted == 'CLOSED';
 			
 			$post->is_rendered = true;
 			

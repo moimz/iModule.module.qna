@@ -75,7 +75,7 @@ var Qna = {
 				}
 				
 				if (action == "adopt") {
-					alert("아직 지원되지 않습니다.");
+					Qna.post.adopt(idx);
 				}
 			});
 		},
@@ -96,6 +96,19 @@ var Qna = {
 				if (result.success == true) {
 					location.href = Qna.getUrl("write",idx);
 				}
+			});
+		},
+		adopt:function(idx) {
+			iModule.modal.get(ENV.getProcessUrl("qna","getModal"),{modal:"adopt",idx:idx},function($modal,$form) {
+				$form.on("submit",function() {
+					$form.send(ENV.getProcessUrl("qna","adopt"),function(result) {
+						if (result.success == true) {
+							location.replace(location.href);
+						}
+					});
+					return false;
+				});
+				return false;
 			});
 		}
 	},

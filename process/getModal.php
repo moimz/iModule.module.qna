@@ -57,4 +57,35 @@ if ($modal == 'delete') {
 		}
 	}
 }
+
+if ($modal == 'adopt') {
+	$idx = Request('idx');
+	$post = $this->getPost($idx);
+	
+	if ($post == null || $post->type == 'N') {
+		$results->success = false;
+		$results->error = $this->getErrorText('NOT_FOUND');
+		return;
+	}
+	
+	if ($post->type == 'Q') {
+		$question = $post;
+	} else {
+		$question = $this->getPost($post->parent);
+	}
+	
+	if ($question->is_closed == true) {
+		$results->success = false;
+		$results->error = $this->getErrorText('ALREADY_CLOSED');
+		return;
+	}
+	
+	if ($this->checkPermission($post->qid,'answer_adopt') == true || $question->midx == $this->IM->getModule('member')->getLogged()) {
+		$results->success = true;
+		$results->modalHtml = $this->getPostAdoptModal($idx);
+	} else {
+		$results->success = false;
+		$results->message = $this->getErrorText('FORBIDDEN');
+	}
+}
 ?>
