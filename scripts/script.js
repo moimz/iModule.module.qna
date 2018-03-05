@@ -94,7 +94,7 @@ var Qna = {
 		modify:function(idx) {
 			$.send(ENV.getProcessUrl("qna","checkPermission"),{"type":"post_modify",idx:idx},function(result) {
 				if (result.success == true) {
-					location.href = Qna.getUrl("write",idx);
+					location.replace(Qna.getUrl("write",idx));
 				}
 			});
 		},
@@ -258,7 +258,7 @@ var Qna = {
 		submit:function($form) {
 			$form.send(ENV.getProcessUrl("qna","saveQuestion"),function(result) {
 				if (result.success == true) {
-					location.href = Qna.getUrl("view",result.idx);
+					location.replace(Qna.getUrl("view",result.idx));
 				}
 			});
 		}
@@ -275,7 +275,7 @@ var Qna = {
 		submit:function($form) {
 			$form.send(ENV.getProcessUrl("qna","saveAnswer"),function(result) {
 				if (result.success == true) {
-					location.href = Qna.getUrl("view",result.parent);
+					location.replace(Qna.getUrl("view",result.parent));
 				}
 			});
 		}
