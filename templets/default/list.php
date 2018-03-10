@@ -33,7 +33,7 @@ $IM->loadWebFont('Roboto');
 		<button type="submit"><i class="mi mi-search"></i></button>
 	</div>
 	
-	<a href="<?php echo $link->write; ?>" class="submit"><?php echo $me->getText('button/question_write'); ?></a>
+	<a href="<?php echo $link->write; ?>"><?php echo $me->getText('button/question_write'); ?></a>
 </div>
 
 <ul data-role="table" class="black">
@@ -85,14 +85,14 @@ $IM->loadWebFont('Roboto');
 </ul>
 
 <div data-role="searchbar">
-	<a href="<?php echo $link->write; ?>"><i class="xi xi-marquee-add"></i><span><?php echo $me->getText('button/question_write'); ?></span></a>
-	
-	<div class="search">
+	<div data-role="search">
 		<div data-role="input">
 			<input type="search" name="keyword" value="<?php echo GetString($keyword,'input'); ?>">
 		</div>
 		<button type="submit"><i class="mi mi-search"></i></button>
 	</div>
+	
+	<a href="<?php echo $link->write; ?>"><?php echo $me->getText('button/question_write'); ?></a>
 </div>
 
 <div class="pagination">

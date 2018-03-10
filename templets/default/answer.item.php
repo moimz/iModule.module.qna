@@ -21,6 +21,10 @@ if (defined('__IM__') == false) exit;
 			<?php if ($post->is_adopted == true) { ?>
 			<i class="xi xi-check"></i>
 			<?php } ?>
+			
+			<?php if ($post->is_secret == true) { ?>
+			<i class="xi xi-lock"></i>
+			<?php } ?>
 		</aside>
 		<article>
 			<?php echo $post->content; ?>
@@ -47,7 +51,9 @@ if (defined('__IM__') == false) exit;
 					<?php echo GetTime('Y-m-d H:i:s',$post->reg_date); ?>
 				</div>
 				
-				<ul data-role="post_menu" data-idx="<?php echo $post->idx; ?>">
+				<?php if ($permission->modify == true || $permission->delete == true || $permission->adopt == true) { ?>
+				<button type="button" data-action="action" data-type="post" data-idx="<?php echo $post->idx; ?>"><i class="fa fa-caret-down"></i></button>
+				<ul data-role="action" data-type="post" data-idx="<?php echo $post->idx; ?>">
 					<?php if ($permission->adopt == true) { ?>
 					<li><button type="button" data-action="adopt" data-type="post" data-idx="<?php echo $post->idx; ?>" class="submit">답변채택하기</button></li>
 					<?php } ?>
@@ -60,6 +66,7 @@ if (defined('__IM__') == false) exit;
 					<li><button type="button" data-action="delete" data-type="post" data-idx="<?php echo $post->idx; ?>" class="danger">삭제하기</button></li>
 					<?php } ?>
 				</ul>
+				<?php } ?>
 			</div>
 		</article>
 	</section>

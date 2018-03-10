@@ -62,9 +62,18 @@ var Qna = {
 		init:function(id) {
 			var $container = $("#"+id);
 			
-			$("button[data-action][data-type=post]",$container).on("click",function() {
+			$("button[data-action][data-type=post]",$container).on("click",function(e) {
 				var action = $(this).attr("data-action");
 				var idx = $(this).attr("data-idx");
+				
+				if (action == "action") {
+					var $action = $("ul[data-role=action][data-type=post][data-idx="+idx+"]",$container);
+					$(this).toggleClass("opened");
+					if ($(this).hasClass("opened") == true) $action.addClass("opened");
+					else $action.removeClass("opened");
+					
+					e.stopPropagation();
+				}
 				
 				if (action == "modify") {
 					Qna.post.modify(idx);
@@ -77,6 +86,11 @@ var Qna = {
 				if (action == "adopt") {
 					Qna.post.adopt(idx);
 				}
+			});
+			
+			$(document).on("click",function() {
+				$("ul[data-role=action][data-type=post]",$container).removeClass("opened");
+				$("button[data-action=action][data-type=post]",$container).removeClass("opened");
 			});
 		},
 		secret:function(idx,query) {

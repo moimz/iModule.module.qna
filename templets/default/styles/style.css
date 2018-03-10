@@ -9,23 +9,23 @@
  * @version 3.0.0
  * @modified 2018. 2. 17.
  */
-div[data-module=qna] a.label {display:inline-block; margin-right:5px; padding:0px 6px; height:22px; line-height:22px; background:#bbdefb; color:#0d47a1; font-size:12px; text-decoration:none; border-radius:3px;}
-div[data-module=qna] a.label:hover {background:#0d47a1; color:#fff;}
+div[data-module=qna] a.label {display:inline-block; margin-right:5px; padding:0px 6px; height:22px; line-height:22px; background:#e3f2fd; color:#0d47a1; font-size:12px; text-decoration:none; border-radius:3px; margin-bottom:5px;}
+div[data-module=qna] a.label:hover {background:#bbdefb;}
 
-div[data-module=qna] div[data-role=tabbar] > div > ul {min-width:520px;}
+div[data-module=qna] div[data-role=tabbar] > div > ul {min-width:300px;}
 
 div[data-module=qna] div[data-role=toolbar] {margin-bottom:10px; text-align:right; font-size:0;}
 div[data-module=qna] div[data-role=toolbar] > div[data-role=input] {width:160px; float:left; font-size:14px; vertical-align:middle;}
-div[data-module=qna] div[data-role=toolbar] > div[data-role=search] {width:50%; max-width:300px; display:inline-block; font-size:14px; vertical-align:middle;}
-div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > div[data-role=input] {display:inline-block; width:calc(100% - 45px); vertical-align:middle;}
-div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button {width:40px; height:40px; background:#b5b7c0; border:0px; cursor:pointer; vertical-align:middle;}
+div[data-module=qna] div[data-role=toolbar] > div[data-role=search] {width:50%; max-width:300px; display:inline-block; font-size:0; vertical-align:middle;}
+div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > div[data-role=input] {display:inline-block; width:calc(100% - 45px); vertical-align:middle; font-size:14px;}
+div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button {width:40px; height:40px; background:#b5b7c0; border:0px; cursor:pointer; vertical-align:middle; margin-left:5px;}
 div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button > i {font-size:14px; color:#fff;}
 div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button:hover {background:#828595;}
 div[data-module=qna] div[data-role=toolbar] > a {display:inline-block; height:40px; line-height:40px; padding:0px 15px; box-sizing:border-box; vertical-align:middle; margin-left:5px; text-decoration:none; cursor:pointer; background:#2196f3; color:#fff; font-size:14px;}
 div[data-module=qna] div[data-role=toolbar] > a:hover {background:#1e88e5;}
 
 div[data-module=qna] ul[data-role=table] > li > span.notice {width:60px;}
-div[data-module=qna] ul[data-role=table] > li > span.count {width:60px;}
+div[data-module=qna] ul[data-role=table] > li > span.count {width:55px;}
 div[data-module=qna] ul[data-role=table] > li > span.title {width:100%;}
 div[data-module=qna] ul[data-role=table] > li > span.name {width:140px;}
 div[data-module=qna] ul[data-role=table] > li > span.reg_date {width:140px;}
@@ -39,34 +39,34 @@ div[data-module=qna] ul[data-role=table] > li.notice > span.name {text-align:lef
 div[data-module=qna] ul[data-role=table] > li.notice > span.name > i[data-role=photo] {width:24px; height:24px; margin-right:5px;}
 div[data-module=qna] ul[data-role=table] > li.notice > span.name > span[data-role=name] {width:calc(100% - 30px); height:24px; line-height:24px;}
 div[data-module=qna] ul[data-role=table] > li.notice > span.reg_date {text-align:right;}
-div[data-module=qna] ul[data-role=table] > li.tbody > span.count {padding:5px; font-size:0;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.count {padding:5px 0px 5px 5px; font-size:0;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.count > a {display:block; width:50px; height:50px; border:1px solid #ddd; box-sizing:border-box; border-radius:3px; padding:10px 0px; color:#666; text-decoration:none; font-family:Roboto; line-height:1;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.count > a > b {display:block; text-align:center; font-size:16px; padding:0px 5px;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.count > a > small {display:block; padding-top:3px; font-size:11px; text-align:center; color:#999;}
 div[data-module=qna] div[data-role=button] {margin-top:20px;}
-div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a {line-height:24px; padding:5px 0px 4px 0px; display:block; text-decoration:none; color:#222; font-weight:bold; font-size:16px;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a {line-height:24px; padding:5px 0px 4px 0px; max-width:100%; display:inline-block; text-decoration:none; color:#222; font-weight:bold; font-size:16px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.hasAnswer > a {border-color:#4CAF50; color:#4CAF50;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.hasAnswer > a > small {color:#4CAF50;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.closed > a {background:#e5e5e5;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.adopted > a {background:#4CAF50; color:#fff;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.adopted > a > small {color:#fff;}
 div[data-module=qna] ul[data-role=table] > li.tbody.notice > span.title > a {font-size:14px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.title {padding-right:0;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a:hover {color:#1E88E5;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a > i.mi-lock {width:20px; height:24px; line-height:24px; float:left; color:#f44336; font-weight:normal;}
-div[data-module=qna] ul[data-role=table] > li.tbody > span.title > div.details {font-size:0; height:22px;}
-div[data-module=qna] ul[data-role=table] > li.tbody > span.title > div.details > div.author {float:right;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.title > div.details {font-size:0; min-height:22px; margin:0; white-space:normal;}
+div[data-module=qna] ul[data-role=table] > li.tbody > span.title > div.details > div.author {float:right; margin-bottom:5px;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > div.details > div.author > i[data-role=photo] {width:20px; height:20px; border:1px solid #ccc; display:inline-block; vertical-align:middle; background-size:cover; background-repeat:no-repeat; background-position:50% 50%; margin-right:5px;}
 div[data-module=qna] ul[data-role=table] > li.tbody > span.title > div.details > div.author > span[data-role=name] {height:22px; font-size:14px; line-height:22px; vertical-align:middle;}
 
 div[data-module=qna] div[data-role=searchbar] {margin-top:10px; font-size:0;}
-div[data-module=qna] div[data-role=searchbar] > div.search {display:inline-block; width:300px; vertical-align:middle; font-size:0;}
-div[data-module=qna] div[data-role=searchbar] > div.search > div[data-role=input] {width:calc(100% - 45px); vertical-align:middle; display:inline-block; font-size:1rem; margin-right:5px;}
-div[data-module=qna] div[data-role=searchbar] > div.search > button {width:40px; height:40px; background:#b5b7c0; border:0px; cursor:pointer; vertical-align:middle;}
-div[data-module=qna] div[data-role=searchbar] > div.search > button > i {font-size:14px; color:#fff;}
-div[data-module=qna] div[data-role=searchbar] > div.search > button:hover {background:#828595;}
-div[data-module=qna] div[data-role=searchbar] > button, div[data-module=qna] div[data-role=searchbar] > a {display:inline-block; background:#b5b7c0; height:40px; line-height:40px; border:0px; cursor:pointer; vertical-align:middle; font-size:13px; color:#fff; padding:0px 12px 0px 2px; float:right; box-sizing:border-box; text-decoration:none;}
-div[data-module=qna] div[data-role=searchbar] > button > i, div[data-module=qna] div[data-role=searchbar] > a > i {width:30px; height:40px; line-height:40px; text-align:center; float:left;}
-div[data-module=qna] div[data-role=searchbar] > button:hover, div[data-module=qna] div[data-role=searchbar] > a:hover {background:#828595;}
+div[data-module=qna] div[data-role=searchbar] > div[data-role=search] {display:inline-block; width:300px; vertical-align:middle; font-size:0;}
+div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > div[data-role=input] {width:calc(100% - 45px); vertical-align:middle; display:inline-block; font-size:1rem; margin-right:5px;}
+div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > button {width:40px; height:40px; background:#b5b7c0; border:0px; cursor:pointer; vertical-align:middle;}
+div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > button > i {font-size:14px; color:#fff;}
+div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > button:hover {background:#828595;}
+div[data-module=qna] div[data-role=searchbar] > a {display:inline-block; height:40px; line-height:40px; padding:0px 15px; box-sizing:border-box; vertical-align:middle; margin-left:5px; text-decoration:none; cursor:pointer; background:#2196f3; color:#fff; font-size:14px; float:right;}
+div[data-module=qna] div[data-role=searchbar] > a:hover {background:#1e88e5;}
 
 div[data-module=qna] div.pagination {margin-top:20px; text-align:center;}
 
@@ -81,8 +81,12 @@ div[data-module=qna] div[data-role=post] > section > aside > button[data-action=
 div[data-module=qna] div[data-role=post] > section > aside > button[data-action=good]:hover {color:#2196F3;}
 div[data-module=qna] div[data-role=post] > section > aside > button[data-action=bad]:hover {color:#F44336;}
 div[data-module=qna] div[data-role=post] > section > aside > span {display:block; font-size:16px; padding-top:2px; height:20px; line-height:20px; font-family:Roboto; text-align:center;}
-div[data-module=qna] div[data-role=post] > section > aside > i.xi-check {font-size:28px; display:block; text-align:center; margin-top:10px; color:#43A047;}
+div[data-module=qna] div[data-role=post] > section > aside > i.xi {font-size:20px; display:block; text-align:center; margin-top:10px;}
+div[data-module=qna] div[data-role=post] > section > aside > i.xi-check {color:#43A047; font-size:28px;}
+div[data-module=qna] div[data-role=post] > section > aside > i.xi-lock {color:#F44336;}
 div[data-module=qna] div[data-role=post] > section > article {width:100%;}
+
+div[data-module=qna] div[data-role=post] > section > article > div[data-secret=TRUE] {padding:20px; color:#F44336; text-align:center; background:#FFEBEE;}
 
 div[data-module=qna] div[data-role=post] > section > article > div[data-module=attachment] {padding:20px 0px;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-module=attachment] > h5 {font-size:14px; height:30px; line-height:30px; border-bottom:1px solid #e3e4e5; margin-bottom:5px;}
@@ -95,19 +99,20 @@ div[data-module=qna] div[data-role=post] > section > article > div[data-module=a
 
 div[data-module=qna] div[data-role=post] > section > article > div.labels {margin:20px 0px;}
 
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] {text-align:right; padding-right:0;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] {text-align:right; padding-right:0; position:relative;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author {display:inline-block; max-width:200px; min-width:150px; height:30px; padding:4px; background:#E3F2FD; vertical-align:middle; border:1px solid #BBDEFB; text-align:left;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > i[data-role=photo] {width:28px; height:28px; border:1px solid #ccc; background-size:cover; background-position:50% 50%; background-repeat:no-repeat; float:left; margin-right:8px;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > span[data-role=name] {display:block; width:calc(100% - 40px); height:18px; font-size:12px; line-height:18px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > time {display:block; font-size:11px; font-family:Roboto; color:#666; white-space:nowrap;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul {list-style:none; display:inline-block; vertical-align:middle; white-space:nowrap;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li {display:inline-block; margin-left:5px;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li > button {display:inline-block; height:40px; line-height:38px; padding:0px 15px; box-sizing:border-box; border:1px solid rgba(0,0,0,0.1); color:#666; background:#fff; vertical-align:middle; text-decoration:none; cursor:pointer; font-size:14px;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li > button:hover {background:#f4f4f4; color:#333;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li > button[data-action=delete] {background:#f44336; color:#fff;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li > button[data-action=delete]:hover {background:#e53935; color:#fff;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li > button[data-action=adopt] {background:#2196f3; color:#fff;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul > li > button[data-action=adopt]:hover {background:#1e88e5; color:#fff;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > button[data-action=action] {background:#b5b7c0; color:#fff; border:0; font-size:16px; width:40px; height:40px; margin-left:5px; margin-right:0; display:none;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] {list-style:none; display:inline-block; vertical-align:middle; white-space:nowrap;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li {display:inline-block; margin-left:5px;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button {display:inline-block; height:40px; line-height:38px; padding:0px 15px; box-sizing:border-box; border:1px solid rgba(0,0,0,0.1); color:#666; background:#fff; vertical-align:middle; text-decoration:none; cursor:pointer; font-size:14px;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button:hover {background:#f4f4f4; color:#333;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button[data-action=delete] {background:#f44336; color:#fff;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button[data-action=delete]:hover {background:#e53935; color:#fff;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button[data-action=adopt] {background:#2196f3; color:#fff;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button[data-action=adopt]:hover {background:#1e88e5; color:#fff;}
 
 div[data-module=qna] div[data-role=ment] {background:#f4f4f4; padding:16px; margin-top:20px;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] {border-top:1px solid #e5e5e5; margin:10px 0px; padding-top:10px;}
@@ -117,6 +122,8 @@ div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=i
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.topbar > span[data-role=name] {font-size:14px; height:30px; line-height:30px; display:inline-block; vertical-align:middle;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.content {padding:10px 0px 10px 38px; position:relative;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.content > i.mi-lock {position:absolute; top:10px; left:20px; color:#F44336; height:22px; line-height:22px;}
+div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.content > div[data-secret=TRUE] {color:#F44336;}
+
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.footbar {padding-left:38px; font-size:0;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.footbar > time {display:inline-block; height:20px; line-height:20px; font-size:12px; color:#666; display:inline-block; vertical-align:middle;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] > div[data-role=item] > div.footbar > i {display:inline-block; width:1px; height:10px; margin:5px 8px; background:#999; vertical-align:middle;}
@@ -148,6 +155,7 @@ div[data-module=qna] div[data-role=answer] > h4 > i.xi {font-family:XEIcon;}
 
 div[data-module=qna] div[data-role=answer] > div[data-role=list] > div[data-role=item] {border-bottom:1px solid #e5e5e5; padding:20px 0px;}
 div[data-module=qna] div[data-role=answer] > div[data-role=list] > div[data-role=item]:first-child {padding-top:10px;}
+div[data-module=qna] div[data-role=answer] > div[data-role=list] > div[data-role=item]:last-child {border-bottom:0; padding-bottom:0;}
 
 div[data-module=qna] .answerHelp {border:1px solid #bbdefb; background:#e3f2fd; margin:10px 0px; padding:10px 15px;}
 div[data-module=qna] .answerHelp > p {padding-left:15px; position:relative; line-height:24px; color:#0d47a1; margin:5px 0px;}
@@ -156,3 +164,36 @@ div[data-module=qna] .answerHelp > p > i {width:2px; height:2px; display:block; 
 div[data-module=qna] .questionHelp {border:1px solid #ffb74d; background:#ffe0b2; margin:10px 0px; padding:10px 15px;}
 div[data-module=qna] .questionHelp > p {padding-left:15px; position:relative; line-height:24px; color:#bf360c; margin:5px 0px;}
 div[data-module=qna] .questionHelp > p > i {width:2px; height:2px; display:block; position:absolute; top:11px; left:4px; background:#bf360c;}
+
+
+@media (max-width:767px) {
+	div[data-module=qna] div[data-role=toolbar] {text-align:left;}
+	div[data-module=qna] div[data-role=toolbar] > div[data-role=input] {width:100%; display:block; margin-bottom:10px; float:none;}
+	div[data-module=qna] div[data-role=toolbar] > div[data-role=search] {width:calc(100% - 45px); max-width:100%;}
+	div[data-module=qna] div[data-role=toolbar] > a {font-family:XEIcon; content:" "; width:40px; margin-left:5px; padding:0px; font-size:0; text-align:center; font-weight:normal;}
+	div[data-module=qna] div[data-role=toolbar] > a:before {content:"\e673"; font-size:16px;}
+	
+	div[data-module=qna] ul[data-role=table] > li > span.hit {display:none;}
+	div[data-module=qna] ul[data-role=table] > li > span.vote {display:none;}
+	div[data-module=qna] ul[data-role=table] > li.notice > span.name {display:none;}
+	div[data-module=qna] ul[data-role=table] > li.notice > span.reg_date {display:none;}
+	
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > button[data-action=action] {display:inline-block;}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > button[data-action=action].opened > i:before {content:"\f0d8";}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] {position:absolute; top:40px; right:0px; z-index:10; background:#fff; border:1px solid #ccc; box-shadow:1px 1px 2px rgba(0,0,0,0.1); display:none;}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action].opened {display:block;}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li {display:block; text-align:left; font-size:0; margin-left:0; border-bottom:1px solid #ddd;}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li:hover {background:#f4f4f4;}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li:last-child {border-bottom:0;}
+	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] > li > button {width:100%; margin-left:0; margin-right:0; background:transparent !important; color:#222 !important; text-align:left; border:0; padding:0px 16px; display:block;}
+	
+	div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox {padding-bottom:45px;}
+	div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div[data-role=input] {width:100%;}
+	div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div[data-role=input] > textarea {min-height:80px;}
+	div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > button {width:100%; height:40px; line-height:40px;}
+	div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div.option {width:100%;}
+	
+	div[data-module=qna] div[data-role=searchbar] > div[data-role=search] {width:calc(100% - 45px); max-width:100%;}
+	div[data-module=qna] div[data-role=searchbar] > a {font-family:XEIcon; content:" "; width:40px; margin-left:5px; padding:0px; font-size:0; text-align:center; font-weight:normal;}
+	div[data-module=qna] div[data-role=searchbar] > a:before {content:"\e673"; font-size:16px;}
+}
