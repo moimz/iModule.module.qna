@@ -127,17 +127,20 @@ div[data-module=qna] div[data-role=ment] > form > div.form {position:relative;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list] + form {border-top:1px solid #e5e5e5; padding-top:10px;}
 div[data-module=qna] div[data-role=ment] > div[data-role=list]:empty + form {border-top:0px; padding-top:0px;}
 
-div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox {width:calc(100% - 105px);}
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox {position:relative;}
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div[data-role=input] {width:calc(100% - 105px);}
 div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div[data-role=input] > textarea {min-height:60px;}
-div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div.option {border:1px solid #e1e1e1; border-top:0px; padding:5px 10px; background:#fff; box-shadow:inset 0px 6px 5px -5px rgba(0,0,0,0.1); background:#f8f8f8;}
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div[data-role=input] > div[data-role=help] {display:none;}
+
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > button {display:block; width:100px; height:100px; line-height:60px; box-sizing:border-box; line-height:60px; text-align:center; cursor:pointer; background:#2196f3; color:#fff; font-size:14px; border:0; position:absolute; bottom:0; right:0;}
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > button:hover {background:#1e88e5;}
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > button:focus {border:1px dotted rgba(0,0,0,0.8); outline:1px solid #1e88e5;}
+div[data-module=qna] div[data-role=ment] > form > div.form[data-option=FALSE] > div.inputbox > button {height:60px;}
+
+div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div.option {width:calc(100% - 105px); border:1px solid #e1e1e1; border-top:0px; padding:5px 10px; background:#fff; box-shadow:inset 0px 6px 5px -5px rgba(0,0,0,0.1); background:#f8f8f8; box-sizing:border-box;}
 div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div.option > div[data-role=input] {margin:0px 10px 0px 0px; min-height:auto; display:inline-block; width:auto;}
 div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div.option > div[data-role=input] > label {height:20px; line-height:20px; padding:5px 0px 4px 30px; font-size:12px;}
 div[data-module=qna] div[data-role=ment] > form > div.form > div.inputbox > div.option > div[data-role=input] > label > button {width:20px; height:20px; margin:0px 8px 0px -30px; line-height:18px;}
-
-div[data-module=qna] div[data-role=ment] > form > div.form > button {display:block; width:100px; height:100px; line-height:60px; box-sizing:border-box; line-height:60px; text-align:center; cursor:pointer; background:#2196f3; color:#fff; font-size:14px; border:0; position:absolute; bottom:0; right:0;}
-div[data-module=qna] div[data-role=ment] > form > div.form > button:hover {background:#1e88e5;}
-div[data-module=qna] div[data-role=ment] > form > div.form > button:focus {border:1px dotted rgba(0,0,0,0.8); outline:1px solid #1e88e5;}
-div[data-module=qna] div[data-role=ment] > form > div.form[data-option=FALSE] > button {height:60px;}
 
 div[data-module=qna] div[data-role=answer] > h4 {font-size:16px; padding:20px 0px 20px 30px; border-bottom:2px solid #222; line-height:20px; margin-bottom:10px; position:relative;}
 div[data-module=qna] div[data-role=answer] > h4 > i {width:24px; height:24px; font-size:16px; line-height:24px; display:block; position:absolute; top:18px; left:0; font-style:normal; text-align:center; font-family:Roboto; border-radius:3px; background:#4CAF50; color:#fff;}

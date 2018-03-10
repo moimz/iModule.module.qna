@@ -18,6 +18,8 @@ if (defined('__IM__') == false) exit;
 			<textarea name="content" placeholder="<?php echo $me->getText('text/question_ment_help'); ?>"></textarea>
 		</div>
 		
+		<button type="submit">등록하기</button>
+		
 		<?php if ($qna->allow_secret == true || $qna->allow_anonymity == true) { ?>
 		<div class="option">
 			<?php if ($qna->allow_secret == true) { ?>
@@ -35,5 +37,5 @@ if (defined('__IM__') == false) exit;
 		<?php } ?>
 	</div>
 	
-	<button type="submit">등록하기</button>
+	
 </div>
