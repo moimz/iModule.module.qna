@@ -1444,6 +1444,7 @@ class ModuleQna {
 				$post->link = $page == null ? '#' : $this->IM->getUrl($page->menu,$page->page,'view',$post->idx);
 			}
 			
+			$post->title = GetString($post->title,'replace');
 			$post->content = $this->IM->getModule('wysiwyg')->decodeContent($post->content);
 			
 			$post->is_secret = $post->is_secret == 'TRUE';
