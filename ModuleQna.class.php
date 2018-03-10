@@ -822,9 +822,8 @@ class ModuleQna {
 		$footer = PHP_EOL.'</form>'.PHP_EOL.'<script>Qna.question.init("ModuleQnaQuestionForm");</script>'.PHP_EOL;
 		
 		$wysiwyg = $this->IM->getModule('wysiwyg')->setModule('qna')->setName('content')->setRequired(true)->setContent($post == null ? '' : $post->content);
-		
+		$uploader = $this->IM->getModule('attachment');
 		if ($qna->use_attachment == true) {
-			$uploader = $this->IM->getModule('attachment');
 			if ($configs == null || isset($configs->attachment) == null || $configs->attachment == '#') {
 				$attachment_templet_name = $qna->attachment->templet;
 				$attachment_templet_configs = $qna->attachment->templet_configs;
@@ -845,7 +844,6 @@ class ModuleQna {
 			if ($post != null) {
 				$uploader->setLoader($this->IM->getProcessUrl('qna','getFiles',array('idx'=>Encoder(json_encode(array('type'=>'POST','idx'=>$post->idx))))));
 			}
-			$uploader = $uploader;
 		} else {
 			$uploader = $uploader->disable();
 		}
@@ -991,7 +989,7 @@ class ModuleQna {
 			$form = $this->getAnswerWriteComponent($post,$configs);
 			$answer = '';
 		} else {
-			if ($this->checkPermission($qna->qid,'answer_write') == true && $post->midx != $this->IM->getModule('member')->getLogged()) {
+			if ($this->checkPermission($qna->qid,'answer_write') == true && ($post != null && $post->midx != $this->IM->getModule('member')->getLogged())) {
 				$form = $this->getAnswerWriteComponent($parent,$configs);
 			} else {
 				$form = '';
@@ -1114,9 +1112,8 @@ class ModuleQna {
 		}
 		
 		$wysiwyg = $this->IM->getModule('wysiwyg')->setModule('qna')->setName('content')->setRequired(true)->setContent($post == null ? '' : $post->content);
-		
+		$uploader = $this->IM->getModule('attachment');
 		if ($qna->use_attachment == true) {
-			$uploader = $this->IM->getModule('attachment');
 			if ($configs == null || isset($configs->attachment) == null || $configs->attachment == '#') {
 				$attachment_templet_name = $qna->attachment->templet;
 				$attachment_templet_configs = $qna->attachment->templet_configs;
@@ -1137,11 +1134,9 @@ class ModuleQna {
 			if ($post != null) {
 				$uploader->setLoader($this->IM->getProcessUrl('qna','getFiles',array('idx'=>Encoder(json_encode(array('type'=>'POST','idx'=>$post->idx))))));
 			}
-			$uploader = $uploader->get();
 		} else {
-			$uploader = '';
+			$uploader = $uploader->disable();
 		}
-		$wysiwyg = $wysiwyg->get();
 		
 		$header = PHP_EOL.'<form id="ModuleQnaAnswerForm">'.PHP_EOL;
 		$header.= '<input type="hidden" name="parent" value="'.$parent.'">'.PHP_EOL;

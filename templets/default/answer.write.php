@@ -15,8 +15,8 @@ if (defined('__IM__') == false) exit;
 <ul data-role="form" class="inner">
 	<li>
 		<div data-role="input">
-			<?php echo $wysiwyg; ?>
-			<?php echo $uploader; ?>
+			<?php $wysiwyg->doLayout(); ?>
+			<?php $uploader->doLayout(); ?>
 		</div>
 	</li>
 	<?php if ($qna->allow_secret == true || $qna->allow_anonymity == true) { ?>
