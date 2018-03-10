@@ -177,6 +177,7 @@ div[data-module=qna] .questionHelp > p > i {width:2px; height:2px; display:block
 	div[data-module=qna] ul[data-role=table] > li > span.vote {display:none;}
 	div[data-module=qna] ul[data-role=table] > li.notice > span.name {display:none;}
 	div[data-module=qna] ul[data-role=table] > li.notice > span.reg_date {display:none;}
+	div[data-module=qna] ul[data-role=table] > li.tbody > span.title > a {display:block; width:100%;}
 	
 	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > button[data-action=action] {display:inline-block;}
 	div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > button[data-action=action].opened > i:before {content:"\f0d8";}
