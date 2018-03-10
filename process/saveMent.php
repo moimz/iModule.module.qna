@@ -92,6 +92,7 @@ if (count($errors) == 0) {
 	$results->parent = $parent;
 	$results->idx = $idx;
 } else {
-	
+	$results->success = false;
+	$results->errors = $errors;
 }
 ?>
