@@ -1285,14 +1285,14 @@ class ModuleQna {
 		$buttons = array();
 		
 		$button = new stdClass();
-		$button->type = 'submit';
-		$button->text = '삭제하기';
-		$button->class = 'danger';
+		$button->type = 'close';
+		$button->text = '취소';
 		$buttons[] = $button;
 		
 		$button = new stdClass();
-		$button->type = 'close';
-		$button->text = '취소';
+		$button->type = 'submit';
+		$button->text = '삭제하기';
+		$button->class = 'danger';
 		$buttons[] = $button;
 		
 		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
@@ -1318,56 +1318,9 @@ class ModuleQna {
 		$buttons = array();
 		
 		$button = new stdClass();
-		$button->type = 'submit';
-		$button->text = '삭제하기';
-		$button->class = 'danger';
-		$buttons[] = $button;
-		
-		$button = new stdClass();
 		$button->type = 'close';
 		$button->text = '취소';
 		$buttons[] = $button;
-		
-		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
-		
-		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
-	}
-	
-	/**
-	 * 삭제모달을 가져온다.
-	 *
-	 * @param string $type post or ment
-	 * @param int $idx 게시물/댓글 고유번호
-	 * @return string $html 모달 HTML
-	 */
-	function getDeleteModal($type,$idx) {
-		$title = $type == 'post' ? '게시물 삭제' : '댓글 삭제';
-		
-		$content = '<input type="hidden" name="type" value="'.$type.'">'.PHP_EOL;
-		$content.= '<input type="hidden" name="idx" value="'.$idx.'">'.PHP_EOL;
-		
-		if ($type == 'post') {
-			$post = $this->getPost($idx);
-			
-			if ($this->checkPermission($post->qid,'post_delete') == false && $post->midx != 0 && $post->midx != $this->IM->getModule('member')->getLogged()) return;
-			
-			$content.= '<div data-role="message">게시물을 삭제하시겠습니까?</div>';
-			
-			if ($this->checkPermission($post->qid,'post_delete') == false && $post->midx == 0) {
-				$content.= '<div data-role="input" data-default="게시물 등록시 입력한 패스워드를 입력하여 주십시오."><input type="password" name="password"></div>';
-			}
-		} elseif ($type == 'ment') {
-			$ment = $this->getMent($idx);
-			
-			if ($this->checkPermission($ment->qid,'ment_delete') == false && $ment->midx != 0 && $ment->midx != $this->IM->getModule('member')->getLogged()) return;
-			
-			$content.= '<div data-role="message">댓글을 삭제하시겠습니까?</div>';
-			if ($this->checkPermission($ment->qid,'ment_delete') == false && $ment->midx == 0) {
-				$content.= '<div data-role="input" data-default="댓글 등록시 입력한 패스워드를 입력하여 주십시오."><input type="password" name="password"></div>';
-			}
-		}
-		
-		$buttons = array();
 		
 		$button = new stdClass();
 		$button->type = 'submit';
@@ -1375,10 +1328,7 @@ class ModuleQna {
 		$button->class = 'danger';
 		$buttons[] = $button;
 		
-		$button = new stdClass();
-		$button->type = 'close';
-		$button->text = '취소';
-		$buttons[] = $button;
+		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
 		
 		return $this->getTemplet()->getModal($title,$content,true,array(),$buttons);
 	}
