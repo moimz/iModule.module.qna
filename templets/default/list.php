@@ -33,7 +33,7 @@ $IM->loadWebFont('Roboto');
 		<button type="submit"><i class="mi mi-search"></i></button>
 	</div>
 	
-	<a href="<?php echo $link->write; ?>"><?php echo $me->getText('button/question_write'); ?></a>
+	<a href="<?php echo $link->write; ?>"><i class="xi xi-pen"></i><span><?php echo $me->getText('button/question_write'); ?></span></a>
 </div>
 
 <ul data-role="table" class="black">
@@ -92,7 +92,7 @@ $IM->loadWebFont('Roboto');
 		<button type="submit"><i class="mi mi-search"></i></button>
 	</div>
 	
-	<a href="<?php echo $link->write; ?>"><?php echo $me->getText('button/question_write'); ?></a>
+	<a href="<?php echo $link->write; ?>"><i class="xi xi-pen"></i><span><?php echo $me->getText('button/question_write'); ?></span></a>
 </div>
 
 <div class="pagination">
