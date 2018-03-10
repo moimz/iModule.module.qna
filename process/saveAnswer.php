@@ -96,6 +96,12 @@ if (count($errors) == 0) {
 		
 		$idx = $this->db()->insert($this->table->post,$insert)->execute();
 		
+		if ($idx === false) {
+			$results->success = false;
+			$results->message = $this->getErrorText('DATABASE_INSERT_ERROR');
+			return;
+		}
+		
 		/**
 		 * 질문자에게 알림메세지를 전송한다.
 		 */

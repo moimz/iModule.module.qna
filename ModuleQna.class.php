@@ -665,7 +665,7 @@ class ModuleQna {
 		$this->IM->addHeadResource('meta',array('name'=>'robots','content'=>'idx,nofollow'));
 		
 		$qna = $this->getQna($qid);
-		$idxes = $this->getIdx() ? explode('/',$this->getIdx()) : array();
+		$idxes = $this->getIdx() ? explode('/',$this->getIdx()) : array(0);
 		$idx = $idxes[0];
 		$post = $this->getPost($idx);
 		

@@ -73,6 +73,12 @@ if (count($errors) == 0) {
 		
 		$idx = $this->db()->insert($this->table->ment,$insert)->execute();
 		
+		if ($idx === false) {
+			$results->success = false;
+			$results->message = $this->getErrorText('DATABASE_INSERT_ERROR');
+			return;
+		}
+		
 		/**
 		 * 게시물 작성자에게 알림메세지를 전송한다.
 		 */

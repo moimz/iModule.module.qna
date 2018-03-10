@@ -126,6 +126,12 @@ if (count($errors) == 0) {
 		
 		$idx = $this->db()->insert($this->table->post,$insert)->execute();
 		
+		if ($idx === false) {
+			$results->success = false;
+			$results->message = $this->getErrorText('DATABASE_INSERT_ERROR');
+			return;
+		}
+		
 		/**
 		 * 포인트 및 활동내역을 기록한다.
 		 */
