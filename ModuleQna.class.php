@@ -448,6 +448,10 @@ class ModuleQna {
 			case 'list' :
 				$html.= $this->getListContext($qid,$configs);
 				break;
+				
+			case 'answer' :
+				$html.= $this->getListContext($qid,$configs);
+				break;
 			
 			case 'noreply' :
 				$html.= $this->getListContext($qid,$configs);
@@ -596,6 +600,7 @@ class ModuleQna {
 		
 		if ($listType == 'noreply') $lists->where('p.answer',0);
 		if ($listType == 'mylist') $lists->where('p.midx',$this->IM->getModule('member')->getLogged());
+		if ($listType == 'answer') $lists->where('p.answer',0,'>');
 		
 		$keyword = Request('keyword');
 		if ($keyword) {
@@ -609,6 +614,10 @@ class ModuleQna {
 			$idx = $configs->idx;
 		}
 		
+		if ($listType == 'answer') {
+			$sort = 'latest_answer';
+			$dir = 'desc';
+		}
 		$lists = $lists->orderBy('p.'.$sort,$dir)->limit($start,$limit)->get();
 		
 		for ($i=0, $loop=count($notices);$i<$loop;$i++) {

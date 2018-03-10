@@ -20,6 +20,7 @@ $IM->loadWebFont('Roboto');
 	<div>
 		<ul data-role="tab" data-name="intro">
 			<li<?php echo $view == 'list' ? ' class="selected"' : ''; ?>><a href="<?php echo $me->getUrl('list',false); ?>">최근질문</a></li>
+			<li<?php echo $view == 'answer' ? ' class="selected"' : ''; ?>><a href="<?php echo $me->getUrl('answer',false); ?>">최근답변</a></li>
 			<li<?php echo $view == 'noreply' ? ' class="selected"' : ''; ?>><a href="<?php echo $me->getUrl('noreply',false); ?>">미답변질문</a></li>
 			<li<?php echo $view == 'mylist' ? ' class="selected"' : ''; ?>><a href="<?php echo $me->getUrl('mylist',false); ?>">나의질문</a></li>
 		</ul>
