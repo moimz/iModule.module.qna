@@ -449,6 +449,14 @@ class ModuleQna {
 				$html.= $this->getListContext($qid,$configs);
 				break;
 			
+			case 'noreply' :
+				$html.= $this->getListContext($qid,$configs);
+				break;
+			
+			case 'mylist' :
+				$html.= $this->getListContext($qid,$configs);
+				break;
+			
 			case 'view' :
 				$html.= $this->getViewContext($qid,$configs);
 				break;
@@ -477,6 +485,8 @@ class ModuleQna {
 	 */
 	function getHeader($qid,$configs=null) {
 		$view = $this->getView() ? $this->getView() : 'list';
+		
+		if ($view == 'view' || $view == 'write') $view = Request('IM_QNA_LIST_TYPE','session') != null ? Request('IM_QNA_LIST_TYPE','session') : $view;
 		
 		/**
 		 * 템플릿파일을 호출한다.
@@ -535,6 +545,8 @@ class ModuleQna {
 		if (count($idxes) == 2) list($label,$p) = $idxes;
 		elseif (count($idxes) == 1) list($p) = $idxes;
 		
+		$_SESSION['IM_QNA_LIST_TYPE'] = $listType;
+		
 		$limit = $qna->post_limit;
 		$start = ($p - 1) * $limit;
 		
@@ -581,6 +593,9 @@ class ModuleQna {
 		if ($label != null && $label != 0) {
 			$lists->join($this->table->post_label.' l','l.idx=p.idx','LEFT')->where('l.label',$label);
 		}
+		
+		if ($listType == 'noreply') $lists->where('p.answer',0);
+		if ($listType == 'mylist') $lists->where('p.midx',$this->IM->getModule('member')->getLogged());
 		
 		$keyword = Request('keyword');
 		if ($keyword) {
@@ -989,7 +1004,7 @@ class ModuleQna {
 			$form = $this->getAnswerWriteComponent($post,$configs);
 			$answer = '';
 		} else {
-			if ($this->checkPermission($qna->qid,'answer_write') == true && ($post != null && $post->midx != $this->IM->getModule('member')->getLogged())) {
+			if ($this->checkPermission($qna->qid,'answer_write') == true && $question->midx != $this->IM->getModule('member')->getLogged()) {
 				$form = $this->getAnswerWriteComponent($parent,$configs);
 			} else {
 				$form = '';
@@ -1018,7 +1033,7 @@ class ModuleQna {
 		$post = $this->getPost($parent);
 		$qna = $this->getQna($post->qid);
 		
-		$lists = $this->db()->select($this->table->post)->where('parent',$parent)->orderBy('is_adopted','desc')->orderBy('good - bad','desc')->get();
+		$lists = $this->db()->select($this->table->post)->where('parent',$parent)->orderBy('is_adopted','asc')->orderBy('good - bad','desc')->orderBy('reg_date','asc')->get();
 		
 		$context = PHP_EOL.'<div data-role="list">';
 		for ($i=0, $loop=count($lists);$i<$loop;$i++) {
@@ -1042,9 +1057,11 @@ class ModuleQna {
 		$question = $this->getPost($post->parent);
 		$qna = $this->getQna($post->qid);
 		
+		$is_visible = true;
 		if ($post->is_secret == true) {
 			if ($this->checkPermission($post->qid,'answer_secret') == false && $post->midx != $this->IM->getModule('member')->getLogged() && $question->midx != $this->IM->getModule('member')->getLogged()) {
 				$post->content = '<div data-secret="TRUE">'.$this->getErrorText('FORBIDDEN_SECRET').'</div>';
+				$is_visible = false;
 			}
 		}
 		
@@ -1056,9 +1073,13 @@ class ModuleQna {
 		/**
 		 * 첨부파일
 		 */
-		$attachments = $this->db()->select($this->table->attachment)->where('type','POST')->where('parent',$post->idx)->get();
-		for ($i=0, $loop=count($attachments);$i<$loop;$i++) {
-			$attachments[$i] = $this->IM->getModule('attachment')->getFileInfo($attachments[$i]->idx);
+		if ($is_visible == true) {
+			$attachments = $this->db()->select($this->table->attachment)->where('type','POST')->where('parent',$post->idx)->get();
+			for ($i=0, $loop=count($attachments);$i<$loop;$i++) {
+				$attachments[$i] = $this->IM->getModule('attachment')->getFileInfo($attachments[$i]->idx);
+			}
+		} else {
+			$attachments = array();
 		}
 		
 		$permission = new stdClass();
