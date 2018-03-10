@@ -42,6 +42,12 @@ if ($is_notice == true) {
 	if ($qna->use_label == 'FORCE' && count($labels) == 0) {
 		$errors['labels'] = $this->getErrorText('REQUIRED');
 	}
+	
+	for ($i=0, $loop=count($labels);$i<$loop;$i++) {
+		if ($this->db()->select($this->table->label)->where('idx',$labels[$i])->where('qid',$qid)->has() == false) {
+			$errors['labels'] = $this->getErrorText('NOT_FOUND');
+		}
+	}
 }
 
 $attachments = is_array(Request('attachments')) == true ? Request('attachments') : array();
