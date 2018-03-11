@@ -114,7 +114,7 @@ div[data-module=qna] div[data-role=post] > section > article > div[data-role=but
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > div.level > div.level {width:35px; height:12px; font-size:11px; display:inline-block; vertical-align:middle; line-height:12px; font-family:Roboto; color:#666;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > div.level > div.level > b {color:#0288D1;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > div.level > div.progress {width:calc(100% - 35px); height:10px; margin:1px 0px; background:#ccc; display:inline-block; vertical-align:middle; border-radius:5px;}
-div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > div.level > div.progress > div.on {background:#4FC3F7; height:10px; border-radius:5px;}
+div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > div.author > div.level > div.progress > div.on {background:#4FC3F7; min-width:10px; height:10px; border-radius:5px;}
 
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > button[data-action=action] {background:#b5b7c0; color:#fff; border:0; font-size:16px; width:40px; height:40px; margin-left:5px; margin-right:0; display:none;}
 div[data-module=qna] div[data-role=post] > section > article > div[data-role=button] > ul[data-role=action] {list-style:none; display:inline-block; vertical-align:middle; white-space:nowrap;}
