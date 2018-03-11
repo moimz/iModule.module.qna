@@ -837,6 +837,7 @@ class ModuleQna {
 		
 		$header = PHP_EOL.'<form id="ModuleQnaQuestionForm" data-autosave="true" data-autosave-value="'.$qid.'">'.PHP_EOL;
 		$header.= '<input type="hidden" name="qid" value="'.$qid.'">'.PHP_EOL;
+		$header.= '<input type="hidden" name="templet" value="'.$this->getTemplet($configs)->getName().'">'.PHP_EOL;
 		if ($post !== null) $header.= '<input type="hidden" name="idx" value="'.$post->idx.'">'.PHP_EOL;
 		
 		if ($configs != null && isset($configs->category) == true && $configs->category != 0) {

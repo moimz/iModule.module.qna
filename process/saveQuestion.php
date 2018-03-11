@@ -178,4 +178,9 @@ if (count($errors) == 0) {
 	$results->success = false;
 	$results->errors = $errors;
 }
+
+$templet = Request('templet');
+if (is_file($this->getTemplet($templet)->getPath().'/process/saveQuestion.php') == true) {
+	INCLUDE $this->getTemplet($templet)->getPath().'/process/saveQuestion.php';
+}
 ?>
