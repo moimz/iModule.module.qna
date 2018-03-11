@@ -79,7 +79,7 @@ div[data-module=qna] div[data-role=post] > h4 {font-size:16px; padding:20px 0px 
 div[data-module=qna] div[data-role=post] > h4 > i {width:24px; height:24px; font-size:16px; line-height:24px; display:block; position:absolute; top:18px; left:0; font-style:normal; font-family:Roboto; text-align:center; border-radius:3px; background:#F44336; color:#fff;}
 div[data-module=qna] div[data-role=post] > section {display:table; table-layout:fixed; width:100%;}
 div[data-module=qna] div[data-role=post] > section > aside, div[data-module=qna] div[data-role=post] > section > article {display:table-cell; vertical-align:top;}
-div[data-module=qna] div[data-role=post] > section > aside {width:60px; padding:0px 10px 0px 0px; text-align:center; font-size:0;}
+div[data-module=qna] div[data-role=post] > section > aside {width:55px; padding:0px 10px 0px 0px; text-align:center; font-size:0;}
 div[data-module=qna] div[data-role=post] > section > aside > button {font-size:28px; display:block; text-align:center; width:100%; height:34px; line-height:34px; border:0; background:transparent; cursor:pointer; color:#999;}
 div[data-module=qna] div[data-role=post] > section > aside > button[data-action=good] {margin-top:-8px;}
 div[data-module=qna] div[data-role=post] > section > aside > button[data-action=good]:hover {color:#2196F3;}
@@ -88,7 +88,7 @@ div[data-module=qna] div[data-role=post] > section > aside > span {display:block
 div[data-module=qna] div[data-role=post] > section > aside > i.xi {font-size:20px; display:block; text-align:center; margin-top:10px;}
 div[data-module=qna] div[data-role=post] > section > aside > i.xi-check {color:#43A047; font-size:28px;}
 div[data-module=qna] div[data-role=post] > section > aside > i.xi-lock {color:#F44336;}
-div[data-module=qna] div[data-role=post] > section > aside > time {display:block; color:#666; font-size:12px; text-align:center; padding:10px 0px;}
+div[data-module=qna] div[data-role=post] > section > aside > time {display:block; color:#666; font-size:11px; text-align:center; padding:10px 0px;}
 
 div[data-module=qna] div[data-role=post] > section > article {width:100%;}
 
