@@ -18,6 +18,9 @@ if (defined('__IM__') == false) exit;
 			<button type="button" data-action="good" data-type="post" data-idx="<?php echo $post->idx; ?>"><i class="fa fa-caret-up"></i></button>
 			<?php echo $post->vote; ?>
 			<button type="button" data-action="bad" data-type="post" data-idx="<?php echo $post->idx; ?>"><i class="fa fa-caret-down"></i></button>
+			
+			<time datetime="<?php echo date('c',$post->reg_date); ?>" data-time="<?php echo $post->reg_date; ?>" data-moment="fromNow"></time>
+			
 			<?php if ($post->is_adopted == true) { ?>
 			<i class="xi xi-check"></i>
 			<?php } ?>
@@ -48,7 +51,12 @@ if (defined('__IM__') == false) exit;
 				<div class="author">
 					<?php echo $post->photo; ?>
 					<?php echo $post->name; ?>
-					<?php echo GetTime('Y-m-d H:i:s',$post->reg_date); ?>
+					<div class="level">
+						<div class="level">LV.<b><?php echo $post->member->level->level; ?></b></div>
+						<div class="progress">
+							<div class="on" style="width:<?php echo sprintf('%0.2f',$post->member->level->exp / $post->member->level->next * 100); ?>%;"></div>
+						</div>
+					</div>
 				</div>
 				
 				<?php if ($permission->modify == true || $permission->delete == true || $permission->adopt == true) { ?>

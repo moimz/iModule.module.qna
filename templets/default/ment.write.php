@@ -36,6 +36,4 @@ if (defined('__IM__') == false) exit;
 		</div>
 		<?php } ?>
 	</div>
-	
-	
 </div>

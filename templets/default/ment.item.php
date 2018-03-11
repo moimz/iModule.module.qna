@@ -15,6 +15,14 @@ if (defined('__IM__') == false) exit;
 <div class="topbar">
 	<?php echo $ment->photo; ?>
 	<?php echo $ment->name; ?>
+	
+	<?php if ($permission->modify == true || $permission->delete == true) { ?>
+	<button type="button" data-action="action" data-type="ment" data-idx="<?php echo $ment->idx; ?>"><i class="fa fa-caret-down"></i></button>
+	<ul data-role="action" data-type="ment" data-idx="<?php echo $ment->idx; ?>">
+		<?php if ($permission->modify == true) { ?><li><button type="button" data-action="modify" data-type="ment" data-idx="<?php echo $ment->idx; ?>"><i class="xi xi-pen"></i>수정</button></li><?php } ?>
+		<?php if ($permission->delete == true) { ?><li><button type="button" data-action="delete" data-type="ment" data-idx="<?php echo $ment->idx; ?>"><i class="xi xi-trash"></i>삭제</button></li><?php } ?>
+	</ul>
+	<?php } ?>
 </div>
 
 <div class="content">
@@ -24,11 +32,4 @@ if (defined('__IM__') == false) exit;
 
 <div class="footbar">
 	<?php echo GetTime('Y-m-d H:i:s',$ment->reg_date); ?>
-	
-	<?php if ($permission->modify == true || $permission->delete == true) { ?>
-	<i></i>
-	<?php if ($permission->modify == true) { ?><button type="button" data-action="modify" data-type="ment" data-idx="<?php echo $ment->idx; ?>">수정</button><?php } ?>
-	<?php if ($permission->modify == true && $permission->delete == true) { ?><i></i><?php } ?>
-	<?php if ($permission->delete == true) { ?><button type="button" data-action="delete" data-type="ment" data-idx="<?php echo $ment->idx; ?>">삭제</button><?php } ?>
-	<?php } ?>
 </div>

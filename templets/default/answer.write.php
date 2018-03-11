@@ -46,6 +46,6 @@ if (defined('__IM__') == false) exit;
 <?php } ?>
 
 <div data-role="button">
-	<button type="submit"><?php echo $post == null ? $me->getText('button/answer_write') : $me->getText('button/answer_modify'); ?></button>
 	<a href="<?php echo $post == null ? $me->getUrl('list',false) : $me->getUrl('view',$post->idx); ?>"><?php echo $me->getText('button/cancel'); ?></a>
+	<button type="submit"><?php echo $post == null ? $me->getText('button/answer_write') : $me->getText('button/answer_modify'); ?></button>
 </div>
