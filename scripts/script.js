@@ -67,6 +67,7 @@ var Qna = {
 				var idx = $(this).attr("data-idx");
 				
 				if (action == "action") {
+					$("ul[data-role=action][data-type=post]",$container).removeClass("opened");
 					var $action = $("ul[data-role=action][data-type=post][data-idx="+idx+"]",$container);
 					$(this).toggleClass("opened");
 					if ($(this).hasClass("opened") == true) $action.addClass("opened");
@@ -86,11 +87,6 @@ var Qna = {
 				if (action == "adopt") {
 					Qna.post.adopt(idx);
 				}
-			});
-			
-			$(document).on("click",function() {
-				$("ul[data-role=action][data-type=post]",$container).removeClass("opened");
-				$("button[data-action=action][data-type=post]",$container).removeClass("opened");
 			});
 		},
 		secret:function(idx,query) {
@@ -159,9 +155,19 @@ var Qna = {
 			} else {
 				var $container = id;
 				
-				$("button[data-action][data-type=ment]",$container).on("click",function() {
+				$("button[data-action][data-type=ment]",$container).on("click",function(e) {
 					var action = $(this).attr("data-action");
 					var idx = $(this).attr("data-idx");
+					
+					if (action == "action") {
+						$("ul[data-role=action][data-type=ment]",$container).removeClass("opened");
+						var $action = $("ul[data-role=action][data-type=ment][data-idx="+idx+"]",$container);
+						$(this).toggleClass("opened");
+						if ($(this).hasClass("opened") == true) $action.addClass("opened");
+						else $action.removeClass("opened");
+						
+						e.stopPropagation();
+					}
 					
 					if (action == "modify") {
 						Qna.ment.modify(idx);
@@ -321,3 +327,11 @@ var Qna = {
 		}
 	}
 };
+
+$(document).ready(function() {
+	$(document).on("click",function() {
+		var $container = $("div[data-module=qna]");
+		$("button[data-action=action]",$container).removeClass("opened");
+		$("ul[data-role=action]",$container).removeClass("opened");
+	});
+});
