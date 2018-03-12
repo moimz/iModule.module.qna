@@ -63,7 +63,8 @@ $IM->loadWebFont('Roboto');
 			<a href="<?php echo $item->link; ?>"><b><?php echo $item->hit; ?></b><small>hits</small></a>
 		</span>
 		<span class="title">
-			<a href="<?php echo $item->link; ?>"><?php echo $item->is_secret == true ? '<i class="mi mi-lock"></i>' : ''; ?><?php echo $item->title; ?></a>
+			<a href="<?php echo $item->link; ?>"><time datetime="<?php echo date('c',$item->reg_date); ?>" data-time="<?php echo $item->reg_date; ?>" data-moment="fromNow"></time><?php echo $item->is_secret == true ? '<i class="mi mi-lock"></i>' : ''; ?><?php echo $item->title; ?></a>
+			<time datetime="<?php echo date('c',$item->reg_date); ?>" data-time="<?php echo $item->reg_date; ?>" data-moment="fromNow"></time>
 			
 			<div class="details">
 				<?php for ($i=0, $loop=count($item->labels);$i<$loop;$i++) { ?>
