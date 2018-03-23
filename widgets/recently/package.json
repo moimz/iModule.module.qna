@@ -1,0 +1,64 @@
+{
+	"title":{
+		"ko":"게시판 최근게시물"
+	},
+	"version":"3.0.0",
+	"description":{
+		"ko":"게시판의 최근게시물을 가져옵니다."
+	},
+	"author":{
+		"name":"Arzz",
+		"email":"arzz@arzz.com"
+	},
+	"homepage":"https://www.imodule.kr",
+	"dependencies":{
+		"core":"3.0.0",
+		"coursemos":"3.0.0"
+	},
+	"language":"ko",
+	"configs":{
+		"bid":{
+			"title":{
+				"ko":"게시판 ID"
+			},
+			"type":"string",
+			"default":"",
+			"is_required":true,
+			"help":{
+				"ko":"최근게시물을 가져올 게시판 ID를 콤마(,)로 구분하여 입력하여 주십시오."
+			}
+		},
+		"title":{
+			"title":{
+				"ko":"제목"
+			},
+			"type":"string",
+			"default":"",
+			"is_required":true
+		},
+		"type":{
+			"title":{
+				"ko":"가져올 종류"
+			},
+			"type":"string",
+			"default":"",
+			"is_required":true
+		},
+		"count":{
+			"title":{
+				"ko":"가져올 게시물 갯수"
+			},
+			"type":"int",
+			"default":"5",
+			"is_required":true
+		},
+		"cache":{
+			"title":{
+				"ko":"캐시유지시간(초)"
+			},
+			"type":"int",
+			"default":300,
+			"is_required":false
+		}
+	}
+}
