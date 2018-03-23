@@ -21,9 +21,9 @@ div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > div[data-r
 div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button {width:40px; height:40px; background:#b5b7c0; border:0px; cursor:pointer; vertical-align:middle; margin-left:5px;}
 div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button > i {font-size:14px; color:#fff;}
 div[data-module=qna] div[data-role=toolbar] > div[data-role=search] > button:hover {background:#828595;}
-div[data-module=qna] div[data-role=toolbar] > a {display:inline-block; height:40px; line-height:40px; padding:0px; box-sizing:border-box; vertical-align:middle; margin-left:5px; text-decoration:none; cursor:pointer; background:#2196f3; color:#fff; font-size:14px;}
-div[data-module=qna] div[data-role=toolbar] > a > i {width:40px; height:40px; line-height:40px; vertical-align:middle; text-align:center;}
-div[data-module=qna] div[data-role=toolbar] > a > span {height:40px; line-height:40px; display:inline-block; vertical-align:middle; padding-right:15px;}
+div[data-module=qna] div[data-role=toolbar] > a {display:inline-block; height:40px; line-height:40px; padding:0px; box-sizing:border-box; vertical-align:middle; margin-left:5px; text-decoration:none; cursor:pointer; background:#2196f3; color:#fff; font-size:0;}
+div[data-module=qna] div[data-role=toolbar] > a > i {width:40px; height:40px; line-height:40px; vertical-align:middle; text-align:center; font-size:14px;}
+div[data-module=qna] div[data-role=toolbar] > a > span {height:40px; line-height:40px; display:inline-block; vertical-align:middle; padding-right:15px; font-size:14px;}
 div[data-module=qna] div[data-role=toolbar] > a:hover {background:#1e88e5;}
 
 div[data-module=qna] ul[data-role=table] > li > span.notice {width:60px;}
@@ -69,9 +69,9 @@ div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > div[data
 div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > button {width:40px; height:40px; background:#b5b7c0; border:0px; cursor:pointer; vertical-align:middle;}
 div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > button > i {font-size:14px; color:#fff;}
 div[data-module=qna] div[data-role=searchbar] > div[data-role=search] > button:hover {background:#828595;}
-div[data-module=qna] div[data-role=searchbar] > a {display:inline-block; height:40px; line-height:40px; padding:0px; box-sizing:border-box; vertical-align:middle; margin-left:5px; text-decoration:none; cursor:pointer; background:#2196f3; color:#fff; font-size:14px; float:right;}
-div[data-module=qna] div[data-role=searchbar] > a > i {width:40px; height:40px; line-height:40px; vertical-align:middle; text-align:center;}
-div[data-module=qna] div[data-role=searchbar] > a > span {height:40px; line-height:40px; display:inline-block; vertical-align:middle; padding-right:15px;}
+div[data-module=qna] div[data-role=searchbar] > a {display:inline-block; height:40px; line-height:40px; padding:0px; box-sizing:border-box; vertical-align:middle; margin-left:5px; text-decoration:none; cursor:pointer; background:#2196f3; color:#fff; font-size:0; float:right;}
+div[data-module=qna] div[data-role=searchbar] > a > i {width:40px; height:40px; line-height:40px; vertical-align:middle; text-align:center; font-size:14px;}
+div[data-module=qna] div[data-role=searchbar] > a > span {height:40px; line-height:40px; display:inline-block; vertical-align:middle; padding-right:15px; font-size:14px;}
 div[data-module=qna] div[data-role=searchbar] > a:hover {background:#1e88e5;}
 
 div[data-module=qna] div.pagination {margin-top:20px; text-align:center;}
