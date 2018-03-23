@@ -2,7 +2,7 @@
 /**
  * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodule.kr)
  *
- * 문의게시판의 최근질문을 가져온다.
+ * 문의게시판의 최근게시물을 가져온다.
  * 
  * @file /modules/qna/widgets/recently/index.php
  * @author Arzz (arzz@arzz.com)
