@@ -1392,7 +1392,7 @@ class ModuleQna {
 			
 			if ($is_link == true) {
 				$page = $this->IM->getContextUrl('qna',$post->qid,array(),array(),true);
-				$post->link = $page == null ? '#' : $this->IM->getUrl($page->menu,$page->page,'view',$post->idx);
+				$post->link = $page == null ? '#' : $this->IM->getUrl($page->menu,$page->page,'view',$post->parent > 0 ? $post->parent : $post->idx);
 			}
 			
 			$post->title = GetString($post->title,'replace');

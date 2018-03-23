@@ -1,10 +1,10 @@
 {
 	"title":{
-		"ko":"게시판 최근게시물"
+		"ko":"문의게시판 최근질문목록"
 	},
 	"version":"3.0.0",
 	"description":{
-		"ko":"게시판의 최근게시물을 가져옵니다."
+		"ko":"문의게시판의 최근질문목록을 가져옵니다."
 	},
 	"author":{
 		"name":"Arzz",
@@ -17,15 +17,15 @@
 	},
 	"language":"ko",
 	"configs":{
-		"bid":{
+		"qid":{
 			"title":{
-				"ko":"게시판 ID"
+				"ko":"문의게시판 ID"
 			},
 			"type":"string",
 			"default":"",
 			"is_required":true,
 			"help":{
-				"ko":"최근게시물을 가져올 게시판 ID를 콤마(,)로 구분하여 입력하여 주십시오."
+				"ko":"최근질문을 가져올 문의게시판 ID를 콤마(,)로 구분하여 입력하여 주십시오."
 			}
 		},
 		"title":{
@@ -41,7 +41,7 @@
 				"ko":"가져올 종류"
 			},
 			"type":"string",
-			"default":"",
+			"default":"question",
 			"is_required":true
 		},
 		"count":{
@@ -49,7 +49,7 @@
 				"ko":"가져올 게시물 갯수"
 			},
 			"type":"int",
-			"default":"5",
+			"default":5,
 			"is_required":true
 		},
 		"cache":{
