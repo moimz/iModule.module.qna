@@ -61,7 +61,7 @@ var Qna = {
 								collapsed:false,
 								title:Qna.getText("admin/list/form/designSetting"),
 								items:[
-									Admin.templetField(Qna.getText("admin/list/form/templet"),"templet","qna",false,ENV.getProcessUrl("qna","@getTempletConfigs"),["qid"]),
+									Admin.templetField(Qna.getText("admin/list/form/templet"),"templet","module","qna",false,ENV.getProcessUrl("qna","@getTempletConfigs"),["qid"]),
 									new Ext.form.FieldContainer({
 										layout:"hbox",
 										items:[
