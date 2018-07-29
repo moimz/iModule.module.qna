@@ -46,8 +46,7 @@ if ($Widget->checkCache() < time() - $cache) {
 
 if (count($qid) == 1) {
 	$options = count($label) == 1 ? array('label'=>$label[0]) : array();
-	$page = $IM->getContextUrl('qna',$qid[0],array(),$options,true);
-	$more = $page == null ? null : $IM->getUrl($page->menu,$page->page,false);
+	$more = $IM->getContextUrl('qna',$qid[0],array(),$options,true);
 } else {
 	$more = null;
 }
