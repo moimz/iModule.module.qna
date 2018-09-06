@@ -6,9 +6,9 @@
  *
  * @file /modules/qna/process/checkPermission.php
  * @author Arzz (arzz@arzz.com)
- * @license GPLv3
+ * @license MIT License
  * @version 3.0.0
- * @modified 2018. 2. 24.
+ * @modified 2018. 9. 6.
  */
 if (defined('__IM__') == false) exit;
 
