@@ -6,9 +6,9 @@
  *
  * @file /modules/qna/process/saveMent.php
  * @author Arzz (arzz@arzz.com)
- * @license GPLv3
+ * @license MIT License
  * @version 3.0.0
- * @modified 2018. 2. 17.
+ * @modified 2018. 9. 6.
  */
 if (defined('__IM__') == false) exit;
 
@@ -31,7 +31,7 @@ if ($post == null || $post->type == 'NOTICE') {
 $qna = $this->getQna($post->qid);
 $qid = $qna->qid;
 
-if ($this->checkPermission($qid,'question_write') == false) {
+if ($this->checkPermission($qid,'ment_write') == false) {
 	$results->success = false;
 	$results->error = $this->getErrorText('FORBIDDEN');
 	return;
@@ -57,13 +57,13 @@ if (count($errors) == 0) {
 		 * 댓글작성자와 수정한 사람이 다를 경우 알림메세지를 전송한다.
 		 */
 		if ($ment->midx != $this->IM->getModule('member')->getLogged()) {
-			$this->IM->getModule('push')->sendPush($ment->midx,$this->getModule()->getName(),'MENT',$idx,'MODIFY_MENT',array('from'=>$this->IM->getModule('member')->getLogged()));
+			$this->IM->getModule('push')->sendPush($ment->midx,$this->getModule()->getName(),'ment',$idx,'ment_modify',array('from'=>$this->IM->getModule('member')->getLogged()));
 		}
 		
 		/**
 		 * 활동내역을 기록한다.
 		 */
-		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),0,$this->getModule()->getName(),'MENT_MODIFY',array('idx'=>$idx));
+		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),0,$this->getModule()->getName(),'ment_modify',array('idx'=>$idx));
 	} else {
 		$insert['qid'] = $qid;
 		$insert['parent'] = $parent;
@@ -82,13 +82,13 @@ if (count($errors) == 0) {
 		/**
 		 * 게시물 작성자에게 알림메세지를 전송한다.
 		 */
-		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$parent,'NEW_MENT',array('idx'=>$idx));
+		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$parent,'new_ment',array('idx'=>$idx));
 		
 		/**
 		 * 포인트 및 활동내역을 기록한다.
 		 */
-		$this->IM->getModule('member')->sendPoint($this->IM->getModule('member')->getLogged(),$qna->ment_point,$this->getModule()->getName(),'MENT',array('idx'=>$idx));
-		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),$qna->ment_exp,$this->getModule()->getName(),'MENT',array('idx'=>$idx));
+		$this->IM->getModule('member')->sendPoint($this->IM->getModule('member')->getLogged(),$qna->ment_point,$this->getModule()->getName(),'ment',array('idx'=>$idx));
+		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),$qna->ment_exp,$this->getModule()->getName(),'ment',array('idx'=>$idx));
 	}
 	
 	$this->updatePost($parent);
