@@ -8,7 +8,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
- * @modified 2018. 2. 17.
+ * @modified 2018. 9. 5.
  */
 class ModuleQna {
 	/**
@@ -865,7 +865,7 @@ class ModuleQna {
 				$attachment_templet = '#';
 			}
 			
-			$uploader = $uploader->setTemplet($attachment_templet)->setModule('qna')->setWysiwyg('content');
+			$uploader = $uploader->setTemplet($attachment_templet)->setModule('qna')->setWysiwyg('content')->setDeleteMode('MANUAL');
 			if ($post != null) {
 				$uploader->setLoader($this->IM->getProcessUrl('qna','getFiles',array('idx'=>Encoder(json_encode(array('type'=>'POST','idx'=>$post->idx))))));
 			}
@@ -1161,7 +1161,7 @@ class ModuleQna {
 				$attachment_templet = '#';
 			}
 			
-			$uploader = $uploader->setTemplet($attachment_templet)->setModule('qna')->setWysiwyg('content');
+			$uploader = $uploader->setTemplet($attachment_templet)->setModule('qna')->setWysiwyg('content')->setDeleteMode('MANUAL');
 			if ($post != null) {
 				$uploader->setLoader($this->IM->getProcessUrl('qna','getFiles',array('idx'=>Encoder(json_encode(array('type'=>'POST','idx'=>$post->idx))))));
 			}

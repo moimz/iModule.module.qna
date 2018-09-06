@@ -6,9 +6,9 @@
  *
  * @file /modules/qna/process/saveAnswer.php
  * @author Arzz (arzz@arzz.com)
- * @license GPLv3
+ * @license MIT License
  * @version 3.0.0
- * @modified 2018. 2. 17.
+ * @modified 2018. 9. 5.
  */
 if (defined('__IM__') == false) exit;
 
@@ -87,8 +87,13 @@ if (count($errors) == 0) {
 		 * 글작성자와 수정한 사람이 다를 경우 알림메세지를 전송한다.
 		 */
 		if ($post->midx != $this->IM->getModule('member')->getLogged()) {
-			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'ANSWER',$idx,'MODIFY',array('from'=>$this->IM->getModule('member')->getLogged()));
+			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$idx,'modify',array('from'=>$this->IM->getModule('member')->getLogged()));
 		}
+		
+		/**
+		 * 활동내역을 기록한다.
+		 */
+		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),0,$this->getModule()->getName(),'answer_modify',array('idx'=>$idx));
 	} else {
 		$insert['midx'] = $this->IM->getModule('member')->getLogged();
 		$insert['ip'] = $_SERVER['REMOTE_ADDR'];
@@ -105,13 +110,13 @@ if (count($errors) == 0) {
 		/**
 		 * 질문자에게 알림메세지를 전송한다.
 		 */
-		$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),'QUESTION',$parent,'NEW_ANSWER',array('idx'=>$idx));
+		$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),'question',$parent,'new_answer',array('idx'=>$idx));
 		
 		/**
 		 * 포인트 및 활동내역을 기록한다.
 		 */
-		$this->IM->getModule('member')->sendPoint($this->IM->getModule('member')->getLogged(),$qna->answer_point,$this->getModule()->getName(),'ANSWER',array('idx'=>$idx));
-		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),$qna->answer_exp,$this->getModule()->getName(),'ANSWER',array('idx'=>$idx));
+		$this->IM->getModule('member')->sendPoint($this->IM->getModule('member')->getLogged(),$qna->answer_point,$this->getModule()->getName(),'answer',array('idx'=>$idx));
+		$this->IM->getModule('member')->addActivity($this->IM->getModule('member')->getLogged(),$qna->answer_exp,$this->getModule()->getName(),'answer',array('idx'=>$idx));
 	}
 	
 	$mAttachment = $this->IM->getModule('attachment');
@@ -122,6 +127,13 @@ if (count($errors) == 0) {
 			$this->db()->replace($this->table->attachment,array('idx'=>$file->idx,'qid'=>$qid,'type'=>'POST','parent'=>$idx))->execute();
 		}
 		$mAttachment->filePublish($attachments[$i]);
+	}
+	
+	$deleteds = $this->db()->select($this->table->attachment)->where('qid',$qid)->where('type','POST')->where('parent',$idx);
+	if (count($attachments) > 0) $deleteds->where('idx',$attachments,'NOT IN');
+	$deleteds = $deleteds->get('idx');
+	foreach ($deleteds as $deleted) {
+		$mAttachment->fileDelete($deleted);
 	}
 	
 	$this->updatePost($parent);
