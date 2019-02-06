@@ -1,6 +1,6 @@
 <?php
 /**
- * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodule.kr)
+ * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodules.io)
  *
  * 문의게시판 기본 템플릿 - 답변 작성
  * 

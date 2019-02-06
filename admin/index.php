@@ -1,14 +1,14 @@
 <?php
 /**
- * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodule.kr)
+ * 이 파일은 iModule 문의게시판모듈의 일부입니다. (https://www.imodules.io)
  *
  * 문의게시판모듈 관리자패널을 구성한다.
  * 
  * @file /modules/qna/admin/index.php
  * @author Arzz (arzz@arzz.com)
- * @license MIT License
+ * @license GPLv3
  * @version 3.0.0
- * @modified 2018. 2. 17.
+ * @modified 2019. 2. 6.
  */
 if (defined('__IM__') == false) exit;
 ?>
@@ -55,9 +55,9 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 						load:function(store,records,success,e) {
 							if (success == false) {
 								if (e.getError()) {
-									Ext.Msg.show({title:Admin.getText("alert/error"),msg:e.getError(),buttons:Ext.Msg.OK,icon:Ext.Msg.ERROR})
+									Ext.Msg.show({title:Admin.getText("alert/error"),msg:e.getError(),buttons:Ext.Msg.OK,icon:Ext.Msg.ERROR});
 								} else {
-									Ext.Msg.show({title:Admin.getText("alert/error"),msg:Admin.getText("error/load"),buttons:Ext.Msg.OK,icon:Ext.Msg.ERROR})
+									Ext.Msg.show({title:Admin.getText("alert/error"),msg:Admin.getText("error/load"),buttons:Ext.Msg.OK,icon:Ext.Msg.ERROR});
 								}
 							}
 						}

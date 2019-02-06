@@ -12,24 +12,15 @@
 		"name":"Arzz",
 		"email":"arzz@arzz.com"
 	},
-	"homepage":"https://www.imodule.kr",
-	"versionChecker":"http://www.moimz.com/ko/api/moimz/getLatest",
+	"homepage":"https://www.imodules.io",
+	"versionChecker":"https://api.moimz.com/download/latest",
 	"dependencies":{
-		"core":"3.0.0",
-		"attachment":"3.0.0",
-		"push":"3.0.0",
-		"wysiwyg":"3.0.0",
-		"email":"3.0.0",
-		"member":"3.0.0",
-		"keyword":"3.0.0"
+		"core":"3.0.0"
 	},
 	"language":"ko",
 	"admin":true,
 	"context":true,
-	"global":false,
-	"article":true,
 	"widget":true,
-	"include":true,
 	"databases":{
 		"qna_attachment_table":{
 			"columns":{
