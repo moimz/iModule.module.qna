@@ -8,7 +8,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
- * @modified 2018. 9. 5.
+ * @modified 2019. 2. 23.
  */
 if (defined('__IM__') == false) exit;
 
@@ -184,10 +184,5 @@ if (count($errors) == 0) {
 } else {
 	$results->success = false;
 	$results->errors = $errors;
-}
-
-$templet = Request('templet');
-if (is_file($this->getTemplet($templet)->getPath().'/process/saveQuestion.php') == true) {
-	INCLUDE $this->getTemplet($templet)->getPath().'/process/saveQuestion.php';
 }
 ?>
