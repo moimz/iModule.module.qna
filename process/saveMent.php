@@ -82,7 +82,9 @@ if (count($errors) == 0) {
 		/**
 		 * 게시물 작성자에게 알림메세지를 전송한다.
 		 */
-		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$parent,'new_ment',array('idx'=>$idx));
+		if ($post->midx != $this->IM->getModule('member')->getLogged()) {
+			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_ment',array('idx'=>$idx));
+		}
 		
 		/**
 		 * 포인트 및 활동내역을 기록한다.
