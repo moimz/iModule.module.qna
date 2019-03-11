@@ -551,6 +551,7 @@ class ModuleQna {
 		
 		$_SESSION['IM_QNA_LIST_TYPE'] = $listType;
 		
+		$p = is_numeric($p) == true && $p > 0 ? $p : 1;
 		$limit = $qna->post_limit;
 		$start = ($p - 1) * $limit;
 		
