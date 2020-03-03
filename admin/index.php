@@ -8,7 +8,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license GPLv3
  * @version 3.0.0
- * @modified 2019. 2. 6.
+ * @modified 2020. 3. 3.
  */
 if (defined('__IM__') == false) exit;
 ?>
@@ -25,14 +25,14 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 				border:false,
 				tbar:[
 					new Ext.Button({
-						text:Qna.getText("admin/list/addQna"),
-						iconCls:"fa fa-plus",
+						text:Qna.getText("admin/list/add_qna"),
+						iconCls:"mi mi-plus",
 						handler:function() {
 							Qna.list.add();
 						}
 					}),
 					new Ext.Button({
-						text:"선택 게시판 삭제",
+						text:Qna.getText("admin/list/delete_board"),
 						iconCls:"mi mi-trash",
 						handler:function() {
 							Qna.list.delete();
@@ -75,10 +75,10 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 					sortable:true,
 					dataIndex:"title"
 				},{
-					text:Qna.getText("admin/list/columns/category"),
+					text:Qna.getText("admin/list/columns/label"),
 					width:80,
 					align:"right",
-					dataIndex:"category",
+					dataIndex:"label",
 					renderer:function(value,p) {
 						if (value == 0) {
 							p.style = "text-align:center;";
@@ -87,10 +87,10 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 						return Ext.util.Format.number(value,"0,000");
 					}
 				},{
-					text:Qna.getText("admin/list/columns/post"),
+					text:Qna.getText("admin/list/columns/question"),
 					width:80,
 					align:"right",
-					dataIndex:"post",
+					dataIndex:"question",
 					sortable:true,
 					renderer:function(value,p) {
 						if (value == 0) {
@@ -100,10 +100,32 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 						return Ext.util.Format.number(value,"0,000");
 					}
 				},{
-					text:Qna.getText("admin/list/columns/latest_post"),
+					text:Qna.getText("admin/list/columns/latest_question"),
 					width:130,
 					align:"center",
-					dataIndex:"latest_post",
+					dataIndex:"latest_question",
+					sortable:true,
+					renderer:function(value) {
+						return value > 0 ? moment(value * 1000).format("YYYY-MM-DD HH:mm") : "-";
+					}
+				},{
+					text:Qna.getText("admin/list/columns/answer"),
+					width:80,
+					align:"right",
+					dataIndex:"answer",
+					sortable:true,
+					renderer:function(value,p) {
+						if (value == 0) {
+							p.style = "text-align:center;";
+							return "-";
+						}
+						return Ext.util.Format.number(value,"0,000");
+					}
+				},{
+					text:Qna.getText("admin/list/columns/latest_answer"),
+					width:130,
+					align:"center",
+					dataIndex:"latest_answer",
 					sortable:true,
 					renderer:function(value) {
 						return value > 0 ? moment(value * 1000).format("YYYY-MM-DD HH:mm") : "-";

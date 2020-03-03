@@ -8,7 +8,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
- * @modified 2018. 9. 6.
+ * @modified 2020. 3. 3.
  */
 if (defined('__IM__') == false) exit;
 
@@ -37,6 +37,12 @@ if ($data == null) {
 	
 	$data->allow_secret = $data->allow_secret == 'TRUE';
 	$data->allow_anonymity = $data->allow_anonymity == 'TRUE';
+	
+	$data->use_label = $data->use_label != 'NONE';
+	if ($data->use_label == true) {
+		$label = $this->db()->select($this->table->label,'idx,title,question')->where('qid',$qid)->orderBy('title','asc')->get();
+		$data->label = json_encode($label,JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+	}
 	
 	$results->success = true;
 	$results->data = $data;

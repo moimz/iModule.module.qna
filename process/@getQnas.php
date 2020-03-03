@@ -8,7 +8,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
- * @modified 2018. 9. 6.
+ * @modified 2020. 3. 3.
  */
 if (defined('__IM__') == false) exit;
 
@@ -22,10 +22,11 @@ if ($limit > 0) $lists->limit($start,$limit);
 $lists = $lists->orderBy($sort,$dir)->get();
 
 for ($i=0, $loop=count($lists);$i<$loop;$i++) {
-//	$files = $this->db()->select($this->table->attachment)->where('qid',$lists[$i]->qid)->get('idx');
+	$files = $this->db()->select($this->table->attachment)->where('qid',$lists[$i]->qid)->get('idx');
 	
-//	$lists[$i]->file = count($files);
-//	$lists[$i]->file_size = $this->IM->getModule('attachment')->getTotalFileSize($files);
+	$lists[$i]->label = $this->db()->select($this->table->label)->where('qid',$lists[$i]->qid)->count();
+	$lists[$i]->file = count($files);
+	$lists[$i]->file_size = $this->IM->getModule('attachment')->getTotalFileSize($files);
 }
 
 $results->success = true;

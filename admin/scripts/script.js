@@ -7,7 +7,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
- * @modified 2018. 2. 17.
+ * @modified 2020. 3. 3.
  */
 var Qna = {
 	/**
@@ -59,7 +59,7 @@ var Qna = {
 							new Ext.form.FieldSet({
 								collapsible:true,
 								collapsed:false,
-								title:Qna.getText("admin/list/form/designSetting"),
+								title:Qna.getText("admin/list/form/design_setting"),
 								items:[
 									Admin.templetField(Qna.getText("admin/list/form/templet"),"templet","module","qna",false,ENV.getProcessUrl("qna","@getTempletConfigs"),["qid"]),
 									new Ext.form.FieldContainer({
@@ -121,7 +121,7 @@ var Qna = {
 								checkboxToggle:true,
 								collapsed:false,
 								items:[
-									Admin.templetField(Qna.getText("admin/list/form/attachment_templet"),"attachment","attachment",Qna.getText("admin/list/form/attachment_templet_default"),ENV.getProcessUrl("qna","@getTempletConfigs"),["qid"]),
+									Admin.templetField(Qna.getText("admin/list/form/attachment_templet"),"attachment","module","attachment",Qna.getText("admin/list/form/attachment_templet_default"),ENV.getProcessUrl("qna","@getTempletConfigs"),["qid"]),
 								]
 							}),
 							new Ext.form.FieldSet({
@@ -181,6 +181,103 @@ var Qna = {
 												if (form.findField("view_notice_page").getValue() == "ALL" && form.findField("view_notice_count").getValue() == "INCLUDE") {
 													Ext.Msg.show({title:Admin.getText("alert/info"),msg:Qna.getText("admin/list/notice_type/help"),buttons:Ext.Msg.OK,icon:Ext.Msg.INFO});
 												}
+											}
+										}
+									})
+								]
+							}),
+							new Ext.form.Hidden({
+								name:"label"
+							}),
+							new Ext.form.FieldSet({
+								title:Qna.getText("admin/list/form/label_setting"),
+								checkboxName:"use_label",
+								checkboxToggle:true,
+								collapsed:true,
+								items:[
+									new Ext.grid.Panel({
+										id:"ModuleQnaLabelList",
+										border:true,
+										tbar:[
+											new Ext.Button({
+												iconCls:"mi mi-plus",
+												text:"라벨추가",
+												handler:function() {
+													Qna.label.add();
+												}
+											}),
+											new Ext.Button({
+												iconCls:"mi mi-trash",
+												text:"선택 라벨 삭제",
+												handler:function() {
+													Qna.label.delete();
+												}
+											})
+										],
+										store:new Ext.data.ArrayStore({
+											fields:["idx","title","question"],
+											sorters:[{property:"title",direction:"ASC"}],
+											data:[]
+										}),
+										flex:1,
+										height:300,
+										columns:[{
+											text:"라벨명",
+											dataIndex:"title",
+											flex:1
+										},{
+											text:"게시물수",
+											dataIndex:"question",
+											width:100,
+											align:"right",
+											renderer:function(value) {
+												return Ext.util.Format.number(value,"0,000")+"개";
+											}
+										}],
+										bbar:[
+											new Ext.Button({
+												iconCls:"fa fa-caret-up",
+												handler:function() {
+													Admin.gridSort(Ext.getCmp("ModuleQnaLabelList"),"sort","up");
+												}
+											}),
+											new Ext.Button({
+												iconCls:"fa fa-caret-down",
+												handler:function() {
+													Admin.gridSort(Ext.getCmp("ModuleQnaLabelList"),"sort","down");
+												}
+											}),
+											"->",
+											{xtype:"tbtext",text:"더블클릭 : 라벨수정 / 마우스우클릭 : 상세메뉴"}
+										],
+										selModel:new Ext.selection.CheckboxModel(),
+										listeners:{
+											itemdblclick:function(grid,record,td,index) {
+												Qna.label.add(index);
+											},
+											itemcontextmenu:function(grid,record,item,index,e) {
+												var menu = new Ext.menu.Menu();
+												
+												menu.addTitle(record.data.title);
+												
+												menu.add({
+													iconCls:"xi xi-form",
+													text:"라벨 수정",
+													handler:function() {
+														Qna.label.add(index);
+													}
+												});
+												
+												menu.add({
+													iconCls:"mi mi-trash",
+													text:"라벨 삭제",
+													handler:function() {
+														Qna.label.delete();
+													}
+												});
+												
+												e.stopEvent();
+												menu.showAt(e.getXY());
 											}
 										}
 									})
@@ -350,10 +447,10 @@ var Qna = {
 								waitTitle:Admin.getText("action/wait"),
 								waitMsg:Admin.getText("action/loading"),
 								success:function(form,action) {
-									if (form.findField("use_category").checked == true) {
-										var category = JSON.parse(form.findField("category").getValue());
-										for (var i=0, loop=category.length;i<loop;i++) {
-											Ext.getCmp("ModuleQnaCategoryList").getStore().add(category[i]);
+									if (form.findField("use_label").checked == true) {
+										var label = JSON.parse(form.findField("label").getValue());
+										for (var i=0, loop=label.length;i<loop;i++) {
+											Ext.getCmp("ModuleQnaLabelList").getStore().add(label[i]);
 										}
 									}
 								},
@@ -370,6 +467,86 @@ var Qna = {
 					}
 				}
 			}).show();
+		}
+	},
+	/**
+	 * 라벨 관리
+	 *
+	 * @param object data 라벨 데이터
+	 */
+	label:{
+		add:function(index) {
+			var data = index !== undefined ? Ext.getCmp("ModuleQnaLabelList").getStore().getAt(index).data : null;
+			
+			new Ext.Window({
+				id:"ModuleQnaAddLabelWindow",
+				title:(data == null ? "라벨추가" : "라벨수정"),
+				modal:true,
+				width:400,
+				border:false,
+				autoScroll:true,
+				items:[
+					new Ext.form.Panel({
+						id:"ModuleQnaAddLabelForm",
+						border:false,
+						bodyPadding:"10 10 0 10",
+						fieldDefaults:{labelAlign:"right",labelWidth:100,anchor:"100%",allowBlank:false},
+						items:[
+							new Ext.form.TextField({
+								name:"title",
+								emptyText:"라벨명",
+								allowBlank:false,
+								value:(data ? data.title : null),
+								validator:function(value) {
+									var check = Ext.getCmp("ModuleQnaLabelList").getStore().findExact("title",value);
+									if (check == -1 || check == index) return true;
+									else return "라벨명이 중복됩니다.";
+								}
+							})
+						]
+					})
+				],
+				buttons:[
+					new Ext.Button({
+						text:"확인",
+						handler:function() {
+							var form = Ext.getCmp("ModuleQnaAddLabelForm").getForm();
+							var list = Ext.getCmp("ModuleQnaLabelList");
+							
+							if (form.isValid() == true) {
+								var title = form.findField("title").getValue();
+								
+								if (index === undefined) {
+									var idx = 0;
+									var question = 0;
+									list.getStore().add({idx:0,title:title,question:question});
+								} else {
+									list.getStore().getAt(index).set({title:title});
+								}
+								
+								Ext.getCmp("ModuleQnaAddLabelWindow").close();
+							}
+						}
+					})
+				]
+			}).show();
+		},
+		delete:function() {
+			var selected = Ext.getCmp("ModuleQnaLabelList").getSelectionModel().getSelection();
+			if (selected.length == 0) {
+				Ext.Msg.show({title:Admin.getText("alert/error"),msg:"삭제할 라벨를 선택하여 주십시오.",buttons:Ext.Msg.OK,icon:Ext.Msg.ERROR});
+				return;
+			}
+			
+			Ext.Msg.show({title:Admin.getText("alert/info"),msg:"선택하신 라벨를 삭제하시겠습니까?<br>삭제되는 라벨의 게시물이 기본 라벨로 이동됩니다.",buttons:Ext.Msg.OKCANCEL,icon:Ext.Msg.QUESTION,fn:function(button) {
+				if (button == "ok") {
+					var store = Ext.getCmp("ModuleQnaLabelList").getStore();
+					store.remove(selected);
+					for (var i=0, loop=store.getCount();i<loop;i++) {
+						store.getAt(i).set({sort:i});
+					}
+				}
+			}});
 		}
 	}
 };

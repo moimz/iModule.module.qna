@@ -8,7 +8,7 @@
  * @author Arzz (arzz@arzz.com)
  * @license MIT License
  * @version 3.0.0
- * @modified 2018. 9. 6.
+ * @modified 2020. 3. 3.
  */
 if (defined('__IM__') == false) exit;
 
@@ -27,6 +27,15 @@ $insert['allow_anonymity'] = Request('allow_anonymity') ? 'TRUE' : 'FALSE';
 
 $insert['view_notice_page'] = Request('view_notice_page') && in_array(Request('view_notice_page'),array('FIRST','ALL')) == true ? Request('view_notice_page') : $errors['view_notice_page'] = $this->getErrorText('REQUIRED');
 $insert['view_notice_count'] = Request('view_notice_count') && in_array(Request('view_notice_count'),array('INCLUDE','EXCLUDE')) == true ? Request('view_notice_count') : $errors['view_notice_count'] = $this->getErrorText('REQUIRED');
+
+$use_label = Request('use_label') == 'on';
+if ($use_label == true) {
+	$insert['use_label'] = 'USED';
+	$label = json_decode(Request('label'));
+} else {
+	$insert['use_label'] = 'NONE';
+	$label = array();
+}
 
 $insert['question_point'] = Request('question_point') && is_numeric(Request('question_point')) == true ? Request('question_point') : $errors['question_point'] = $this->getErrorText('REQUIRED');
 $insert['question_exp'] = Request('question_exp') && is_numeric(Request('question_exp')) == true ? Request('question_exp') : $errors['question_exp'] = $this->getErrorText('REQUIRED');
@@ -80,6 +89,27 @@ if (count($errors) == 0) {
 	} else {
 		$qid = Request('qid');
 		$this->db()->update($this->table->qna,$insert)->where('qid',$qid)->execute();
+	}
+	
+	if ($use_label == true) {
+		$labels = array();
+		for ($i=0, $loop=count($label);$i<$loop;$i++) {
+			if ($label[$i]->idx == 0) {
+				$labels[] = $this->db()->insert($this->table->label,array('qid'=>$qid,'title'=>$label[$i]->title))->execute();
+			} else {
+				$labels[] = $label[$i]->idx;
+				$this->db()->update($this->table->label,array('title'=>$label[$i]->title))->where('idx',$label[$i]->idx)->execute();
+			}
+		}
+		
+		$this->db()->delete($this->table->label)->where('qid',$qid)->where('idx',$labels,'NOT IN')->execute();
+		$this->db()->delete($this->table->post_label)->where('label',$labels,'NOT IN')->execute();
+	} else {
+		$labels = $this->db()->select($this->table->label)->where('qid',$qid)->get('idx');
+		if (count($labels) > 0) {
+			$this->db()->delete($this->table->label)->where('qid',$qid)->execute();
+			$this->db()->delete($this->table->post_label)->where('label',$labels,'IN')->execute();
+		}
 	}
 	
 	$results->success = true;
