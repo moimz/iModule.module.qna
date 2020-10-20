@@ -33,6 +33,7 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 		items:[
 			new Ext.grid.Panel({
 				id:"ModuleQnaList",
+				iconCls:"fa fa-file-text-o",
 				title:Qna.getText("admin/list/title"),
 				border:false,
 				tbar:[
