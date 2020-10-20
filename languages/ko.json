@@ -48,10 +48,10 @@
 		"list":{
 			"title":"문의게시판관리",
 			"add_qna":"문의게시판추가",
-			"delete_board":"선택 게시판 삭제",
+			"delete_board":"선택 문의게시판 삭제",
 			"columns":{
 				"qid":"문의게시판 ID",
-				"title":"게시판명",
+				"title":"문의게시판명",
 				"templet":"템플릿",
 				"contextnum":"사용된메뉴",
 				"label":"라벨",
@@ -77,7 +77,7 @@
 				"attachment_setting":"첨부파일 업로드 사용",
 				"attachment_templet":"첨부파일 템플릿",
 				"attachment_templet_default":"첨부파일모듈 기본설정사용",
-				"option":"게시판 옵션",
+				"option":"문의게시판 옵션",
 				"allow_secret":"비밀글 기능을 활성화합니다.",
 				"allow_anonymity":"게시물 또는 댓글을 익명으로 등록할 수 있도록 합니다.",
 				"notice_setting":"공지사항 설정",
@@ -121,17 +121,24 @@
 				"help":"현재 공지사항 출력 설정사용시 공지사항 게시물의 갯수가 페이지당 게시물 갯수를 초과할 경우 전체 게시물을 확인할 수 없습니다."
 			},
 			"window":{
-				"add":"게시판추가",
-				"modify":"게시판수정"
+				"add":"문의게시판추가",
+				"modify":"문의게시판수정"
 			}
 		},
 		"configs":{
 			"form":{
-				"default_setting":"게시판 기본설정"
+				"default_setting":"게시판 기본설정",
+				"point_setting":"기본 포인트/경험치 설정",
+				"point":"포인트",
+				"exp":"경험치",
+				"question_write":"질문작성",
+				"answer_write":"답변작성",
+				"ment_write":"댓글작성",
+				"vote":"추천하기"
 			}
 		},
 		"error":{
-			"duplicatedBoardId":"게시판 ID가 중복됩니다."
+			"duplicatedBoardId":"문의게시판 ID가 중복됩니다."
 		}
 	}
 }

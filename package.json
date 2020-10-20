@@ -21,6 +21,40 @@
 	"admin":true,
 	"context":true,
 	"widget":true,
+	"configs":{
+		"question_point":{
+			"type":"int",
+			"default":30
+		},
+		"question_exp":{
+			"type":"int",
+			"default":10
+		},
+		"answer_point":{
+			"type":"int",
+			"default":30
+		},
+		"answer_exp":{
+			"type":"int",
+			"default":10
+		},
+		"ment_point":{
+			"type":"int",
+			"default":10
+		},
+		"ment_exp":{
+			"type":"int",
+			"default":5
+		},
+		"vote_point":{
+			"type":"int",
+			"default":5
+		},
+		"vote_exp":{
+			"type":"int",
+			"default":1
+		}
+	},
 	"databases":{
 		"qna_attachment_table":{
 			"columns":{

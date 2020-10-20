@@ -11,6 +11,16 @@
  * @modified 2020. 3. 3.
  */
 if (defined('__IM__') == false) exit;
+
+$basePoints = array();
+$baseExps = array();
+foreach ($this->getModule()->getConfig() as $key=>$value) {
+	if (preg_match('/_point$/',$key) == true) {
+		$basePoints[$key] = $value;
+	} elseif (preg_match('/_exp$/',$key) == true) {
+		$baseExps[$key] = $value;
+	}
+}
 ?>
 <script>
 Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
@@ -18,6 +28,8 @@ Ext.onReady(function () { Ext.getCmp("iModuleAdminPanel").add(
 		id:"ModuleQna",
 		border:false,
 		tabPosition:"bottom",
+		basePoints:<?php echo json_encode($basePoints); ?>,
+		baseExps:<?php echo json_encode($baseExps); ?>,
 		items:[
 			new Ext.grid.Panel({
 				id:"ModuleQnaList",

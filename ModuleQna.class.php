@@ -179,6 +179,26 @@ class ModuleQna {
 	}
 	
 	/**
+	 * [사이트관리자] 모듈 설정패널을 구성한다.
+	 *
+	 * @return string $panel 설정패널 HTML
+	 */
+	function getConfigPanel() {
+		/**
+		 * 설정패널 PHP에서 iModule 코어클래스와 모듈코어클래스에 접근하기 위한 변수 선언
+		 */
+		$IM = $this->IM;
+		$Module = $this->getModule();
+		
+		ob_start();
+		INCLUDE $this->getModule()->getPath().'/admin/configs.php';
+		$panel = ob_get_contents();
+		ob_end_clean();
+		
+		return $panel;
+	}
+	
+	/**
 	 * [사이트관리자] 모듈 관리자패널 구성한다.
 	 *
 	 * @return string $panel 관리자패널 HTML

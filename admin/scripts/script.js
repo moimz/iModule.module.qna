@@ -335,13 +335,13 @@ var Qna = {
 										items:[
 											new Ext.form.NumberField({
 												name:"question_point",
-												value:30,
+												value:Ext.getCmp("ModuleQna").basePoints.question_point,
 												flex:1
 											}),
 											new Ext.form.NumberField({
 												name:"question_exp",
 												margin:"0 0 0 5",
-												value:10,
+												value:Ext.getCmp("ModuleQna").baseExps.question_exp,
 												flex:1
 											})
 										]
@@ -352,13 +352,13 @@ var Qna = {
 										items:[
 											new Ext.form.NumberField({
 												name:"answer_point",
-												value:30,
+												value:Ext.getCmp("ModuleQna").basePoints.answer_point,
 												flex:1
 											}),
 											new Ext.form.NumberField({
 												name:"answer_exp",
 												margin:"0 0 0 5",
-												value:10,
+												value:Ext.getCmp("ModuleQna").baseExps.answer_exp,
 												flex:1
 											})
 										]
@@ -369,13 +369,13 @@ var Qna = {
 										items:[
 											new Ext.form.NumberField({
 												name:"ment_point",
-												value:10,
+												value:Ext.getCmp("ModuleQna").basePoints.ment_point,
 												flex:1
 											}),
 											new Ext.form.NumberField({
 												name:"ment_exp",
 												margin:"0 0 0 5",
-												value:5,
+												value:Ext.getCmp("ModuleQna").baseExps.ment_exp,
 												flex:1
 											})
 										]
@@ -386,13 +386,13 @@ var Qna = {
 										items:[
 											new Ext.form.NumberField({
 												name:"vote_point",
-												value:5,
+												value:Ext.getCmp("ModuleQna").basePoints.vote_point,
 												flex:1
 											}),
 											new Ext.form.NumberField({
 												name:"vote_exp",
 												margin:"0 0 0 5",
-												value:1,
+												value:Ext.getCmp("ModuleQna").baseExps.vote_exp,
 												flex:1
 											})
 										]
