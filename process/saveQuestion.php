@@ -36,6 +36,14 @@ $is_notice = $this->checkPermission($qid,'notice') == true && Request('is_notice
 $is_secret = $qna->allow_secret == true && Request('is_secret') == 'TRUE' ? 'TRUE' : 'FALSE';
 $is_anonymity = $qna->allow_anonymity == true && Request('is_anonymity') == 'TRUE' ? 'TRUE' : 'FALSE';
 
+$field1 = Request('field1');
+$field2 = Request('field2');
+$field3 = Request('field3');
+$field4 = Request('field4') == null || is_numeric(Request('field4')) == false ? null : Request('field4');
+$field5 = Request('field5') == null || is_numeric(Request('field5')) == false ? null : Request('field5');
+$field6 = Request('field6') == null || is_numeric(Request('field6')) == false ? null : Request('field6');
+$extra = Request('extra') ? Request('extra') : null;
+
 if ($is_notice == true) {
 	$labels = array();
 } else {
@@ -104,6 +112,14 @@ if (count($errors) == 0) {
 	$insert['search'] = $search;
 	$insert['is_secret'] = $is_secret;
 	$insert['is_anonymity'] = $is_anonymity;
+	
+	if ($field1 !== null) $insert['field1'] = $field1;
+	if ($field2 !== null) $insert['field2'] = $field2;
+	if ($field3 !== null) $insert['field3'] = $field3;
+	if ($field4 !== null) $insert['field4'] = $field4;
+	if ($field5 !== null) $insert['field5'] = $field5;
+	if ($field6 !== null) $insert['field6'] = $field6;
+	if ($extra) $insert['extra'] = $extra;
 	
 	if ($idx) {
 		$this->db()->update($this->table->post,$insert)->where('idx',$idx)->execute();

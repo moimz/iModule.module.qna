@@ -336,6 +336,42 @@
 					"type":"text",
 					"comment":"검색필드"
 				},
+				"field1":{
+					"type":"varchar",
+					"length":255,
+					"is_null":true,
+					"comment":"추가필드1"
+				},
+				"field2":{
+					"type":"varchar",
+					"length":255,
+					"is_null":true,
+					"comment":"추가필드2"
+				},
+				"field3":{
+					"type":"varchar",
+					"length":255,
+					"is_null":true,
+					"comment":"추가필드3"
+				},
+				"field4":{
+					"type":"int",
+					"length":11,
+					"default":0,
+					"comment":"추가필드4(숫자)"
+				},
+				"field5":{
+					"type":"int",
+					"length":11,
+					"default":0,
+					"comment":"추가필드5(숫자)"
+				},
+				"field6":{
+					"type":"int",
+					"length":11,
+					"default":0,
+					"comment":"추가필드6(숫자)"
+				},
 				"reg_date":{
 					"type":"int",
 					"length":11,
@@ -406,6 +442,11 @@
 					"length":"'TRUE','FALSE','CLOSED'",
 					"default":"FALSE",
 					"comment":"답변채택여부"
+				},
+				"extra":{
+					"type":"text",
+					"is_null":true,
+					"comment":"게시물추가정보"
 				}
 			},
 			"indexes":{
