@@ -46,13 +46,11 @@ new Ext.form.Panel({
 					items:[
 						new Ext.form.NumberField({
 							name:"question_point",
-							value:30,
 							flex:1
 						}),
 						new Ext.form.NumberField({
 							name:"question_exp",
 							margin:"0 0 0 5",
-							value:10,
 							flex:1
 						})
 					]
@@ -63,13 +61,11 @@ new Ext.form.Panel({
 					items:[
 						new Ext.form.NumberField({
 							name:"answer_point",
-							value:30,
 							flex:1
 						}),
 						new Ext.form.NumberField({
 							name:"answer_exp",
 							margin:"0 0 0 5",
-							value:10,
 							flex:1
 						})
 					]
@@ -80,13 +76,11 @@ new Ext.form.Panel({
 					items:[
 						new Ext.form.NumberField({
 							name:"ment_point",
-							value:10,
 							flex:1
 						}),
 						new Ext.form.NumberField({
 							name:"ment_exp",
 							margin:"0 0 0 5",
-							value:5,
 							flex:1
 						})
 					]
@@ -97,13 +91,11 @@ new Ext.form.Panel({
 					items:[
 						new Ext.form.NumberField({
 							name:"vote_point",
-							value:5,
 							flex:1
 						}),
 						new Ext.form.NumberField({
 							name:"vote_exp",
 							margin:"0 0 0 5",
-							value:1,
 							flex:1
 						})
 					]
