@@ -102,8 +102,10 @@ if (count($errors) == 0) {
 			}
 		}
 		
-		$this->db()->delete($this->table->label)->where('qid',$qid)->where('idx',$labels,'NOT IN')->execute();
-		$this->db()->delete($this->table->post_label)->where('label',$labels,'NOT IN')->execute();
+		if (count($labels) > 0) {
+			$this->db()->delete($this->table->label)->where('qid',$qid)->where('idx',$labels,'NOT IN')->execute();
+			$this->db()->delete($this->table->post_label)->where('label',$labels,'NOT IN')->execute();
+		}
 	} else {
 		$labels = $this->db()->select($this->table->label)->where('qid',$qid)->get('idx');
 		if (count($labels) > 0) {
