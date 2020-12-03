@@ -406,6 +406,8 @@ var Qna = {
 					new Ext.Button({
 						text:Qna.getText("button/confirm"),
 						handler:function() {
+							Ext.getCmp("ModuleQnaAddQnaForm").getForm().findField("label").setValue(JSON.stringify(Admin.grid(Ext.getCmp("ModuleQnaLabelList"),["idx","title"])));
+							
 							Ext.getCmp("ModuleQnaAddQnaForm").getForm().submit({
 								url:ENV.getProcessUrl("qna","@saveQna"),
 								submitEmptyText:false,
