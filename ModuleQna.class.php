@@ -1759,5 +1759,145 @@ class ModuleQna {
 			return json_encode($data);
 		}
 	}
+	
+	/**
+	 * 알림모듈과 동기화한다.
+	 *
+	 * @param string $action 동기화작업
+	 * @param any[] $data 정보
+	 */
+	function syncPush($action,$data) {
+		if ($action == 'message') {
+			$code = $data->code;
+			$contents = $data->contents;
+			$message = null;
+
+			switch ($code) {
+				case 'new_answer' :
+					$content = array_shift($contents);
+					$count = count($contents);
+
+					$message = new stdClass();
+					$message->message = $this->getText('push/'.$code.'/message'.($count > 0 ? 's' : ''));
+					$message->icon = $this->getModule()->getDir().'/images/push/'.$code.'.png';
+
+					$answer = $this->getPost($content->idx);
+					if ($answer == null) {
+						$from = 'Unknown';
+						$title = $content->title;
+					} else {
+						$from = $this->IM->getModule('member')->getMember($answer->midx)->nickname;
+						$question = $this->getPost($answer->parent);
+						$title = $question == null ? $content->title : $question->title;
+						$message->icon = $this->IM->getModule('member')->getMember($answer->midx)->photo;
+					}
+
+					$message->message = str_replace(array('{FROM}','{COUNT}','{TITLE}'),array($from,$count,$title),$message->message);
+					break;
+					
+				case 'new_question_ment' :
+				case 'new_answer_ment' :
+					$content = array_shift($contents);
+					$count = count($contents);
+
+					$message = new stdClass();
+					$message->message = $this->getText('push/'.$code.'/message'.($count > 0 ? 's' : ''));
+					$message->icon = $this->getModule()->getDir().'/images/push/'.$code.'.png';
+
+					$ment = $this->getMent($content->idx);
+					if ($ment == null) {
+						$from = 'Unknown';
+						$post = $content->title;
+					} else {
+						$from = $this->IM->getModule('member')->getMember($ment->midx)->nickname;
+						$post = $this->getPost($ment->parent);
+						$post = $post == null ? $content->title : $post->title;
+						$message->icon = $this->IM->getModule('member')->getMember($ment->midx)->photo;
+					}
+					
+					$message->message = str_replace(array('{FROM}','{COUNT}','{TITLE}'),array($from,$count,$post),$message->message);
+					break;
+
+				case 'adopted' :
+					$content = array_shift($contents);
+
+					$message = new stdClass();
+					$message->message = $this->getText('push/'.$code.'/message');
+					$message->icon = $this->getModule()->getDir().'/images/push/'.$code.'.png';
+					
+					$question = $this->getPost($content->parent);
+					if ($question == null) {
+						$title = $content->title;
+					} else {
+						$title = $question->title;
+					}
+					
+					$from = $this->IM->getModule('member')->getMember($content->from)->nickname;
+					$message->message = str_replace(array('{TITLE}','{FROM}'),array($title,$from),$message->message);
+					break;
+
+				case 'post_delete' :
+					$content = array_shift($contents);
+
+					$message = new stdClass();
+					$message->message = $this->getText('push/'.$code.'/message');
+					$message->icon = $this->getModule()->getDir().'/images/push/'.$code.'.png';
+
+					$title = $content->title;
+					$message->message = str_replace(array('{TITLE}'),array($title),$message->message);
+					break;
+			}
+
+			return $message;
+		}
+
+		if ($action == 'title') {
+			return $this->getText('push/'.$data.'/title') != 'push/'.$data.'/title' ? $this->getText('push/'.$data.'/title') : null;
+		}
+
+		if ($action == 'list') {
+			$pushes = array();
+			foreach ($this->getText('push') as $key=>$value) {
+				$pushes[$key] = new stdClass();
+				$pushes[$key]->group = $this->getText('push/'.$key.'/group');
+				$pushes[$key]->title = $this->getText('push/'.$key.'/title');
+			}
+
+			return $pushes;
+		}
+
+		if ($action == 'view') {
+			$type = $data->type;
+			$idx = $data->idx;
+
+			if ($type == 'question' || $type == 'answer') {
+				$post = $this->getPost($idx,true);
+				return $post == null ? null : $post->link;
+			}
+
+			return null;
+		}
+
+		if ($action == 'setting') {
+			$settings = new stdClass();
+			$settings->web = true;
+			$settings->sms = null;
+			$settings->email = true;
+			
+			switch ($data) {
+				case 'new_question_ment' :
+					$settings->email = null;
+					break;
+				
+				case 'new_answer_ment' :
+					$settings->email = null;
+					break;
+			}
+
+			return $settings;
+		}
+
+		return null;
+	}
 }
 ?>

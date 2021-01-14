@@ -45,7 +45,7 @@ if ($this->checkPermission($post->qid,'answer_adopt') == true || $question->midx
 		/**
 		 * 답변자에게 알림메세지를 전송한다.
 		 */
-		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$post->idx,'adopted',array('parent'=>$question->idx));
+		$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$post->idx,'adopted',array('parent'=>$question->idx,'from'=>$this->IM->getModule('member')->getLogged(),'title'=>$post->title));
 		
 		/**
 		 * 답변자의 포인트 및 활동내역을 기록한다.
@@ -58,7 +58,7 @@ if ($this->checkPermission($post->qid,'answer_adopt') == true || $question->midx
 	 * 질문자와 채택자가 다를 경우 알림메세지를 전송한다.
 	 */
 	if ($question->midx != $this->IM->getModule('member')->getLogged()) {
-		$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),'question',$question->idx,'adopted',array('from'=>$this->IM->getModule('member')->getLogged()));
+		$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),'question',$question->idx,'adopted',array('parent'=>$question->idx,'from'=>$this->IM->getModule('member')->getLogged(),'title'=>$question->title));
 	}
 	
 	/**

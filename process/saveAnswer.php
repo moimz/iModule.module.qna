@@ -103,7 +103,7 @@ if (count($errors) == 0) {
 		 * 글작성자와 수정한 사람이 다를 경우 알림메세지를 전송한다.
 		 */
 		if ($post->midx != $this->IM->getModule('member')->getLogged()) {
-			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$idx,'modify',array('from'=>$this->IM->getModule('member')->getLogged()));
+			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$idx,'modify',array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$question->title));
 		}
 		
 		/**
@@ -126,7 +126,7 @@ if (count($errors) == 0) {
 		/**
 		 * 질문자에게 알림메세지를 전송한다.
 		 */
-		$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),'question',$parent,'new_answer',array('idx'=>$idx));
+		$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),'question',$parent,'new_answer',array('idx'=>$idx,'title'=>$question->title));
 		
 		/**
 		 * 포인트 및 활동내역을 기록한다.

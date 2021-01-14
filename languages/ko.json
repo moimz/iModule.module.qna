@@ -44,6 +44,32 @@
 		"ALREADY_CLOSED":"이미 마감된 질문입니다.",
 		"FORBIDDEN_SECRET":"비밀글을 읽을 수 있는 권한이 없습니다."
 	},
+	"push":{
+		"new_answer":{
+			"group":"문의게시판 질문",
+			"title":"문의게시판 신규답변 등록",
+			"message":"{TITLE} 질문에 {FROM}님이 새로운 답변을 작성하였습니다.",
+			"messages":"{TITLE} 질문에 {FROM}님외 {COUNT}명이 새로운 답변을 작성하였습니다."
+		},
+		"new_question_ment":{
+			"group":"문의게시판 질문",
+			"title":"문의게시판 질문의 신규댓글 등록",
+			"message":"{TITLE} 질문에 {FROM}님이 새로운 댓글을 작성하였습니다.",
+			"messages":"{TITLE} 질문에 {FROM}님외 {COUNT}명이 새로운 댓글을 작성하였습니다."
+		},
+		"new_answer_ment":{
+			"group":"문의게시판 답변",
+			"title":"문의게시판 답변의 신규댓글 등록",
+			"message":"{TITLE} 질문의 답변에 {FROM}님이 새로운 댓글을 작성하였습니다.",
+			"messages":"{TITLE} 질문의 답변에 {FROM}님외 {COUNT}명이 새로운 댓글을 작성하였습니다."
+		},
+		"adopted":{
+			"group":"문의게시판 답변",
+			"title":"문의게시판 답변채택",
+			"message":"{TITLE} 질문의 답변이 {FROM}님의 의하여 채택되었습니다.",
+			"messages":"{TITLE} 질문의 답변이 {FROM}님의 의하여 채택되었습니다."
+		}
+	},
 	"admin":{
 		"list":{
 			"title":"문의게시판관리",
