@@ -1479,6 +1479,7 @@ class ModuleQna {
 //			$post->image = $post->image > 0 ? $this->IM->getModule('attachment')->getFileInfo($post->image) : null;
 			
 			$ment->content = '<div data-role="wysiwyg-content">'.nl2br(GetString($ment->content,'replace')).'</div>';
+			$ment->content = preg_replace('/(((http[s]?:\/\/(.+(:.+)?@)?)|(www\.))[a-z0-9](([-a-z0-9]+\.)*\.[a-z]{2,})?\/?[a-z0-9.,_\/~#&=:;%+!?-]+)/is','<a href="\1" target="_blank">\1</a>',$ment->content);
 			
 			$ment->is_secret = $ment->is_secret == 'TRUE';
 			$ment->is_anonymity = $ment->is_anonymity == 'TRUE';
