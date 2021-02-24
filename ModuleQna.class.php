@@ -1745,14 +1745,59 @@ class ModuleQna {
 	function syncMember($action,$data) {
 		if ($action == 'point_history') {
 			switch ($data->code) {
-				case 'post' :
+				case 'question' :
 					$idx = $data->content->idx;
 					$post = $this->getPost($idx,true);
 					
 					if ($post == null) {
-						return '[삭제된 게시물] 게시물 작성';
+						return '[삭제된 게시물] 질문 작성';
 					} else {
-						return '<a href="'.$post->link.'" target="_blank">['.$post->title.']</a> 게시물 작성';
+						return '<a href="'.$post->link.'" target="_blank">['.$post->title.']</a> 질문 작성';
+					}
+					break;
+					
+				case 'answer' :
+					$idx = $data->content->idx;
+					$post = $this->getPost($idx,true);
+					
+					if ($post == null) {
+						return '[삭제된 게시물] 답변 작성';
+					} else {
+						return '<a href="'.$post->link.'" target="_blank">['.$post->title.']</a> 답변 작성';
+					}
+					break;
+				
+				case 'adopt' :
+					$idx = $data->content->idx;
+					$post = $this->getPost($idx,true);
+					
+					if ($post == null) {
+						return '[삭제된 게시물] 답변 채택';
+					} else {
+						return '<a href="'.$post->link.'" target="_blank">['.$post->title.']</a> 답변 채택';
+					}
+					break;
+				
+				case 'adopted' :
+					$idx = $data->content->idx;
+					$post = $this->getPost($idx,true);
+					
+					if ($post == null) {
+						return '[삭제된 게시물] 답변 채택됨';
+					} else {
+						return '<a href="'.$post->link.'" target="_blank">['.$post->title.']</a> 답변 채택됨';
+					}
+					break;
+					
+				case 'ment' :
+					$idx = $data->content->idx;
+					$ment = $this->getMent($idx);
+					$post = $this->getPost($ment->parent,true);
+					
+					if ($post == null) {
+						return '[삭제된 게시물] 게시물의 댓글 작성';
+					} else {
+						return '<a href="'.$post->link.'" target="_blank">['.$post->title.']</a> 댓글 작성';
 					}
 					break;
 			}
