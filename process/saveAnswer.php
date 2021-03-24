@@ -103,7 +103,7 @@ if (count($errors) == 0) {
 		 * 글작성자와 수정한 사람이 다를 경우 알림메세지를 전송한다.
 		 */
 		if ($post->midx != $this->IM->getModule('member')->getLogged()) {
-			$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$idx,'modify',array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$question->title));
+			//$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'answer',$idx,'answer_modify',array('idx'=>$idx,'from'=>$this->IM->getModule('member')->getLogged(),'title'=>$question->title));
 		}
 		
 		/**

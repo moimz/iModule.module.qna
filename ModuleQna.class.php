@@ -1892,6 +1892,20 @@ class ModuleQna {
 					$title = $content->title;
 					$message->message = str_replace(array('{TITLE}'),array($title),$message->message);
 					break;
+					
+				case 'question_modify' :
+					$content = array_shift($contents);
+					
+					$message = new stdClass();
+					$message->icon = $this->IM->getModule('member')->getMember($content->from)->photo;
+					$message->message = $this->getText('push/'.$code.'/message');
+					
+					$question = $this->getPost($content->idx);
+					$title = $question->title;
+					
+					$from = $this->IM->getModule('member')->getMember($content->from)->nickname;
+					$message->message = str_replace(array('{TITLE}','{FROM}'),array($title,$from),$message->message);
+					break;
 			}
 
 			return $message;

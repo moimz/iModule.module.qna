@@ -57,6 +57,11 @@
 			"message":"{TITLE} 질문에 {FROM}님이 새로운 댓글을 작성하였습니다.",
 			"messages":"{TITLE} 질문에 {FROM}님외 {COUNT}명이 새로운 댓글을 작성하였습니다."
 		},
+		"question_modify":{
+			"group":"문의게시판 질문",
+			"title":"문의게시판 질문수정",
+			"message":"{TITLE} 질문이 {FROM}님에 의해 수정되었습니다."
+		},
 		"new_answer_ment":{
 			"group":"문의게시판 답변",
 			"title":"문의게시판 답변의 신규댓글 등록",
