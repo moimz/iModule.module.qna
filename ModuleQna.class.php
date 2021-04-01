@@ -130,6 +130,17 @@ class ModuleQna {
 	}
 	
 	/**
+	 * 다른모듈에서 호출된 경우 baseUrl 을 설정한다.
+	 *
+	 * @param string $url
+	 * @return $this
+	 */
+	function setUrl($url) {
+		$this->baseUrl = $this->IM->getUrl(null,null,$url,false);
+		return $this;
+	}
+	
+	/**
 	 * view 값을 가져온다.
 	 *
 	 * @return string $view
