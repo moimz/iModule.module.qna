@@ -11,6 +11,8 @@
  * @modified 2018. 2. 17.
  */
 if (defined('__IM__') == false) exit;
+
+$IM->loadWebFont('Roboto');
 ?>
 <div class="topbar">
 	<?php echo $ment->photo; ?>

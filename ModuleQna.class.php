@@ -558,7 +558,7 @@ class ModuleQna {
 	 */
 	function getListContext($qid,$configs=null) {
 		if ($this->checkPermission($qid,'list') == false) return $this->getError('FORBIDDEN');
-		$this->IM->addHeadResource('meta',array('name'=>'robots','content'=>'noidex,follow'));
+		$this->IM->addHeadResource('meta',array('name'=>'robots','content'=>'noindex,follow'));
 		
 		$qna = $this->getQna($qid);
 		if ($qna == null) return $this->getError('NOT_FOUND_PAGE');

@@ -11,6 +11,8 @@
  * @modified 2018. 2. 22.
  */
 if (defined('__IM__') == false) exit;
+
+$IM->loadWebFont('Roboto');
 ?>
 <div data-role="post">
 	<h4><i><?php echo substr($post->type,0,1); ?></i><?php echo $post->title; ?></h4>
