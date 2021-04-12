@@ -268,6 +268,7 @@ var Qna = {
 		reset:function(parent) {
 			var $form = $("#ModuleQnaMentForm-"+parent);
 			$("textarea",$form).val("");
+			$("textarea",$form).triggerHandler("keyup");
 			$("input[type=checkbox]",$form).checked(false);
 			$form.status("default");
 		},
