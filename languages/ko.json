@@ -71,8 +71,13 @@
 		"adopted":{
 			"group":"문의게시판 답변",
 			"title":"문의게시판 답변채택",
-			"message":"{TITLE} 질문의 답변이 {FROM}님의 의하여 채택되었습니다.",
-			"messages":"{TITLE} 질문의 답변이 {FROM}님의 의하여 채택되었습니다."
+			"message":"{TITLE} 질문의 답변이 {FROM}님에 의하여 채택되었습니다.",
+			"messages":"{TITLE} 질문의 답변이 {FROM}님에 의하여 채택되었습니다."
+		},
+		"delete_ment":{
+			"group":"문의게시판 댓글",
+			"title":"문의게시판 댓글삭제",
+			"message":"{TITLE} 게시물의 댓글이 {FROM}님에 의하여 삭제되었습니다."
 		}
 	},
 	"admin":{

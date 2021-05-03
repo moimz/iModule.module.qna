@@ -1639,7 +1639,7 @@ class ModuleQna {
 			 * 게시물작성자와 삭제자가 다른 경우 댓글작성자에게 알림메세지를 전송한다.
 			 */
 			if ($post->midx != $this->IM->getModule('member')->getLogged()) {
-				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$idx,'delete',array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$post->title));
+				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$idx,'delete_'.strtolower($post->type),array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$post->title));
 			}
 			
 			/**
@@ -1920,6 +1920,25 @@ class ModuleQna {
 					
 					$from = $this->IM->getModule('member')->getMember($content->from)->nickname;
 					$message->message = str_replace(array('{TITLE}','{FROM}'),array($title,$from),$message->message);
+					break;
+					
+				case 'delete_ment' :
+					$content = array_shift($contents);
+					
+					$message = new stdClass();
+					$message->icon = $this->IM->getModule('member')->getMember($content->from)->photo;
+					$message->message = $this->getText('push/'.$code.'/message');
+					
+					$post = $this->getPost($content->parent);
+					if ($post == null) {
+						$title = $content->title;
+					} else {
+						$title = $post->title;
+					}
+					
+					$from = $this->IM->getModule('member')->getMember($content->from)->nickname;
+					$message->message = str_replace(array('{TITLE}','{FROM}'),array($title,$from),$message->message);
+					
 					break;
 			}
 
