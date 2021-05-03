@@ -86,6 +86,18 @@ if (count($errors) == 0) {
 			if ($post->midx != $this->IM->getModule('member')->getLogged()) {
 				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_question_ment',array('idx'=>$idx,'title'=>$post->title));
 			}
+			
+			$ments = $this->db()->select($this->table->ment,'midx')->where('parent',$post->idx)->groupBy('midx')->get('midx');
+			foreach ($ments as $midx) {
+				if ($midx == $post->midx || $midx == $this->IM->getModule('member')->getLogged()) continue;
+				$this->IM->getModule('push')->sendPush($midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_question_ment',array('idx'=>$idx,'title'=>$post->title));
+			}
+			
+			$answers = $this->db()->select($this->table->post,'midx')->where('parent',$post->idx)->groupBy('midx')->get('midx');
+			foreach ($answers as $midx) {
+				if ($midx == $post->midx || $midx == $this->IM->getModule('member')->getLogged()) continue;
+				$this->IM->getModule('push')->sendPush($midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_question_ment',array('idx'=>$idx,'title'=>$post->title));
+			}
 		} else {
 			if ($post->midx != $this->IM->getModule('member')->getLogged()) {
 				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_answer_ment',array('idx'=>$idx,'title'=>$post->title));
@@ -94,6 +106,12 @@ if (count($errors) == 0) {
 			$question = $this->getPost($post->parent);
 			if ($question->midx != $this->IM->getModule('member')->getLogged()) {
 				$this->IM->getModule('push')->sendPush($question->midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_answer_ment',array('idx'=>$idx,'title'=>$question->title));
+			}
+			
+			$ments = $this->db()->select($this->table->ment,'midx')->where('parent',$post->idx)->groupBy('midx')->get('midx');
+			foreach ($ments as $midx) {
+				if ($midx == $post->midx || $midx == $question->midx || $midx == $this->IM->getModule('member')->getLogged()) continue;
+				$this->IM->getModule('push')->sendPush($midx,$this->getModule()->getName(),strtolower($post->type),$parent,'new_answer_ment',array('idx'=>$idx,'title'=>$post->title));
 			}
 		}
 		
