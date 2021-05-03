@@ -1639,18 +1639,18 @@ class ModuleQna {
 			 * 게시물작성자와 삭제자가 다른 경우 댓글작성자에게 알림메세지를 전송한다.
 			 */
 			if ($post->midx != $this->IM->getModule('member')->getLogged()) {
-				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$idx,'DELETE',array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$post->title));
+				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),$post->type,$idx,'delete',array('from'=>$this->IM->getModule('member')->getLogged(),'title'=>$post->title));
 			}
 			
 			/**
 			 * 포인트 및 활동내역을 기록한다.
 			 */
 			if ($post->type == 'ANSWER') {
-				$this->IM->getModule('member')->sendPoint($post->midx,$qna->answer_point * -1,$this->getModule()->getName(),'DELETE_ANSWER',array('title'=>$post->title));
-				$this->IM->getModule('member')->addActivity($post->midx,$qna->answer_exp * -1,$this->getModule()->getName(),'DELETE_ANSWER',array('title'=>$post->title));
+				$this->IM->getModule('member')->sendPoint($post->midx,$qna->answer_point * -1,$this->getModule()->getName(),'delete_answer',array('title'=>$post->title));
+				$this->IM->getModule('member')->addActivity($post->midx,$qna->answer_exp * -1,$this->getModule()->getName(),'delete_answer',array('title'=>$post->title));
 			} else {
-				$this->IM->getModule('member')->sendPoint($post->midx,$qna->question_point * -1,$this->getModule()->getName(),'DELETE_'.$post->type,array('title'=>$post->title));
-				$this->IM->getModule('member')->addActivity($post->midx,$qna->question_exp * -1,$this->getModule()->getName(),'DELETE_'.$post->type,array('title'=>$post->title));
+				$this->IM->getModule('member')->sendPoint($post->midx,$qna->question_point * -1,$this->getModule()->getName(),'delete_'.strtolower($post->type),array('title'=>$post->title));
+				$this->IM->getModule('member')->addActivity($post->midx,$qna->question_exp * -1,$this->getModule()->getName(),'delete_'.strtolower($post->type),array('title'=>$post->title));
 			}
 			
 			if ($post->type == 'ANSWER') $this->updatePost($post->parent);
@@ -1680,21 +1680,25 @@ class ModuleQna {
 		/**
 		 * 새 댓글 작성 알림메세지를 취소한다.
 		 */
-		$this->IM->getModule('push')->cancelPush($post->midx,$this->getModule()->getName(),$post->type,$post->idx,'NEW_MENT',array('idx'=>$idx));
+		if ($post->type == 'QUESTION') {
+			$this->IM->getModule('push')->cancelPush($post->midx,$this->getModule()->getName(),$post->type,$post->idx,'new_question_ment',array('idx'=>$idx,'title'=>$post->title));
+		} else {
+			$this->IM->getModule('push')->cancelPush($post->midx,$this->getModule()->getName(),$post->type,$post->idx,'new_answer_ment',array('idx'=>$idx,'title'=>$post->title));
+		}
 		
 		if ($is_self == true) {
 			/**
 			 * 댓글작성자와 삭제자가 다른 경우 댓글작성자에게 알림메세지를 전송한다.
 			 */
 			if ($ment->midx != $this->IM->getModule('member')->getLogged()) {
-				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'MENT',$idx,'DELETE_MENT',array('from'=>$this->IM->getModule('member')->getLogged(),'parent'=>$ment->parent));
+				$this->IM->getModule('push')->sendPush($post->midx,$this->getModule()->getName(),'MENT',$idx,'delete_ment',array('from'=>$this->IM->getModule('member')->getLogged(),'parent'=>$ment->parent,'title'=>$post->title));
 			}
 			
 			/**
 			 * 포인트 및 활동내역을 기록한다.
 			 */
-			$this->IM->getModule('member')->sendPoint($ment->midx,$qna->ment_point * -1,$this->getModule()->getName(),'DELETE_MENT',array('parent'=>$ment->parent));
-			$this->IM->getModule('member')->addActivity($ment->midx,$qna->ment_exp * -1,$this->getModule()->getName(),'DELETE_MENT',array('parent'=>$ment->parent));
+			$this->IM->getModule('member')->sendPoint($ment->midx,$qna->ment_point * -1,$this->getModule()->getName(),'delete_ment',array('parent'=>$ment->parent));
+			$this->IM->getModule('member')->addActivity($ment->midx,$qna->ment_exp * -1,$this->getModule()->getName(),'delete_ment',array('parent'=>$ment->parent));
 		
 			$this->updatePost($ment->parent);
 			$this->updateQna($ment->qid);
