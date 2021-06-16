@@ -1483,14 +1483,11 @@ class ModuleQna {
 			$ment->photo = $this->IM->getModule('member')->getMemberPhoto($ment->midx);
 			
 			if ($is_link == true) {
-//				$page = $this->IM->getContextUrl('qna',$ment->qid,array(),array('category'=>$post->category),true);
-//				$post->link = $page == null ? '#' : $this->IM->getUrl($page->menu,$page->page,'view',$post->idx);
+				$ment->link = $this->getPost($ment->parent,true)->link;
 			}
 			
-//			$post->image = $post->image > 0 ? $this->IM->getModule('attachment')->getFileInfo($post->image) : null;
-			
 			$ment->content = '<div data-role="wysiwyg-content">'.nl2br(GetString($ment->content,'replace')).'</div>';
-			$ment->content = preg_replace('/(((http[s]?:\/\/(.+(:.+)?@)?)|(www\.))[a-z0-9](([-a-z0-9]+\.)*\.[a-z]{2,})?\/?[a-z0-9.,_\/~#&=:;%+!?-]+)/is','<a href="\1" target="_blank">\1</a>',$ment->content);
+			$ment->content = AutoLink($ment->content);
 			
 			$ment->is_secret = $ment->is_secret == 'TRUE';
 			$ment->is_anonymity = $ment->is_anonymity == 'TRUE';
